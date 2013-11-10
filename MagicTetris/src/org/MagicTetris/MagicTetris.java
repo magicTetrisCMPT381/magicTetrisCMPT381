@@ -1,10 +1,13 @@
 package org.MagicTetris;
+
+import javax.swing.JFrame;
+
 /**
  * Entry point. Game starts here.
  * @author Da
  *
  */
-public class MagicTetris {
+public class MagicTetris extends JFrame {
 
 	/**
 	 * @param args
