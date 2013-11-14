@@ -54,5 +54,9 @@ public class BoardPanelModel {
 		protected void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
 		}
+		protected void clear() {
+			this.isFrozen=false;
+			this.isOccupied=false;
+		}
 	}
 }
