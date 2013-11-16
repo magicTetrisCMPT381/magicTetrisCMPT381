@@ -10,6 +10,24 @@ import org.MagicTetris.Models.BoardPanelModel;
  *
  */
 public class BoardPanel extends JPanel {
+	/**
+	 * The model associated with this board.
+	 */
 	private BoardPanelModel model;
+	/**
+	 * The size of a block.
+	 */
+	private final int BLOCK_BASE = 24;
+	/**
+	 * The shadow width of a block
+	 */
+	private final int BLOCK_SHADOW = 4;
+	
+	/**
+	 * Draw a block on board.
+	 */
+	protected void drawBlock() {
+		
+	}
 
 }
