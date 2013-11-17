@@ -29,30 +29,70 @@ public class BoardPanelModel {
 	
 	/**
 	 * Represents the status of each block in the board.
+	 * If a block is frozen,
 	 * @author Da
 	 *
 	 */
-	private class SingleBlock{
+	public class SingleBlock{
 		/**
 		 * Is the point occupied by any block.
 		 */
 		private boolean isOccupied;
 		/**
-		 * Is the point frozen( could not be cleared ).
+		 * Is the point frozen( could not be cleared in one time ).
 		 */
 		private boolean isFrozen;
 		
-		protected boolean isOccupied() {
+		/**
+		 * Return whether this block is occupied.
+		 * @return true if this block is occupied.
+		 */
+		public boolean isOccupied() {
 			return isOccupied;
 		}
-		protected void setOccupied(boolean isOccupied) {
+		/**
+		 * Set the occupying status of this block.
+		 * @param isOccupied
+		 */
+		public void setOccupied(boolean isOccupied) {
 			this.isOccupied = isOccupied;
 		}
-		protected boolean isFrozen() {
+		/**
+		 * Return whether this block is frozen.
+		 * A frozen block must be cleared twice to be unoccupied.
+		 * @return true if this block is frozen.
+		 */
+		public boolean isFrozen() {
 			return isFrozen;
 		}
-		protected void setFrozen(boolean isFrozen) {
+		/**
+		 * Set the frozen status of this block.
+		 * @param isOccupied
+		 */
+		public void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
 		}
+		/**
+		 * Reset this block to unoccupied and not frozen.
+		 */
+		public void reset() {
+			this.isFrozen=false;
+			this.isOccupied=false;
+		}
+		/**
+		 * Clear this block.
+		 * A frozen block must be cleared twice to be unoccupied.
+		 */
+		public void clear() {
+			if (isFrozen) {
+				isFrozen=false;
+			} else {
+				isOccupied=false;
+			}
+		}
+	}
+
+	public SingleBlock[][] getBoard() {
+		return board;
 	}
 }
