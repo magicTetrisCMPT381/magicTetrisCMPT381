@@ -33,7 +33,7 @@ public class BoardPanelModel {
 	 * @author Da
 	 *
 	 */
-	private class SingleBlock{
+	public class SingleBlock{
 		/**
 		 * Is the point occupied by any block.
 		 */
@@ -47,14 +47,14 @@ public class BoardPanelModel {
 		 * Return whether this block is occupied.
 		 * @return true if this block is occupied.
 		 */
-		protected boolean isOccupied() {
+		public boolean isOccupied() {
 			return isOccupied;
 		}
 		/**
 		 * Set the occupying status of this block.
 		 * @param isOccupied
 		 */
-		protected void setOccupied(boolean isOccupied) {
+		public void setOccupied(boolean isOccupied) {
 			this.isOccupied = isOccupied;
 		}
 		/**
@@ -62,20 +62,20 @@ public class BoardPanelModel {
 		 * A frozen block must be cleared twice to be unoccupied.
 		 * @return true if this block is frozen.
 		 */
-		protected boolean isFrozen() {
+		public boolean isFrozen() {
 			return isFrozen;
 		}
 		/**
 		 * Set the frozen status of this block.
 		 * @param isOccupied
 		 */
-		protected void setFrozen(boolean isFrozen) {
+		public void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
 		}
 		/**
 		 * Reset this block to unoccupied and not frozen.
 		 */
-		protected void reset() {
+		public void reset() {
 			this.isFrozen=false;
 			this.isOccupied=false;
 		}
@@ -83,12 +83,16 @@ public class BoardPanelModel {
 		 * Clear this block.
 		 * A frozen block must be cleared twice to be unoccupied.
 		 */
-		protected void clear() {
+		public void clear() {
 			if (isFrozen) {
 				isFrozen=false;
 			} else {
 				isOccupied=false;
 			}
 		}
+	}
+
+	public SingleBlock[][] getBoard() {
+		return board;
 	}
 }
