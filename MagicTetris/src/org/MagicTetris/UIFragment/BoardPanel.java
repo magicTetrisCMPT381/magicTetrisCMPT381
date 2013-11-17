@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
+import org.MagicTetris.Models.patternModel;
 /**
  * UI fragment. Showing a player's board.
  * Graphic effect from item use will be show on this.
@@ -53,35 +54,37 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	/**
-	 * Draw a block on board.
-	 * WARNING: prototype method. 
-	 * The real method should draw block by reading SingleBlock block[][] = model.getBoard().
+	 * 
+	 * @param row
+	 * @param col
+	 * @param g
 	 */
-	protected void drawBlock(Graphics g) {
-//		SingleBlock block[][] = model.getBoard();
-//		if (block != null) {
-			for (int x = 0; x < model.COLUMN_COUNT; x++) {
-				for (int y = 0; y < model.VISIBLE_ROW_COUNT; y++) {
-//					if (block[x][y] != null) {
-//						
-//					}
-					g.setColor(Color.RED);
-					g.fillRect(x * BLOCK_SIZE, 
-							y * BLOCK_SIZE, 
-							BLOCK_SIZE, BLOCK_SIZE);
-					g.setColor(Color.RED.darker());
-					g.fillRect(x * BLOCK_SIZE + BLOCK_SHADOW, 
-							y * BLOCK_SIZE + BLOCK_SHADOW, 
-							BLOCK_SIZE - 2 * BLOCK_SHADOW, BLOCK_SIZE - 2 * BLOCK_SHADOW);
+	protected void drawBlock(Color blockColor,int row, int col, Graphics g) {
+		g.setColor(Color.RED.darker());
+		g.fillRect(row * BLOCK_SIZE, 
+					col * BLOCK_SIZE, 
+					BLOCK_SIZE, BLOCK_SIZE);
+		g.setColor(Color.RED.brighter());
+		g.fillRect(row * BLOCK_SIZE + BLOCK_SHADOW, 
+					col * BLOCK_SIZE + BLOCK_SHADOW, 
+					BLOCK_SIZE - 2 * BLOCK_SHADOW, BLOCK_SIZE - 2 * BLOCK_SHADOW);
+	}
+	
+	protected void drawPattern(Integer[][] pattern, Color patternColor,int rotate, int row, int col, Graphics g) {
+		
+		for (int patternCol = 0; patternCol < 4; patternCol++) {
+			for (int patternRow = 0; patternRow < 4; patternRow++) {
+				if (pattern[rotate][patternCol * 4 + patternRow] == 1) {
+					drawBlock(patternColor, row + patternRow, col + patternCol, g);
 				}
 			}
-//		}
+		}
 	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.translate(5, 5);
-		drawBlock(g);
+//		drawPattern(patternModel.patternI, patternModel.colorI,3 , 0, 0, g);
 		drawGrid(g);
 		
 	}
