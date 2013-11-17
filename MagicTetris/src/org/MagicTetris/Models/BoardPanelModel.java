@@ -133,7 +133,7 @@ public class BoardPanelModel {
 	 * Get the next piece.
 	 * @return the next piece.
 	 */
-	public Integer[][] getNextPattern(){
+	public Integer[][] getNextPiece(){
 		int next = random.nextInt(7);
 		switch (next) {
 		case 1:
@@ -157,7 +157,7 @@ public class BoardPanelModel {
 	 * Get the current piece.
 	 * @return the current piece.
 	 */
-	public Integer[][] getCurrentPattern() {
+	public Integer[][] getCurrentPiece() {
 		return currentPiece;
 	}
 
@@ -165,7 +165,7 @@ public class BoardPanelModel {
 	 * Get the rotate of current piece.
 	 * @return the rotate of current piece.
 	 */
-	public int getCurrentRotate() {
+	public int getCurrentPieceRotate() {
 		return currentPieceRotate;
 	}
 
