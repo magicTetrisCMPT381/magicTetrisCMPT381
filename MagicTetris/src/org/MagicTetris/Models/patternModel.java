@@ -29,41 +29,241 @@ public class patternModel extends Applet{
 	
 	public patternModel() {
 		super();
-		this.patternI = new Integer[][]{{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0},
-										{0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0},
-										{0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,},
-										{0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0}};
+		this.patternI = new Integer[][]{
+			{
+			 0,0,0,0,
+			 1,1,1,1,
+			 0,0,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			0,1,0,0,
+			0,1,0,0,
+			0,1,0,0,
+			0,1,0,0
+			},
+			
+			{
+			0,0,0,0,
+			1,1,1,1,
+			0,0,0,0,
+			0,0,0,0,
+			},
 		
-//		this.patternJ = patternJ;
-//		this.patternL = patternL;
-//		this.patternO = patternO;
-//		this.patternS = patternS;
-//		this.patternZ = patternZ;
-//		this.patternT = patternT;
-	}
-	
-	public void paint(Graphics g){
-		g.drawRect(20, 20, 30, 30);
-		for(int i =0;i<16;i++){
-			if(patternI[0][i]==1)
-				g.drawRect(10*i, 10*i, 10, 10);
-				
-		}
-	}
-	
-	public static void main(String[] arog){
-		patternModel test = new patternModel();
-		JFrame newF = new JFrame();
-		JPanel newP = new JPanel();
-		newP.setBounds(500, 500, 500, 500);
-	//	newP.setVisible(true);
-		newF.add(newP);	
-		newF.setBounds(0, 0, 500, 500);
-		newP.setBackground(Color.red);
-		newF.setVisible(true);
-		Graphics g = test.getGraphics();
-		g.setColor(Color.black);
-		test.paint(g);
+			{
+			0,1,0,0,
+			0,1,0,0,
+			0,1,0,0,
+			0,1,0,0
+		}};
+
+//		pattern J
+			this.patternJ = new Integer[][]{
+			{
+			 0,1,0,0,
+			 0,1,0,0,
+			 1,1,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			1,0,0,0,
+			1,1,1,0,
+			0,0,0,0,
+			0,0,0,0
+			},
+			
+			{
+			1,1,0,0,
+			1,0,0,0,
+			1,0,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			1,1,1,0,
+			0,0,1,0,
+			0,0,0,0,
+			0,0,0,0
+		}};
+
+//		pattern L
+			this.patternL = new Integer[][]{
+			{
+			 1,0,0,0,
+			 1,0,0,0,
+			 1,1,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			1,1,1,0,
+			1,0,0,0,
+			0,0,0,0,
+			0,0,0,0
+			},
+			
+			{
+			1,1,0,0,
+			0,1,0,0,
+			0,1,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			0,0,1,0,
+			1,1,1,0,
+			0,0,0,0,
+			0,0,0,0
+		}};
+		
+//		pattern O
+			this.patternO = new Integer[][]{
+			{
+			 1,1,0,0,
+			 1,1,0,0,
+			 0,0,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			1,1,0,0,
+			1,1,0,0,
+			0,0,0,0,
+			0,0,0,0
+			},
+			
+			{
+			1,1,0,0,
+			1,1,0,0,
+			0,0,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			1,1,0,0,
+			1,1,0,0,
+			0,0,0,0,
+			0,0,0,0
+		}};
+
+//		pattern S
+			this.patternS = new Integer[][]{
+			{
+			 0,1,1,0,
+			 1,1,0,0,
+			 0,0,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			1,0,0,0,
+			1,1,0,0,
+			0,1,0,0,
+			0,0,0,0
+			},
+			
+			{
+			0,1,1,0,
+			1,1,0,0,
+			0,0,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			1,0,0,0,
+			1,1,0,0,
+			0,1,0,0,
+			0,0,0,0
+		}};
+
+
+//		pattern Z
+			this.patternZ = new Integer[][]{
+			{
+			 1,1,0,0,
+			 0,1,1,0,
+			 0,0,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			0,1,0,0,
+			1,1,0,0,
+			1,0,0,0,
+			0,0,0,0
+			},
+			
+			{
+			1,1,0,0,
+			0,1,1,0,
+			0,0,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			0,1,0,0,
+			1,1,0,0,
+			1,0,0,0,
+			0,0,0,0
+		}};
+
+//		pattern T
+			this.patternO = new Integer[][]{
+			{
+			 0,1,0,0,
+			 1,1,1,0,
+			 0,0,0,0,
+			 0,0,0,0
+			},
+			
+			{
+			0,1,0,0,
+			1,1,0,0,
+			0,1,0,0,
+			0,0,0,0
+			},
+			
+			{
+			1,1,1,0,
+			0,1,0,0,
+			0,0,0,0,
+			0,0,0,0,
+			},
+		
+			{
+			0,1,0,0,
+			0,1,1,0,
+			0,1,0,0,
+			0,0,0,0
+		}};
+
 
 	}
+	
+	// public void paint(Graphics g){
+	// 	g.drawRect(20, 20, 30, 30);
+	// 	for(int i =0;i<16;i++){
+	// 		if(patternI[0][i]==1)
+	// 			g.drawRect(10*i, 10*i, 10, 10);
+				
+	// 	}
+	// }
+	
+	// public static void main(String[] arog){
+	// 	patternModel test = new patternModel();
+	// 	JFrame newF = new JFrame();
+	// 	JPanel newP = new JPanel();
+	// 	newP.setBounds(500, 500, 500, 500);
+	// //	newP.setVisible(true);
+	// 	newF.add(newP);	
+	// 	newF.setBounds(0, 0, 500, 500);
+	// 	newP.setBackground(Color.red);
+	// 	newF.setVisible(true);
+	// 	Graphics g = test.getGraphics();
+	// 	g.setColor(Color.black);
+	// 	test.paint(g);
+
+	// }
 }
