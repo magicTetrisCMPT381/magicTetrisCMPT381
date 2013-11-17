@@ -60,11 +60,11 @@ public class BoardPanel extends JPanel {
 	 * @param g
 	 */
 	protected void drawBlock(Color blockColor,int row, int col, Graphics g) {
-		g.setColor(Color.RED.darker());
+		g.setColor(blockColor.darker());
 		g.fillRect(row * BLOCK_SIZE, 
 					col * BLOCK_SIZE, 
 					BLOCK_SIZE, BLOCK_SIZE);
-		g.setColor(Color.RED.brighter());
+		g.setColor(blockColor.brighter());
 		g.fillRect(row * BLOCK_SIZE + BLOCK_SHADOW, 
 					col * BLOCK_SIZE + BLOCK_SHADOW, 
 					BLOCK_SIZE - 2 * BLOCK_SHADOW, BLOCK_SIZE - 2 * BLOCK_SHADOW);
