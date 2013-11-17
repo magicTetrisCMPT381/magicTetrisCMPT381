@@ -22,7 +22,7 @@ public class patternModelTest extends JPanel{
 	
 	
 	 public void paintComponent(Graphics g){
-		 Integer[][] patternJ = test.getPatternJ();
+		 Integer[][] patternJ = test.patternJ;
 //		 g.drawRect(20, 20, 30, 30);
 	 	for(int i =0;i<16;i++){
 	 		if(patternJ[0][i]==1){
