@@ -241,29 +241,62 @@ public class patternModel extends Applet{
 
 
 	}
-	
-	// public void paint(Graphics g){
-	// 	g.drawRect(20, 20, 30, 30);
-	// 	for(int i =0;i<16;i++){
-	// 		if(patternI[0][i]==1)
-	// 			g.drawRect(10*i, 10*i, 10, 10);
-				
-	// 	}
-	// }
-	
-	// public static void main(String[] arog){
-	// 	patternModel test = new patternModel();
-	// 	JFrame newF = new JFrame();
-	// 	JPanel newP = new JPanel();
-	// 	newP.setBounds(500, 500, 500, 500);
-	// //	newP.setVisible(true);
-	// 	newF.add(newP);	
-	// 	newF.setBounds(0, 0, 500, 500);
-	// 	newP.setBackground(Color.red);
-	// 	newF.setVisible(true);
-	// 	Graphics g = test.getGraphics();
-	// 	g.setColor(Color.black);
-	// 	test.paint(g);
 
-	// }
+
+
+
+
+	public Integer[][] getPatternI() {
+		return patternI;
+	}
+
+
+
+
+
+	public Integer[][] getPatternJ() {
+		return patternJ;
+	}
+
+
+
+
+
+	public Integer[][] getPatternL() {
+		return patternL;
+	}
+
+
+
+
+
+	public Integer[][] getPatternO() {
+		return patternO;
+	}
+
+
+
+
+
+	public Integer[][] getPatternS() {
+		return patternS;
+	}
+
+
+
+
+
+	public Integer[][] getPatternZ() {
+		return patternZ;
+	}
+
+
+
+
+
+	public Integer[][] getPatternT() {
+		return patternT;
+	}
+	
+
 }
