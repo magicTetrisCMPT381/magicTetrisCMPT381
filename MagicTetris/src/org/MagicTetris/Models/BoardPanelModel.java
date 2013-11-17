@@ -1,4 +1,7 @@
 package org.MagicTetris.Models;
+
+import java.util.Random;
+
 /**
  * Model for BoardPanel.
  * Stores panel data and receive the effect from item use.
@@ -25,8 +28,34 @@ public class BoardPanelModel {
 	 */
 	public final int TOTAL_ROW_COUNT = VISIBLE_ROW_COUNT + HIDDEN_ROW_COUNT;
 	
-	private SingleBlock[][] board = new SingleBlock[TOTAL_ROW_COUNT][COLUMN_COUNT];
+	/**
+	 * Random number creater.
+	 */
+	private Random random;
+	/**
+	 * The board.
+	 */
+	private SingleBlock[][] board;
 	
+	/**
+	 * Current moving piece in the board.
+	 */
+	private Integer[][] currentPiece;
+	
+	/**
+	 * Current rotate of moving piece in the board.
+	 */
+	private int currentPieceRotate;
+
+	/**
+	 * The coordinate of current piece: by row and column of top-left.
+	 */
+	private int[][] currentPieceCoord;
+	
+	public BoardPanelModel() {
+		random = new Random();
+		board = new SingleBlock[TOTAL_ROW_COUNT][COLUMN_COUNT];
+	}
 	/**
 	 * Represents the status of each block in the board.
 	 * If a block is frozen,
@@ -92,7 +121,55 @@ public class BoardPanelModel {
 		}
 	}
 
+	/**
+	 * Get an array representing the board
+	 * @return an array representing the board
+	 */
 	public SingleBlock[][] getBoard() {
 		return board;
+	}
+	
+	/**
+	 * Get the next piece.
+	 * @return the next piece.
+	 */
+	public Integer[][] getNextPattern(){
+		int next = random.nextInt(7);
+		switch (next) {
+		case 1:
+			return patternModel.patternJ;
+		case 2:
+			return patternModel.patternL;
+		case 3:
+			return patternModel.patternO;
+		case 4:
+			return patternModel.patternS;
+		case 5:
+			return patternModel.patternT;
+		case 6:
+			return patternModel.patternZ;
+		default:
+			return patternModel.patternI;
+		}
+	}
+
+	/**
+	 * Get the current piece.
+	 * @return the current piece.
+	 */
+	public Integer[][] getCurrentPattern() {
+		return currentPiece;
+	}
+
+	/**
+	 * Get the rotate of current piece.
+	 * @return the rotate of current piece.
+	 */
+	public int getCurrentRotate() {
+		return currentPieceRotate;
+	}
+
+	public int[][] getCurrentPieceCoord() {
+		return currentPieceCoord;
 	}
 }
