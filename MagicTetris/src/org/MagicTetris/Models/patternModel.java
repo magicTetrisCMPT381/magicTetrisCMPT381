@@ -1,11 +1,6 @@
 package org.MagicTetris.Models;
 
-import java.applet.Applet;
 import java.awt.Color;
-import java.awt.Graphics;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * Models of pattern in Tetris

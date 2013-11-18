@@ -2,8 +2,6 @@ package org.MagicTetris.test;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 

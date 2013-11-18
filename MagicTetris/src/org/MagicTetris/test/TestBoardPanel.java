@@ -1,14 +1,7 @@
 package org.MagicTetris.test;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.border.EtchedBorder;
-
 import org.MagicTetris.UIFragment.BoardPanel;
 
 
