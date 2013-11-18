@@ -18,7 +18,7 @@ public class Player {
 	{
 		playerStatusPanel = new StatusPanelModel();
 		playerBoardPanel = new BoardPanelModel();
-		playerController = new PlayerController(null, null, null, null, null, null);
+		playerController = new PlayerController();
 	}
 
 	public StatusPanelModel getPlayerStatusPanel() {
