@@ -18,6 +18,7 @@ public class StatusPanelModel {
 	private MagicItem items[];
 	private MagicItem buff;
 	private MagicItem debuff;
+	private Integer[][] nextPiece;
 	
 	public StatusPanelModel()
 	{
@@ -26,15 +27,26 @@ public class StatusPanelModel {
 		items = new MagicItem[3];
 		buff = null;
 		debuff = null;
+		nextPiece = null;
 	}
 	
+	/**
+	 * Add an new MagicItem.
+	 * If items is full, then kick out the first and add the new item as the third.
+	 * @param item
+	 */
 	public void addItem(MagicItem item) {
-		 	for (int i = 0; i < items.length; i++) {
-				if (items[i] == null) {
-					items[i] = item;
-				}
+		// add the item if there is an empty slot for it. 
+	 	for (int i = 0; i < items.length; i++) {
+			if (items[i] == null) {
+				items[i] = item;
+				return;
 			}
-		 	
+		}
+		// if not, then kick out the first item and add the new item as the third one.
+	 	items[0] = items[1];
+	 	items[1] = items[2];
+	 	items[2] = item;		 	
 	}
 
 	public int getScore() {
@@ -77,6 +89,14 @@ public class StatusPanelModel {
 		for (int i = 0; i < items.length; i++) {
 			items[i] = null;
 		}
+	}
+
+	public Integer[][] getNextPiece() {
+		return nextPiece;
+	}
+
+	public void setNextPiece(Integer[][] nextPiece) {
+		this.nextPiece = nextPiece;
 	}
 	
 	
