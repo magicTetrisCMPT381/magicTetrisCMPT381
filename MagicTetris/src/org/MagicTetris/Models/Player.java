@@ -1,4 +1,7 @@
 package org.MagicTetris.Models;
+
+import org.MagicTetris.UIFragment.PlayerController;
+
 /**
  * Model representing a player.
  * Associated with a StatusPanelModel, a BoardPanelModel and a PlayerController.
@@ -7,5 +10,27 @@ package org.MagicTetris.Models;
  *
  */
 public class Player {
+	private StatusPanelModel playerStatusPanel;
+	private BoardPanelModel playerBoardPanel;
+	private PlayerController playerController;
+	
+	public Player()
+	{
+		playerStatusPanel = new StatusPanelModel();
+		playerBoardPanel = new BoardPanelModel();
+		playerController = new PlayerController(null, null, null, null, null, null);
+	}
+
+	public StatusPanelModel getPlayerStatusPanel() {
+		return playerStatusPanel;
+	}
+
+	public BoardPanelModel getPlayerBoardPanel() {
+		return playerBoardPanel;
+	}
+
+	public PlayerController getPlayerController() {
+		return playerController;
+	}
 
 }
