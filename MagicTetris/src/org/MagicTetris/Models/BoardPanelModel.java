@@ -62,6 +62,11 @@ public class BoardPanelModel {
 	public BoardPanelModel() {
 		random = new Random();
 		board = new SingleBlock[TOTAL_ROW_COUNT][COLUMN_COUNT];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				board[i][j] = new SingleBlock();
+			}
+		}
 	}
 	/**
 	 * Represents the status of each block in the board.
@@ -84,6 +89,11 @@ public class BoardPanelModel {
 		 */
 		private Color color;
 		
+		public SingleBlock() {
+			isOccupied = false;
+			isFrozen = false;
+			color = Color.BLACK;
+		}
 		/**
 		 * Return whether this block is occupied.
 		 * @return true if this block is occupied.
@@ -229,5 +239,39 @@ public class BoardPanelModel {
 	// TODO: Check can this block drop.
 	public void moveCurrentPieceDown(){
 		currentPieceCoord[1] += 1;
+	}
+	
+	/**
+	 * Check if a piece could be placed at designated position.
+	 * The designated position is represented by the piece's top-left corner.
+	 * @param piece the piece.
+	 * @param col the column to put the piece
+	 * @param row the row to put the piece
+	 * @param rotate the rotate status of the piece.
+	 * @return
+	 */
+	public boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
+		if (board[row][col].isOccupied) {
+			return false;
+		}
+		// There should be 4 coordinates to check.
+		int[][] coordToCheck = new int[4][2];
+		int coordGroupNo = 0;
+		for (int i = 0; i < 16; i++) {
+			if (piece[rotate][i] == 1) {
+				// col + i / 4 is column number; row + i % 4 is row number.
+				coordToCheck[coordGroupNo][0] = row + i % 4;
+				coordToCheck[coordGroupNo][1] = col + i / 4;
+				coordGroupNo++;
+			}
+		}
+		
+		for (int[] is : coordToCheck) {
+			if (board[is[0]][is[1]].isOccupied) {
+				return false;
+			}
+		}
+		return true;
+		
 	}
 }
