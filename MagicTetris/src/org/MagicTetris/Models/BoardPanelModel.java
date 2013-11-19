@@ -1,5 +1,6 @@
 package org.MagicTetris.Models;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -43,14 +44,20 @@ public class BoardPanelModel {
 	private Integer[][] currentPiece;
 	
 	/**
+	 * The next piece.
+	 */
+	private Integer[][] nextPiece;
+	
+	/**
 	 * Current rotate of moving piece in the board.
 	 */
 	private int currentPieceRotate;
 
 	/**
 	 * The coordinate of current piece: by row and column of top-left.
+	 * the first is x, the second is y.
 	 */
-	private int[][] currentPieceCoord;
+	private int[] currentPieceCoord = {-1,-1};
 	
 	public BoardPanelModel() {
 		random = new Random();
@@ -58,7 +65,7 @@ public class BoardPanelModel {
 	}
 	/**
 	 * Represents the status of each block in the board.
-	 * If a block is frozen,
+	 * If a block is frozen, it must be cleared twice to be fully cleared
 	 * @author Da
 	 *
 	 */
@@ -71,6 +78,11 @@ public class BoardPanelModel {
 		 * Is the point frozen( could not be cleared in one time ).
 		 */
 		private boolean isFrozen;
+		
+		/**
+		 * The block's color.
+		 */
+		private Color color;
 		
 		/**
 		 * Return whether this block is occupied.
@@ -96,10 +108,12 @@ public class BoardPanelModel {
 		}
 		/**
 		 * Set the frozen status of this block.
+		 * A frozen block will be in light blue.
 		 * @param isOccupied
 		 */
 		public void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
+			this.color = Color.BLUE.brighter();
 		}
 		/**
 		 * Reset this block to unoccupied and not frozen.
@@ -115,9 +129,16 @@ public class BoardPanelModel {
 		public void clear() {
 			if (isFrozen) {
 				isFrozen=false;
+				color = Color.GRAY;
 			} else {
 				isOccupied=false;
 			}
+		}
+		public Color getColor() {
+			return color;
+		}
+		public void setColor(Color color) {
+			this.color = color;
 		}
 	}
 
@@ -137,20 +158,31 @@ public class BoardPanelModel {
 		int next = random.nextInt(7);
 		switch (next) {
 		case 1:
-			return patternModel.patternJ;
+			this.nextPiece = patternModel.patternJ;
+			return nextPiece;
 		case 2:
-			return patternModel.patternL;
+			this.nextPiece = patternModel.patternL;
+			return nextPiece;
 		case 3:
-			return patternModel.patternO;
+			this.nextPiece = patternModel.patternO;
+			return nextPiece;
 		case 4:
-			return patternModel.patternS;
+			this.nextPiece = patternModel.patternS;
+			return nextPiece;
 		case 5:
-			return patternModel.patternT;
+			this.nextPiece = patternModel.patternT;
+			return nextPiece;
 		case 6:
-			return patternModel.patternZ;
+			this.nextPiece = patternModel.patternZ;
+			return nextPiece;
 		default:
-			return patternModel.patternI;
+			this.nextPiece = patternModel.patternI;
+			return nextPiece;
 		}
+	}
+
+	public void setNextPiece(Integer[][] nextPiece) {
+		this.nextPiece = nextPiece;
 	}
 
 	/**
@@ -169,7 +201,33 @@ public class BoardPanelModel {
 		return currentPieceRotate;
 	}
 
-	public int[][] getCurrentPieceCoord() {
+	/**
+	 * Rotate current piece.
+	 * WARNING: SHOULD CHECK WHETHER POSSIBLE TO ROTATE.
+	 */
+	public void rotateCurrentPiece(){
+		// The piece only has four rotate statuses.
+		currentPieceRotate = (currentPieceRotate +1) % 4;
+	}
+	public int[] getCurrentPieceCoord() {
 		return currentPieceCoord;
+	}
+	
+	public void moveCurrentPieceLeft() {
+		if (currentPieceCoord[0] > 0) {
+			currentPieceCoord[0] -= 1;
+		}
+		
+	}
+	
+	public void moveCurrentPieceRight() {
+		if (currentPieceCoord[0] < COLUMN_COUNT) {
+			currentPieceCoord[0] += 1;
+		}
+	}
+	
+	// TODO: Check can this block drop.
+	public void moveCurrentPieceDown(){
+		currentPieceCoord[1] += 1;
 	}
 }
