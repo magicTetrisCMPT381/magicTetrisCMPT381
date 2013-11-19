@@ -21,6 +21,10 @@ public class Player {
 		playerController = new PlayerController();
 	}
 
+	public void updateGame(){
+		
+		
+	}
 	public StatusPanelModel getPlayerStatusPanel() {
 		return playerStatusPanel;
 	}
