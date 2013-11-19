@@ -123,6 +123,7 @@ public class BoardPanelModel {
 		 */
 		public void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
+			this.isOccupied = true;
 			this.color = Color.BLUE.brighter();
 		}
 		/**
@@ -224,21 +225,35 @@ public class BoardPanelModel {
 	}
 	
 	public void moveCurrentPieceLeft() {
-		if (currentPieceCoord[0] > 0) {
+		boolean ableToMove = checkPosition(currentPiece, 
+				currentPieceCoord[0] - 1 , 
+				currentPieceCoord[1], 
+				currentPieceRotate);
+		if (ableToMove) {
 			currentPieceCoord[0] -= 1;
 		}
 		
 	}
 	
 	public void moveCurrentPieceRight() {
-		if (currentPieceCoord[0] < COLUMN_COUNT) {
+		boolean ableToMove = checkPosition(currentPiece, 
+				currentPieceCoord[0] + 1 , 
+				currentPieceCoord[1], 
+				currentPieceRotate);
+		if (ableToMove) {
 			currentPieceCoord[0] += 1;
 		}
 	}
 	
-	// TODO: Check can this block drop.
 	public void moveCurrentPieceDown(){
-		currentPieceCoord[1] += 1;
+		boolean ableToMove = checkPosition(currentPiece, 
+				currentPieceCoord[0], 
+				currentPieceCoord[1] + 1, 
+				currentPieceRotate);
+		
+		if (ableToMove) {
+			currentPieceCoord[1] += 1;
+		}
 	}
 	
 	/**
@@ -251,9 +266,17 @@ public class BoardPanelModel {
 	 * @return
 	 */
 	public boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
-		if (board[row][col].isOccupied) {
+		// check if the piece is moving out of board.
+		if (col > COLUMN_COUNT || col < 0 ||
+				row > TOTAL_ROW_COUNT || row < 0) {
 			return false;
 		}
+		
+		// check if the given position is legal.
+		if (board[row][col].isOccupied && piece[rotate][0] == 1) {
+			return false;
+		}
+		
 		// There should be 4 coordinates to check.
 		int[][] coordToCheck = new int[4][2];
 		int coordGroupNo = 0;
@@ -273,5 +296,44 @@ public class BoardPanelModel {
 		}
 		return true;
 		
+	}
+	
+	/**
+	 * Check every lines in the board, and try to clear the full lines.
+	 */
+	public int clearLines(){
+		int clearedLine = 0;
+		for (int line = 0; line < TOTAL_ROW_COUNT; line++) {
+				if (clearLine(board[line], line)) {
+					clearedLine += 1;
+				}
+		}
+		return clearedLine;
+	}
+	
+	private boolean clearLine(SingleBlock[] lineBlocks,int line) {
+		// Check if all blocks in that line are occupied.
+		for (SingleBlock b : lineBlocks) {
+			if (!b.isOccupied()) {
+				return false;
+			}
+		}
+		// Clear blocks in line.
+		for (SingleBlock b : lineBlocks) {
+			b.clear();
+		}
+		// Check if all blocks are cleared.
+		for (SingleBlock b : lineBlocks) {
+			if (b.isOccupied()) {
+				return false;
+			}
+		}
+		// Shift all rows above this line down.
+		for (int row = line - 1; row >= 0; row--) {
+			for (int col = 0; col < COLUMN_COUNT; col++) {
+				board[row+1][col] = board[row][col];
+			}
+		}
+		return true;
 	}
 }
