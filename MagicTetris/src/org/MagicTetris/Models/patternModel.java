@@ -207,7 +207,7 @@ public class patternModel{
 				0,1,0,0,
 				0,0,0,0
 			}};
-	public static final Color colorI = Color.BLUE;
+	public static final Color colorI = new Color(139,0,255); // This is purple.
 	public static final Color colorJ = Color.GREEN;
 	public static final Color colorL = Color.RED;
 	public static final Color colorO = Color.YELLOW;

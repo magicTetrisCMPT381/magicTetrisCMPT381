@@ -1,5 +1,6 @@
 package org.MagicTetris.Models;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -43,22 +44,33 @@ public class BoardPanelModel {
 	private Integer[][] currentPiece;
 	
 	/**
+	 * The next piece.
+	 */
+	private Integer[][] nextPiece;
+	
+	/**
 	 * Current rotate of moving piece in the board.
 	 */
 	private int currentPieceRotate;
 
 	/**
 	 * The coordinate of current piece: by row and column of top-left.
+	 * the first is x, the second is y.
 	 */
-	private int[][] currentPieceCoord;
+	private int[] currentPieceCoord = {-1,-1};
 	
 	public BoardPanelModel() {
 		random = new Random();
 		board = new SingleBlock[TOTAL_ROW_COUNT][COLUMN_COUNT];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				board[i][j] = new SingleBlock();
+			}
+		}
 	}
 	/**
 	 * Represents the status of each block in the board.
-	 * If a block is frozen,
+	 * If a block is frozen, it must be cleared twice to be fully cleared
 	 * @author Da
 	 *
 	 */
@@ -72,6 +84,16 @@ public class BoardPanelModel {
 		 */
 		private boolean isFrozen;
 		
+		/**
+		 * The block's color.
+		 */
+		private Color color;
+		
+		public SingleBlock() {
+			isOccupied = false;
+			isFrozen = false;
+			color = Color.BLACK;
+		}
 		/**
 		 * Return whether this block is occupied.
 		 * @return true if this block is occupied.
@@ -96,10 +118,12 @@ public class BoardPanelModel {
 		}
 		/**
 		 * Set the frozen status of this block.
+		 * A frozen block will be in light blue.
 		 * @param isOccupied
 		 */
 		public void setFrozen(boolean isFrozen) {
 			this.isFrozen = isFrozen;
+			this.color = Color.BLUE.brighter();
 		}
 		/**
 		 * Reset this block to unoccupied and not frozen.
@@ -115,9 +139,16 @@ public class BoardPanelModel {
 		public void clear() {
 			if (isFrozen) {
 				isFrozen=false;
+				color = Color.GRAY;
 			} else {
 				isOccupied=false;
 			}
+		}
+		public Color getColor() {
+			return color;
+		}
+		public void setColor(Color color) {
+			this.color = color;
 		}
 	}
 
@@ -137,20 +168,31 @@ public class BoardPanelModel {
 		int next = random.nextInt(7);
 		switch (next) {
 		case 1:
-			return patternModel.patternJ;
+			this.nextPiece = patternModel.patternJ;
+			return nextPiece;
 		case 2:
-			return patternModel.patternL;
+			this.nextPiece = patternModel.patternL;
+			return nextPiece;
 		case 3:
-			return patternModel.patternO;
+			this.nextPiece = patternModel.patternO;
+			return nextPiece;
 		case 4:
-			return patternModel.patternS;
+			this.nextPiece = patternModel.patternS;
+			return nextPiece;
 		case 5:
-			return patternModel.patternT;
+			this.nextPiece = patternModel.patternT;
+			return nextPiece;
 		case 6:
-			return patternModel.patternZ;
+			this.nextPiece = patternModel.patternZ;
+			return nextPiece;
 		default:
-			return patternModel.patternI;
+			this.nextPiece = patternModel.patternI;
+			return nextPiece;
 		}
+	}
+
+	public void setNextPiece(Integer[][] nextPiece) {
+		this.nextPiece = nextPiece;
 	}
 
 	/**
@@ -169,7 +211,67 @@ public class BoardPanelModel {
 		return currentPieceRotate;
 	}
 
-	public int[][] getCurrentPieceCoord() {
+	/**
+	 * Rotate current piece.
+	 * WARNING: SHOULD CHECK WHETHER POSSIBLE TO ROTATE.
+	 */
+	public void rotateCurrentPiece(){
+		// The piece only has four rotate statuses.
+		currentPieceRotate = (currentPieceRotate +1) % 4;
+	}
+	public int[] getCurrentPieceCoord() {
 		return currentPieceCoord;
+	}
+	
+	public void moveCurrentPieceLeft() {
+		if (currentPieceCoord[0] > 0) {
+			currentPieceCoord[0] -= 1;
+		}
+		
+	}
+	
+	public void moveCurrentPieceRight() {
+		if (currentPieceCoord[0] < COLUMN_COUNT) {
+			currentPieceCoord[0] += 1;
+		}
+	}
+	
+	// TODO: Check can this block drop.
+	public void moveCurrentPieceDown(){
+		currentPieceCoord[1] += 1;
+	}
+	
+	/**
+	 * Check if a piece could be placed at designated position.
+	 * The designated position is represented by the piece's top-left corner.
+	 * @param piece the piece.
+	 * @param col the column to put the piece
+	 * @param row the row to put the piece
+	 * @param rotate the rotate status of the piece.
+	 * @return
+	 */
+	public boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
+		if (board[row][col].isOccupied) {
+			return false;
+		}
+		// There should be 4 coordinates to check.
+		int[][] coordToCheck = new int[4][2];
+		int coordGroupNo = 0;
+		for (int i = 0; i < 16; i++) {
+			if (piece[rotate][i] == 1) {
+				// col + i / 4 is column number; row + i % 4 is row number.
+				coordToCheck[coordGroupNo][0] = row + i % 4;
+				coordToCheck[coordGroupNo][1] = col + i / 4;
+				coordGroupNo++;
+			}
+		}
+		
+		for (int[] is : coordToCheck) {
+			if (board[is[0]][is[1]].isOccupied) {
+				return false;
+			}
+		}
+		return true;
+		
 	}
 }

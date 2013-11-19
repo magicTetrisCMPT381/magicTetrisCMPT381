@@ -64,7 +64,7 @@ public class BoardPanel extends JPanel {
 		g.fillRect(row * BLOCK_SIZE, 
 					col * BLOCK_SIZE, 
 					BLOCK_SIZE, BLOCK_SIZE);
-		g.setColor(blockColor.brighter());
+		g.setColor(blockColor);
 		g.fillRect(row * BLOCK_SIZE + BLOCK_SHADOW, 
 					col * BLOCK_SIZE + BLOCK_SHADOW, 
 					BLOCK_SIZE - 2 * BLOCK_SHADOW, BLOCK_SIZE - 2 * BLOCK_SHADOW);
@@ -84,7 +84,7 @@ public class BoardPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.translate(5, 5);
-//		drawPattern(patternModel.patternI, patternModel.colorI,3 , 0, 0, g);
+//		drawPattern(patternModel.patternT, patternModel.colorT,3 , 0, 0, g);
 		drawGrid(g);
 		
 	}
