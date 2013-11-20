@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.StatusPanelModel;
+import org.MagicTetris.util.playerTimer;
 
 /**
  *  Key listener for receiving player action.
@@ -36,23 +37,32 @@ public class PlayerController implements KeyListener {
 	 * the key to change current item.
 	 */
 	private int changeItem;
+	
+	/**
+	 * store current speed
+	 */
+	private float currentSpeed;
 
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
 	 */
 	private BoardPanelModel boardModel;
+	
+	private playerTimer timer;
 	/**
 	 * the {@link StatusPanelModel} this controller associated with.
 	 */
 	private StatusPanelModel statusModel;
 	
-	public PlayerController() {
+	public PlayerController(BoardPanelModel board,playerTimer timer) {
 		rotate = KeyEvent.VK_W;
 		down = KeyEvent.VK_S;
 		left = KeyEvent.VK_A;
 		right = KeyEvent.VK_D;
 		useItem = KeyEvent.VK_Q;
 		changeItem = KeyEvent.VK_E;
+		this.boardModel = board;
+		this.timer = timer;
 		
 	}	
 
@@ -64,46 +74,44 @@ public class PlayerController implements KeyListener {
 	// TODO: replaced by actual code.
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == rotate)
-			System.out.println("Pressed: rotate");
+		if(arg0.getKeyCode() == rotate){
+			boardModel.getCurrentPieceRotate();
+		}
 		
-		if(arg0.getKeyCode() == down)
-			System.out.println("Pressed: down");
+		if(arg0.getKeyCode() == down){
+			currentSpeed = timer.getDropSpeed();
+			timer.setDropSpeed(2*currentSpeed);  //change speed to  2* current speed
+		}
 		
-		if(arg0.getKeyCode() == left)
-			System.out.println("Pressed: left");
+		if(arg0.getKeyCode() == left){
+			boardModel.moveCurrentPieceLeft();
+		}
 		
-		if(arg0.getKeyCode() == right)
-			System.out.println("Pressed: right");
+		if(arg0.getKeyCode() == right){
+			boardModel.moveCurrentPieceRight();
+		}
+		// if(arg0.getKeyCode() == useItem)
+		// 	boardModel.getCurrentPieceRotate();
 		
-		if(arg0.getKeyCode() == useItem)
-			System.out.println("Pressed: useItem");
-		
-		if(arg0.getKeyCode() == changeItem)
-			System.out.println("Pressed: changeItem");
+		// if(arg0.getKeyCode() == changeItem)
+		// 	boardModel.getCurrentPieceRotate();
 		
 	}
 
 	// TODO: replaced by actual code.
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		if(arg0.getKeyCode() == rotate)
-			System.out.println("Released: rotate");
+		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
+		if(arg0.getKeyCode() == down){
+			timer.setDropSpeed(currentSpeed);
+		}
+
 		
-		if(arg0.getKeyCode() == down)
-			System.out.println("Released: down");
+		// if(arg0.getKeyCode() == useItem)
+		// 	System.out.println("Released: useItem");
 		
-		if(arg0.getKeyCode() == left)
-			System.out.println("Released: left");
-		
-		if(arg0.getKeyCode() == right)
-			System.out.println("Released: right");
-		
-		if(arg0.getKeyCode() == useItem)
-			System.out.println("Released: useItem");
-		
-		if(arg0.getKeyCode() == changeItem)
-			System.out.println("Released: changeItem");
+		// if(arg0.getKeyCode() == changeItem)
+		// 	System.out.println("Released: changeItem");
 		
 
 	}
