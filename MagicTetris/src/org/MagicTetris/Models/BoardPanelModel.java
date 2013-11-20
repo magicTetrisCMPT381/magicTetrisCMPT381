@@ -267,8 +267,8 @@ public class BoardPanelModel {
 	 */
 	public boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
 		// check if the piece is moving out of board.
-		if (col > COLUMN_COUNT || col < 0 ||
-				row > TOTAL_ROW_COUNT || row < 0) {
+		if (col >= COLUMN_COUNT || col < 0 ||
+				row >= TOTAL_ROW_COUNT || row < 0) {
 			return false;
 		}
 		
@@ -290,6 +290,11 @@ public class BoardPanelModel {
 		}
 		
 		for (int[] is : coordToCheck) {
+			if (is[1] >= COLUMN_COUNT || is[1] < 0 ||
+					is[0] >= TOTAL_ROW_COUNT || is[0] < 0) {
+				return false;
+			}
+			
 			if (board[is[0]][is[1]].isOccupied) {
 				return false;
 			}
@@ -331,7 +336,8 @@ public class BoardPanelModel {
 		// Shift all rows above this line down.
 		for (int row = line - 1; row >= 0; row--) {
 			for (int col = 0; col < COLUMN_COUNT; col++) {
-				board[row+1][col] = board[row][col];
+				board[row+1][col].isFrozen = board[row][col].isFrozen;
+				board[row+1][col].isOccupied = board[row][col].isOccupied;
 			}
 		}
 		return true;
