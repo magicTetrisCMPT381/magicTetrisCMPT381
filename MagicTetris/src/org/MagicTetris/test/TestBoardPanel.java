@@ -1,48 +1,57 @@
 package org.MagicTetris.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+
+import org.MagicTetris.Models.BoardPanelModel;
+import org.MagicTetris.Models.patternModel;
+import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 import org.MagicTetris.UIFragment.BoardPanel;
 
 
 public class TestBoardPanel {
 
 	public static void main(String[] args) {
+		// Have a window...
 		JFrame frame = new JFrame("TestBoardPanel");
 		frame.setLayout(null);
 		frame.setSize(800, 800);
 		
-		BoardPanel panel_1 = new BoardPanel();
-//		BoardPanel panel_2 = new BoardPanel();
+		// Have a board...
+		BoardPanel panel = new BoardPanel();
 		
-		Dimension d = panel_1.getPreferredSize();
-//		panel_1.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED,Color.RED, Color.CYAN));
-//		panel_1.setBounds(5, 5, d.width, d.height);
-		panel_1.setMinimumSize(d);
-		panel_1.setPreferredSize(d);
-		panel_1.setMaximumSize(d);
-		panel_1.setBounds(10,10,d.width,d.height);
+		// Have a board model...
+		BoardPanelModel panelModel = new BoardPanelModel();
 		
-//		panel_2.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED,Color.BLUE, Color.CYAN));
-//		panel_2.setBounds(d.width + 10, 5, d.width, d.height);
-//		panel_2.setMinimumSize(d);
-//		panel_2.setPreferredSize(d);
-//		panel_2.setMaximumSize(d);
+		// Get board model.
+		SingleBlock[][] board = panelModel.getBoard();
 		
-//		GridBagConstraints c = new GridBagConstraints();
-//		
-//		c.anchor = GridBagConstraints.CENTER;
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.ipadx = 20;
-//		c.ipady = 20;
-//		c.gridx = 0;
-//		c.gridy = 0;
+		// Froze row 5 column 10. A blue block is expected. 
+		board[5][10].setFrozen(true);
 		
-		frame.add(panel_1);
+		// Set current piece as red I. 
+		panelModel.setCurrentPiece(patternModel.patternI);
+		panelModel.setCurrentPieceColor(Color.RED);
 		
-//		c.gridx = 1;
+		// Set current piece to row 1 column 7.
+		panelModel.setCurrentPieceCol(7);
+		panelModel.setCurrentPieceRow(1);
 		
-//		frame.add(panel_2);
+		// Link model and view/control pair
+		panel.setModel(panelModel);
+		Dimension d = panel.getPreferredSize();
+		panel.setMinimumSize(d);
+		panel.setPreferredSize(d);
+		panel.setMaximumSize(d);
+		panel.setBounds(10,10,d.width,d.height);
+		
+		
+		frame.add(panel);
+		panel.repaint();
+		
+		// Show it.
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 
