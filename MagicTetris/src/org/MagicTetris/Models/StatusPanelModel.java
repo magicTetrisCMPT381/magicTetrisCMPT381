@@ -1,7 +1,5 @@
 package org.MagicTetris.Models;
 
-import java.awt.Graphics2D;
-
 import org.MagicTetris.GameItems.MagicItem;
 
 /**
@@ -12,12 +10,34 @@ import org.MagicTetris.GameItems.MagicItem;
  *
  */
 public class StatusPanelModel {
-	
+	/**
+	 * Player's score.
+	 */
 	private int score;
+	
+	/**
+	 * The speed of block dropping.
+	 */
 	private int speed;
+	
+	/**
+	 * Player's items.
+	 */
 	private MagicItem items[];
+	
+	/**
+	 * Player's buff
+	 */
 	private MagicItem buff;
+	
+	/**
+	 * Player's debuff
+	 */
 	private MagicItem debuff;
+	
+	/**
+	 * The next piece.
+	 */
 	private Integer[][] nextPiece;
 	
 	public StatusPanelModel()
@@ -99,6 +119,12 @@ public class StatusPanelModel {
 		this.nextPiece = nextPiece;
 	}
 	
-	
+	public MagicItem useItem(){
+		MagicItem item = items[0];
+		items[0] = items[1];
+		items[1] = items[2];
+		items[2] = null;
+		return item;
+	}
 
 }
