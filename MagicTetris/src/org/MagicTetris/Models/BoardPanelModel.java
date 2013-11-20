@@ -336,7 +336,8 @@ public class BoardPanelModel {
 		// Shift all rows above this line down.
 		for (int row = line - 1; row >= 0; row--) {
 			for (int col = 0; col < COLUMN_COUNT; col++) {
-				board[row+1][col] = board[row][col];
+				board[row+1][col].isFrozen = board[row][col].isFrozen;
+				board[row+1][col].isOccupied = board[row][col].isOccupied;
 			}
 		}
 		return true;
