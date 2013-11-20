@@ -1,7 +1,9 @@
 package org.MagicTetris.UIFragment;
 
-import javax.swing.JPanel;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import org.MagicTetris.Models.StatusPanelModel;
 /**
  * UI fragment. Showing a player's status.
@@ -12,6 +14,10 @@ import org.MagicTetris.Models.StatusPanelModel;
 public class StatusPanel extends JPanel {
 	private StatusPanelModel model;
 
+	public StatusPanel() {
+		this.setBackground(Color.BLACK);
+		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+	}
 	public StatusPanelModel getModel() {
 		return model;
 	}
