@@ -6,7 +6,7 @@ package org.MagicTetris.util;
  * @author Da
  *
  */
-public class Timer {
+public class playerTimer {
 	/**
 	 * The drop speed of blocks. Defined to x row/second.
 	 */
@@ -19,7 +19,7 @@ public class Timer {
 	/**
 	 * Create a paused Timer with dropSpeed = 1.
 	 */
-	public Timer() {
+	public playerTimer() {
 		dropSpeed = 1;
 		paused = true;
 	}
@@ -28,7 +28,7 @@ public class Timer {
 	 * Create a paused Timer with given dropSpeed.
 	 * @param dropSpeed the drop speed of block.
 	 */
-	public Timer(Float dropSpeed){
+	public playerTimer(Float dropSpeed){
 		this.dropSpeed = dropSpeed;
 		paused = true;
 	}
