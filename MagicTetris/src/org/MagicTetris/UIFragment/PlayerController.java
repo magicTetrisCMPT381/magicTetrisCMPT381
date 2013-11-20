@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.StatusPanelModel;
-import org.MagicTetris.util.playerTimer;
+import org.MagicTetris.util.playerTimerTask;
 
 /**
  *  Key listener for receiving player action.
@@ -48,13 +48,13 @@ public class PlayerController implements KeyListener {
 	 */
 	private BoardPanelModel boardModel;
 	
-	private playerTimer timer;
+	private playerTimerTask timer;
 	/**
 	 * the {@link StatusPanelModel} this controller associated with.
 	 */
 	private StatusPanelModel statusModel;
 	
-	public PlayerController(BoardPanelModel board,playerTimer timer) {
+	public PlayerController(BoardPanelModel board,playerTimerTask timer) {
 		rotate = KeyEvent.VK_W;
 		down = KeyEvent.VK_S;
 		left = KeyEvent.VK_A;
