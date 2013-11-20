@@ -42,8 +42,8 @@ public class TesterBoardPanelModel extends TestCase {
 		// Try to clear lines. All lines are supposed to be cleared, since all are not frozen.
 		assertEquals(26, bpm.clearLines());
 		
-		for (int y = 0; y < bpm.TOTAL_ROW_COUNT; y++) {
-			for (int x = 0; x < bpm.COLUMN_COUNT; x++) {
+		for (int y = 0; y < BoardPanelModel.TOTAL_ROW_COUNT; y++) {
+			for (int x = 0; x < BoardPanelModel.COLUMN_COUNT; x++) {
 				assertFalse(board[y][x].isOccupied());
 			}
 		}
@@ -64,7 +64,7 @@ public class TesterBoardPanelModel extends TestCase {
 		assertTrue("Block 4,8 should not be cleared.", board[8][4].isOccupied());
 		
 		// Set a line is occupied.
-		for (int x = 0; x < bpm.COLUMN_COUNT; x++) {
+		for (int x = 0; x < BoardPanelModel.COLUMN_COUNT; x++) {
 			board[10][x].setOccupied(true);
 		}
 
