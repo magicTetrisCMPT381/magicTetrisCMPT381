@@ -14,20 +14,20 @@ public class BoardPanelModel {
 	/**
 	 * The number of columns on the board.
 	 */
-	public final int COLUMN_COUNT = 12;
+	public static final int COLUMN_COUNT = 12;
 	/**
 	 * The number of visible rows on the board.
 	 */
-	public final int VISIBLE_ROW_COUNT = 24;
+	public static final int VISIBLE_ROW_COUNT = 24;
 	/**
 	 * The number of hidden rows on the board.
 	 * For pre-draw blocks.
 	 */
-	public final int HIDDEN_ROW_COUNT = 2;
+	public static final int HIDDEN_ROW_COUNT = 2;
 	/**
 	 * Total rows on the board.
 	 */
-	public final int TOTAL_ROW_COUNT = VISIBLE_ROW_COUNT + HIDDEN_ROW_COUNT;
+	public static final int TOTAL_ROW_COUNT = VISIBLE_ROW_COUNT + HIDDEN_ROW_COUNT;
 	
 	/**
 	 * Random number creater.
@@ -54,10 +54,24 @@ public class BoardPanelModel {
 	private int currentPieceRotate;
 
 	/**
-	 * The coordinate of current piece: by row and column of top-left.
-	 * the first is x, the second is y.
+	 * Current color of moving piece in the board.
 	 */
-	private int[] currentPieceCoord = {-1,-1};
+	private Color currentPieceColor;
+	
+	/**
+	 * The column of current piece.
+	 */
+	private int currentPieceCol = -1;
+	
+	/**
+	 * The row of current iece.
+	 */
+	private int currentPieceRow = -1;
+	
+	/**
+	 * The color of next piece.
+	 */
+	private Color nextPieceColor;
 	
 	public BoardPanelModel() {
 		random = new Random();
@@ -166,34 +180,50 @@ public class BoardPanelModel {
 	 * @return the next piece.
 	 */
 	public Integer[][] getNextPiece(){
+		return nextPiece;
+	}
+	
+	public Integer[][] createNextPiece() {
 		int next = random.nextInt(7);
 		switch (next) {
 		case 1:
-			this.nextPiece = patternModel.patternJ;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorJ;
+			return patternModel.patternJ;
 		case 2:
-			this.nextPiece = patternModel.patternL;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorL;
+			return patternModel.patternL;
 		case 3:
-			this.nextPiece = patternModel.patternO;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorO;
+			return patternModel.patternO;
 		case 4:
-			this.nextPiece = patternModel.patternS;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorS;
+			return patternModel.patternS;
 		case 5:
-			this.nextPiece = patternModel.patternT;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorT;
+			return patternModel.patternT;
 		case 6:
-			this.nextPiece = patternModel.patternZ;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorZ;
+			return patternModel.patternZ;
 		default:
-			this.nextPiece = patternModel.patternI;
-			return nextPiece;
+			this.nextPieceColor = patternModel.colorI;
+			return patternModel.patternI;
 		}
 	}
 
 	public void setNextPiece(Integer[][] nextPiece) {
 		this.nextPiece = nextPiece;
+	}
+	
+	/**
+	 * Spawn next piece.
+	 * The next piece will be place at (0,5) .
+	 */
+	public void spawnNextPiece() {
+		this.currentPiece = this.nextPiece;
+		this.currentPieceColor = this.nextPieceColor;
+		this.currentPieceCol = 5;
+		this.currentPieceRow = 0;
+		this.setNextPiece(createNextPiece());
 	}
 
 	/**
@@ -214,48 +244,83 @@ public class BoardPanelModel {
 
 	/**
 	 * Rotate current piece.
-	 * WARNING: SHOULD CHECK WHETHER POSSIBLE TO ROTATE.
+	 * 
 	 */
 	public void rotateCurrentPiece(){
 		// The piece only has four rotate statuses.
-		currentPieceRotate = (currentPieceRotate +1) % 4;
+		int rotate = (currentPieceRotate +1) % 4;
+		// Check if we are able to rotate this block.
+		boolean ableToRotate = checkPosition(currentPiece, currentPieceCol, currentPieceRow, rotate);
+		if (ableToRotate) {
+			currentPieceRotate = (currentPieceRotate +1) % 4;
+		}
+		
 	}
-	public int[] getCurrentPieceCoord() {
-		return currentPieceCoord;
-	}
+	
+
 	
 	public void moveCurrentPieceLeft() {
 		boolean ableToMove = checkPosition(currentPiece, 
-				currentPieceCoord[0] - 1 , 
-				currentPieceCoord[1], 
+				currentPieceCol - 1 , 
+				currentPieceRow, 
 				currentPieceRotate);
 		if (ableToMove) {
-			currentPieceCoord[0] -= 1;
+			currentPieceCol -= 1;
 		}
 		
 	}
 	
 	public void moveCurrentPieceRight() {
 		boolean ableToMove = checkPosition(currentPiece, 
-				currentPieceCoord[0] + 1 , 
-				currentPieceCoord[1], 
+				currentPieceCol + 1 , 
+				currentPieceRow, 
 				currentPieceRotate);
 		if (ableToMove) {
-			currentPieceCoord[0] += 1;
+			currentPieceCol += 1;
 		}
 	}
 	
 	public void moveCurrentPieceDown(){
 		boolean ableToMove = checkPosition(currentPiece, 
-				currentPieceCoord[0], 
-				currentPieceCoord[1] + 1, 
+				currentPieceCol, 
+				currentPieceRow + 1, 
 				currentPieceRotate);
-		
+		// Drop the piece if it is able to move down.
 		if (ableToMove) {
-			currentPieceCoord[1] += 1;
+			currentPieceRow += 1;
+		}
+		// If not able to move down, the piece must hit something. Add this piece and release next piece.
+		else {
+			addPieceToBoard(currentPiece, currentPieceColor, currentPieceRotate);
+			if (nextPiece == null) {
+				this.nextPiece = createNextPiece();
+			}
+			spawnNextPiece();
 		}
 	}
 	
+	/**
+	 * Add a piece to board. Will not check position.
+	 * @param piecePattern the piece's pattern.
+	 * @param pieceColor the piece's color. 
+	 * @param pieceCoord the piece's coordinate.
+	 * @param rotate the piece's rotate.
+	 */
+	public void addPieceToBoard(Integer[][] piecePattern, Color pieceColor,  int rotate) {
+		Integer[] piece = piecePattern[rotate];
+		for (int i = 0; i < piece.length; i++) {
+			if (piece[i] == 1) {
+				board[currentPieceRow + i / 4]
+					[currentPieceCol + i % 4]
+							.setOccupied(true);
+				board[currentPieceRow + i / 4]
+					[currentPieceCol + i % 4]
+							.setColor(pieceColor);
+			}
+			
+		}
+	}
+
 	/**
 	 * Check if a piece could be placed at designated position.
 	 * The designated position is represented by the piece's top-left corner.
@@ -342,4 +407,43 @@ public class BoardPanelModel {
 		}
 		return true;
 	}
+
+	public Color getCurrentPieceColor() {
+		return currentPieceColor;
+	}
+
+	public Color getNextPieceColor() {
+		return nextPieceColor;
+	}
+
+	public void setCurrentPiece(Integer[][] currentPiece) {
+		this.currentPiece = currentPiece;
+	}
+
+	public void setCurrentPieceColor(Color currentPieceColor) {
+		this.currentPieceColor = currentPieceColor;
+	}
+
+	public void setNextPieceColor(Color nextPieceColor) {
+		this.nextPieceColor = nextPieceColor;
+	}
+
+
+	public int getCurrentPieceCol() {
+		return currentPieceCol;
+	}
+
+	public void setCurrentPieceCol(int currentPieceCol) {
+		this.currentPieceCol = currentPieceCol;
+	}
+
+	public int getCurrentPieceRow() {
+		return currentPieceRow;
+	}
+
+	public void setCurrentPieceRow(int currentPieceRow) {
+		this.currentPieceRow = currentPieceRow;
+	}
+	
+	
 }
