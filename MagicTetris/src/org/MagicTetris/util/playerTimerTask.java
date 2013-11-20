@@ -1,12 +1,14 @@
 package org.MagicTetris.util;
 
+import java.util.TimerTask;
+
 /**
  * This class is to control the dropping speed of blocks.
  * 
  * @author Da
  *
  */
-public class playerTimer {
+public class playerTimerTask extends TimerTask{
 	/**
 	 * The drop speed of blocks. Defined to x row/second.
 	 */
@@ -19,7 +21,7 @@ public class playerTimer {
 	/**
 	 * Create a paused Timer with dropSpeed = 1.
 	 */
-	public playerTimer() {
+	public playerTimerTask() {
 		dropSpeed = 1;
 		paused = true;
 	}
@@ -28,7 +30,7 @@ public class playerTimer {
 	 * Create a paused Timer with given dropSpeed.
 	 * @param dropSpeed the drop speed of block.
 	 */
-	public playerTimer(Float dropSpeed){
+	public playerTimerTask(Float dropSpeed){
 		this.dropSpeed = dropSpeed;
 		paused = true;
 	}
@@ -63,6 +65,12 @@ public class playerTimer {
 	 */
 	public void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
