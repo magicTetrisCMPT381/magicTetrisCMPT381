@@ -12,4 +12,12 @@ import org.MagicTetris.Models.StatusPanelModel;
 public class StatusPanel extends JPanel {
 	private StatusPanelModel model;
 
+	public StatusPanelModel getModel() {
+		return model;
+	}
+
+	public void setModel(StatusPanelModel model) {
+		this.model = model;
+	}
+
 }
