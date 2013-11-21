@@ -23,6 +23,7 @@ public class Player {
 	private PlayerController playerController;
 	private Timer timer;
 	private playerTimerTask timerTask;
+	private float speed;
 
 	
 	public Player()
@@ -38,6 +39,8 @@ public class Player {
 
 		timerTask = new playerTimerTask(boardPanel,boardPanelModel);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
+		
+		speed = 1;
 
 	}
 	
@@ -76,6 +79,14 @@ public class Player {
 
 	public playerTimerTask getTimerTask() {
 		return timerTask;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 
 }

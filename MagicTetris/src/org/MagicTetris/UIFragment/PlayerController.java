@@ -43,8 +43,9 @@ public class PlayerController implements KeyListener {
 	 * store current speed
 	 */
 	private float currentSpeed;
-	private float tempSpeed;
 	private Player player;
+	
+	private final float MAX_SPEED = 1000; 
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
 	 */
@@ -66,7 +67,6 @@ public class PlayerController implements KeyListener {
 		this.boardModel = board;
 		this.timer = timer;
 		currentSpeed = 1;
-		tempSpeed = 1;
 		this.player = player;
 	}	
 
@@ -84,8 +84,9 @@ public class PlayerController implements KeyListener {
 		}
 		
 		if(arg0.getKeyCode() == down){
-			tempSpeed = currentSpeed;
-			currentSpeed =2*currentSpeed;
+			if (currentSpeed >= MAX_SPEED) {
+				currentSpeed = MAX_SPEED;
+			}
 			player.setTimer();
 			player.getBoardPanel().repaint();
 		}
@@ -112,7 +113,7 @@ public class PlayerController implements KeyListener {
 	public void keyReleased(KeyEvent arg0) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
 		if(arg0.getKeyCode() == down){
-			currentSpeed = tempSpeed;
+			currentSpeed = player.getSpeed();
 			player.setTimer();
 		}
 
