@@ -1,6 +1,10 @@
 package org.MagicTetris.Models;
 
+import java.util.Timer;
+
+import org.MagicTetris.UIFragment.BoardPanel;
 import org.MagicTetris.UIFragment.PlayerController;
+import org.MagicTetris.UIFragment.StatusPanel;
 import org.MagicTetris.util.playerTimerTask;
 
 
@@ -12,38 +16,77 @@ import org.MagicTetris.util.playerTimerTask;
  *
  */
 public class Player {
-	private StatusPanelModel playerStatusPanel;
-	private BoardPanelModel playerBoardPanel;
+	private StatusPanel statusPanel;
+	private BoardPanel boardPanel;
+	private StatusPanelModel statusPanelModel;
+	private BoardPanelModel boardPanelModel;
 	private PlayerController playerController;
-
+	private Timer timer;
 	private playerTimerTask timerTask;
+	private float speed;
 
 	
 	public Player()
 	{
-		playerStatusPanel = new StatusPanelModel();
-		playerBoardPanel = new BoardPanelModel();
-
-
-		timerTask = new playerTimerTask(playerBoardPanel);
-		playerController = new PlayerController(playerBoardPanel,timerTask);
-
-	}
-
-	public void updateGame(){
+		statusPanel = new StatusPanel();
+		boardPanel = new BoardPanel();
 		
+		statusPanelModel = new StatusPanelModel();
+		boardPanelModel = new BoardPanelModel();
+
+		statusPanel.setModel(statusPanelModel);
+		boardPanel.setModel(boardPanelModel);
+
+		timerTask = new playerTimerTask(boardPanel,boardPanelModel);
+		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
+		speed = 1;
+
 	}
-	public StatusPanelModel getPlayerStatusPanel() {
-		return playerStatusPanel;
+	
+	public void startGame(){
+		timer = new Timer();
+		setTimer();
+	}
+	
+	public void setTimer() {
+		timer.cancel();
+		timerTask = new playerTimerTask(boardPanel, boardPanelModel);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, (long) (1000 / playerController.getCurrentSpeed()));
 	}
 
-	public BoardPanelModel getPlayerBoardPanel() {
-		return playerBoardPanel;
-	}
 
 	public PlayerController getPlayerController() {
 		return playerController;
+	}
+
+	public StatusPanel getStatusPanel() {
+		return statusPanel;
+	}
+
+	public BoardPanel getBoardPanel() {
+		return boardPanel;
+	}
+
+	public StatusPanelModel getStatusPanelModel() {
+		return statusPanelModel;
+	}
+
+	public BoardPanelModel getBoardPanelModel() {
+		return boardPanelModel;
+	}
+
+	public playerTimerTask getTimerTask() {
+		return timerTask;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 
 }

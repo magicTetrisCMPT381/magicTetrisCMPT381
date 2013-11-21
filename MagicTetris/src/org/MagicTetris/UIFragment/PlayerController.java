@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import org.MagicTetris.Models.BoardPanelModel;
+import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
 import org.MagicTetris.util.playerTimerTask;
 
@@ -42,8 +43,9 @@ public class PlayerController implements KeyListener {
 	 * store current speed
 	 */
 	private float currentSpeed;
-	private float tempSpeed;
-
+	private Player player;
+	
+	private final float MAX_SPEED = 1000; 
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
 	 */
@@ -55,7 +57,7 @@ public class PlayerController implements KeyListener {
 	 */
 	private StatusPanelModel statusModel;
 	
-	public PlayerController(BoardPanelModel board,playerTimerTask timer) {
+	public PlayerController(BoardPanelModel board,playerTimerTask timer,Player player) {
 		rotate = KeyEvent.VK_W;
 		down = KeyEvent.VK_S;
 		left = KeyEvent.VK_A;
@@ -65,8 +67,7 @@ public class PlayerController implements KeyListener {
 		this.boardModel = board;
 		this.timer = timer;
 		currentSpeed = 1;
-		tempSpeed = 1;
-		
+		this.player = player;
 	}	
 
 	@Override
@@ -74,24 +75,30 @@ public class PlayerController implements KeyListener {
 			
 	}
 
-	// TODO: replaced by actual code.
+
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getKeyCode() == rotate){
-			boardModel.getCurrentPieceRotate();
+			boardModel.rotateCurrentPiece();
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == down){
-			tempSpeed = currentSpeed;
-			currentSpeed =2*currentSpeed;
+			if (currentSpeed >= MAX_SPEED) {
+				currentSpeed = MAX_SPEED;
+			}
+			player.setTimer();
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == left){
 			boardModel.moveCurrentPieceLeft();
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == right){
 			boardModel.moveCurrentPieceRight();
+			player.getBoardPanel().repaint();
 		}
 		// if(arg0.getKeyCode() == useItem)
 		// 	boardModel.getCurrentPieceRotate();
@@ -101,12 +108,13 @@ public class PlayerController implements KeyListener {
 		
 	}
 
-	// TODO: replaced by actual code.
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
 		if(arg0.getKeyCode() == down){
-			currentSpeed = tempSpeed;
+			currentSpeed = player.getSpeed();
+			player.setTimer();
 		}
 
 		
