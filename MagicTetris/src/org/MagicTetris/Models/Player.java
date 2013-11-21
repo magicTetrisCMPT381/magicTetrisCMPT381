@@ -15,25 +15,19 @@ public class Player {
 	private StatusPanelModel playerStatusPanel;
 	private BoardPanelModel playerBoardPanel;
 	private PlayerController playerController;
-<<<<<<< HEAD
-	private playerTimerTask timer;
-	private float playerSpeed;
-=======
+
 	private playerTimerTask timerTask;
->>>>>>> origin/Xingze2
+
 	
 	public Player()
 	{
 		playerStatusPanel = new StatusPanelModel();
 		playerBoardPanel = new BoardPanelModel();
-<<<<<<< HEAD
-		timer = new playerTimerTask();
-		playerController = new PlayerController(playerBoardPanel,timer);
-		playerSpeed = 1;
-=======
+
+
 		timerTask = new playerTimerTask(playerBoardPanel);
 		playerController = new PlayerController(playerBoardPanel,timerTask);
->>>>>>> origin/Xingze2
+
 	}
 
 	public void updateGame(){
