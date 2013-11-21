@@ -21,13 +21,13 @@ public class BoardPanel extends JPanel {
 	/**
 	 * The size of a block.
 	 */
-	private final int BLOCK_BASE = 24;
+	private static final int BLOCK_BASE = 24;
 	/**
 	 * The shadow width of a block
 	 */
-	private final int BLOCK_SHADOW = 4;
+	private static final int BLOCK_SHADOW = 4;
 	
-	private final int BLOCK_SIZE = BLOCK_SHADOW + BLOCK_BASE;
+	protected static final int BLOCK_SIZE = BLOCK_SHADOW + BLOCK_BASE;
 	
 	private final String WELCOME_STR = "Welcome!";
 	
