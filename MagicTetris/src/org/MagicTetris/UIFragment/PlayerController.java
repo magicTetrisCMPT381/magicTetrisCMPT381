@@ -65,7 +65,7 @@ public class PlayerController implements KeyListener {
 		changeItem = KeyEvent.VK_E;
 		this.boardModel = board;
 		this.timer = timer;
-		currentSpeed = 2;
+		currentSpeed = 1;
 		tempSpeed = 1;
 		this.player = player;
 	}	
@@ -80,21 +80,24 @@ public class PlayerController implements KeyListener {
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getKeyCode() == rotate){
 			boardModel.rotateCurrentPiece();
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == down){
 			tempSpeed = currentSpeed;
 			currentSpeed =2*currentSpeed;
 			player.setTimer();
-			
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == left){
 			boardModel.moveCurrentPieceLeft();
+			player.getBoardPanel().repaint();
 		}
 		
 		if(arg0.getKeyCode() == right){
 			boardModel.moveCurrentPieceRight();
+			player.getBoardPanel().repaint();
 		}
 		// if(arg0.getKeyCode() == useItem)
 		// 	boardModel.getCurrentPieceRotate();
@@ -104,7 +107,7 @@ public class PlayerController implements KeyListener {
 		
 	}
 
-	// TODO: replaced by actual code.
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
