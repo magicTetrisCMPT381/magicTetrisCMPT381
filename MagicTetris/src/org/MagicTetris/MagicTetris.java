@@ -28,39 +28,44 @@ public class MagicTetris extends JFrame {
 		MagicTetris frame = new MagicTetris("Magic Tetris");
 		frame.getContentPane().setBackground(Color.BLACK);
 		Player player1 = new Player();
-//		Player player2 = new Player();
+		Player player2 = new Player();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.setLayout(new GridBagLayout());
 		
 		
 		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
-//		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
+		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
 		
 		player1.getStatusPanelModel().setSpeed(1);
 		player1.getBoardPanelModel().setPlayer(player1);
 		player1.getBoardPanelModel().setNextPiece(piece1);
 		player1.getBoardPanelModel().spawnNextPiece();
 		
-//		player2.getBoardPanelModel().setNextPiece(piece2);
-//		player2.getBoardPanelModel().spawnNextPiece();
+		player2.getStatusPanelModel().setSpeed(1);
+		player2.getBoardPanelModel().setPlayer(player2);
+		player2.getBoardPanelModel().setNextPiece(piece2);
+		player2.getBoardPanelModel().spawnNextPiece();
+		
+		player1.getPlayerController().setDefaultControlKeys(1);
+		player2.getPlayerController().setDefaultControlKeys(2);
 		
 		frame.add(player1.getBoardPanel());
 		frame.add(player1.getStatusPanel());
-//		frame.add(player2.getBoardPanel());
-//		frame.add(player2.getStatusPanel());
+		frame.add(player2.getBoardPanel());
+		frame.add(player2.getStatusPanel());
 		
-		
+		frame.requestFocus();
 		
 		frame.addKeyListener(player1.getPlayerController());
-//		frame.addKeyListener(player2.getPlayerController());
+		frame.addKeyListener(player2.getPlayerController());
 
 		
 		frame.setSize(1440,900);
 		frame.setVisible(true);
 		
 		player1.startGame();
-//		player2.startGame();
+		player2.startGame();
 
 	}
 
