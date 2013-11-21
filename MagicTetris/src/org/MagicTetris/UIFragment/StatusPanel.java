@@ -22,24 +22,30 @@ import org.MagicTetris.Models.StatusPanelModel;
 public class StatusPanel extends JPanel {
 	private StatusPanelModel model;
 
+	// Strings for status labels
 	private static final String SPEED_STRING = "Speed: ";
 	private static final String SCORE_STRING = "Score: ";
 	private static final String BUFF_STRING = "Buff: ";
 	private static final String DEBUFF_STRING = "Debuff: ";
 	private static final String ITEMS_STRING = "Items: ";
 	private static final String NEXTPIECE_STRING = "Next Piece: ";
+	// The status name labels
 	private JLabel lblSpeed;
 	private JLabel lblScore;
 	private JLabel lblBuff;
 	private JLabel lblDebuff;
 	private JLabel lblItems;
 	private JLabel lblNextPiece;
+	
+	// The status labels
 	private JLabel lblPlayerScore;
 	private JLabel lblPlayerSpeed;
 	private JLabel lblPlayerBuff;
 	private JLabel lblPlayerDebuff;
 	private JLabel lblPlayerItems;
 	private JLabel lblPlayerNextPiece;
+	
+	// 
 	private ArrayList<JLabel> listOfLabels;
 	
 	public StatusPanel() {
@@ -62,6 +68,10 @@ public class StatusPanel extends JPanel {
 		lblPlayerDebuff = new JLabel("Work In Progress...");
 		lblPlayerItems = new JLabel("Work In Progress...");
 		lblPlayerNextPiece = new JLabel();
+		
+		lblPlayerNextPiece.setText("Nothing...");;
+		lblPlayerNextPiece.setPreferredSize(new Dimension(BoardPanel.BLOCK_SIZE * 4 + 10, BoardPanel.BLOCK_SIZE * 4 + 10));
+		
 		listOfLabels = new ArrayList<JLabel>();
 		listOfLabels.add(lblItems);
 		listOfLabels.add(lblPlayerItems);
@@ -99,9 +109,39 @@ public class StatusPanel extends JPanel {
 		if (model != null) {
 			lblPlayerScore.setText(String.valueOf(model.getScore()));
 			lblPlayerSpeed.setText(String.valueOf(model.getSpeed()));
+			Integer[][] pattern = model.getNextPiece();
+			Color patternColor = model.getNextPieceColor();
+			Graphics g = lblPlayerNextPiece.getGraphics();
+			g.fillRect(0, 0, lblPlayerNextPiece.getWidth(), lblPlayerNextPiece.getHeight());
+			
+			g.translate(5, 5);
+			for (int patternCol = 0; patternCol < 4; patternCol++) {
+				for (int patternRow = 0; patternRow < 4; patternRow++) {
+					if (pattern[0][patternRow*4 + patternCol] == 1)
+					{
+						drawBlock(patternColor, 
+								0 + patternRow, 
+								0 + patternCol, g);
+					}
+				}
+			}
 		}
 	}
 	
+	private void drawBlock(Color patternColor, int row, int col, Graphics g) {
+
+		g.setColor(patternColor.darker());
+		g.fillRect(col * BoardPanel.BLOCK_SIZE, 
+					row * BoardPanel.BLOCK_SIZE, 
+					BoardPanel.BLOCK_SIZE, BoardPanel.BLOCK_SIZE);
+		g.setColor(patternColor);
+		g.fillRect(col * BoardPanel.BLOCK_SIZE + BoardPanel.BLOCK_SHADOW, 
+					row * BoardPanel.BLOCK_SIZE + BoardPanel.BLOCK_SHADOW, 
+					BoardPanel.BLOCK_SIZE - 2 * BoardPanel.BLOCK_SHADOW, 
+					BoardPanel.BLOCK_SIZE - 2 * BoardPanel.BLOCK_SHADOW);
+		
+	}
+
 	public StatusPanelModel getModel() {
 		return model;
 	}

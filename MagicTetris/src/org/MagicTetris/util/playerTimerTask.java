@@ -37,6 +37,10 @@ public class playerTimerTask extends TimerTask{
 			int clearedLine = bpm.clearLines();
 			int currentScore = spm.getScore();
 			spm.setScore(currentScore + 100 * clearedLine);
+			if (bpm.getNextPiece() != null && bpm.getNextPieceColor() != null) {
+				spm.setNextPiece(bpm.getNextPiece());
+				spm.setNextPieceColor(bpm.getNextPieceColor());
+			}
 			sp.update();
 			bp.repaint();
 		}
