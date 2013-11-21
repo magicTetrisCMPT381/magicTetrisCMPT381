@@ -27,7 +27,7 @@ public class BoardPanel extends JPanel {
 	 */
 	private static final int BLOCK_SHADOW = 4;
 	
-	protected static final int BLOCK_SIZE = BLOCK_SHADOW + BLOCK_BASE;
+	public static final int BLOCK_SIZE = BLOCK_SHADOW + BLOCK_BASE;
 	
 	private final String WELCOME_STR = "Welcome!";
 	

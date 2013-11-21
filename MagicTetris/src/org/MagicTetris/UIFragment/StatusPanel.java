@@ -3,6 +3,7 @@ package org.MagicTetris.UIFragment;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class StatusPanel extends JPanel {
 		this.setBackground(Color.BLACK);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		Dimension d = new Dimension(300, 
-				5 + BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE +5);
+				BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE);
 		this.setPreferredSize(d);
 		this.setLayout(new GridBagLayout());		
 		
@@ -50,17 +51,28 @@ public class StatusPanel extends JPanel {
 		lblItems = new JLabel(ITEMS_STRING);
 		lblNextPiece = new JLabel(NEXTPIECE_STRING);
 		constantLabels = new ArrayList<JLabel>();
+		constantLabels.add(lblItems);
+		constantLabels.add(lblNextPiece);
 		constantLabels.add(lblSpeed);
 		constantLabels.add(lblScore);
 		constantLabels.add(lblBuff);
 		constantLabels.add(lblDebuff);
-		constantLabels.add(lblItems);
-		constantLabels.add(lblNextPiece);
 		
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.ipadx = 10;
+		c.ipady = 10;
 		for (JLabel label : constantLabels) {
 			label.setBackground(Color.BLACK);
 			label.setForeground(Color.WHITE);
-			this.add(label);
+			this.add(label,c);
+			c.gridy += 1;
 		}
 	}
 	public StatusPanelModel getModel() {

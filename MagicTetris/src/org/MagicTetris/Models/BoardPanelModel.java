@@ -332,16 +332,16 @@ public class BoardPanelModel {
 	 * @return
 	 */
 	public synchronized boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
-		// check if the piece is moving out of board.
-		if (col >= COLUMN_COUNT || col < 0 ||
-				row >= TOTAL_ROW_COUNT || row < 0) {
-			return false;
-		}
-		
-		// check if the given position is legal.
-		if (board[row][col].isOccupied && piece[rotate][0] == 1) {
-			return false;
-		}
+//		// check if the piece is moving out of board.
+//		if (col >= COLUMN_COUNT || col < 0 ||
+//				row >= TOTAL_ROW_COUNT || row < 0) {
+//			return false;
+//		}
+//		
+//		// check if the given position is legal.
+//		if (board[row][col].isOccupied && piece[rotate][0] == 1) {
+//			return false;
+//		}
 		
 		int[][] coordToCheck = getPoints(piece, rotate, row, col);
 //		for (int[] is : coordToCheck) {
