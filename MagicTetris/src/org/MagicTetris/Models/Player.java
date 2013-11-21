@@ -41,7 +41,7 @@ public class Player {
 		statusPanel.setModel(statusPanelModel);
 		boardPanel.setModel(boardPanelModel);
 
-		timerTask = new playerTimerTask(boardPanel,boardPanelModel);
+		timerTask = new playerTimerTask(this);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
 		
@@ -56,7 +56,7 @@ public class Player {
 	public void setTimer() {
 		if (!boardPanelModel.isGameOver()) {
 			timer.cancel();
-			timerTask = new playerTimerTask(boardPanel, boardPanelModel);
+			timerTask = new playerTimerTask(this);
 			timer = new Timer();
 			timer.scheduleAtFixedRate(timerTask, 0, (long) (1000 / playerController.getCurrentSpeed()));
 		}
