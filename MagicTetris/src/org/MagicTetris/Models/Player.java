@@ -1,7 +1,9 @@
 package org.MagicTetris.Models;
 
+import java.awt.Color;
 import java.util.Timer;
 
+import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 import org.MagicTetris.UIFragment.BoardPanel;
 import org.MagicTetris.UIFragment.PlayerController;
 import org.MagicTetris.UIFragment.StatusPanel;
@@ -30,8 +32,10 @@ public class Player {
 	{
 		statusPanel = new StatusPanel();
 		boardPanel = new BoardPanel();
+		speed = 1;
 		
 		statusPanelModel = new StatusPanelModel();
+		statusPanelModel.setSpeed(speed);
 		boardPanelModel = new BoardPanelModel();
 
 		statusPanel.setModel(statusPanelModel);
@@ -40,7 +44,7 @@ public class Player {
 		timerTask = new playerTimerTask(boardPanel,boardPanelModel);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
-		speed = 1;
+		
 
 	}
 	
@@ -50,10 +54,22 @@ public class Player {
 	}
 	
 	public void setTimer() {
-		timer.cancel();
-		timerTask = new playerTimerTask(boardPanel, boardPanelModel);
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, (long) (1000 / playerController.getCurrentSpeed()));
+		if (!boardPanelModel.isGameOver()) {
+			timer.cancel();
+			timerTask = new playerTimerTask(boardPanel, boardPanelModel);
+			timer = new Timer();
+			timer.scheduleAtFixedRate(timerTask, 0, (long) (1000 / playerController.getCurrentSpeed()));
+		}
+	}
+	
+	public void gameOver() {
+		if (timer != null) {
+			timer.cancel();
+			timer.purge();
+		}
+		
+		boardPanelModel.reset();
+		boardPanel.repaint();
 	}
 
 
