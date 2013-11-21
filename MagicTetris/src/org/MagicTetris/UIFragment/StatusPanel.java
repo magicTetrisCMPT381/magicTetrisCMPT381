@@ -34,7 +34,8 @@ public class StatusPanel extends JPanel {
 	private JLabel lblDebuff;
 	private JLabel lblItems;
 	private JLabel lblNextPiece;
-	private ArrayList<JLabel> constantLabels;
+	private JLabel lblPlayerScore;
+	private ArrayList<JLabel> listOfLabels;
 	
 	public StatusPanel() {
 		this.setBackground(Color.BLACK);
@@ -50,13 +51,15 @@ public class StatusPanel extends JPanel {
 		lblDebuff = new JLabel(DEBUFF_STRING);
 		lblItems = new JLabel(ITEMS_STRING);
 		lblNextPiece = new JLabel(NEXTPIECE_STRING);
-		constantLabels = new ArrayList<JLabel>();
-		constantLabels.add(lblItems);
-		constantLabels.add(lblNextPiece);
-		constantLabels.add(lblSpeed);
-		constantLabels.add(lblScore);
-		constantLabels.add(lblBuff);
-		constantLabels.add(lblDebuff);
+		lblPlayerScore = new JLabel("000000");
+		listOfLabels = new ArrayList<JLabel>();
+		listOfLabels.add(lblItems);
+		listOfLabels.add(lblNextPiece);
+		listOfLabels.add(lblSpeed);
+		listOfLabels.add(lblScore);
+		listOfLabels.add(lblPlayerScore);
+		listOfLabels.add(lblBuff);
+		listOfLabels.add(lblDebuff);
 		
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -68,7 +71,7 @@ public class StatusPanel extends JPanel {
 		c.gridwidth = 1;
 		c.ipadx = 10;
 		c.ipady = 10;
-		for (JLabel label : constantLabels) {
+		for (JLabel label : listOfLabels) {
 			label.setBackground(Color.BLACK);
 			label.setForeground(Color.WHITE);
 			this.add(label,c);
