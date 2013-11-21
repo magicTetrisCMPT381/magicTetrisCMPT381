@@ -25,8 +25,10 @@ public class playerTimerTask extends TimerTask{
 	@Override
 	public void run() {
 		model.moveCurrentPieceDown();
-		model.clearLines();
-		panel.repaint();
+		if (!model.isGameOver()) {
+			model.clearLines();
+			panel.repaint();
+		}
 
 		
 	}

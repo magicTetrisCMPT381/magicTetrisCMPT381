@@ -73,6 +73,10 @@ public class BoardPanelModel {
 	 */
 	private Color nextPieceColor;
 	
+	private Player player;
+	
+	private boolean isGameOver;
+	
 	public BoardPanelModel() {
 		random = new Random();
 		board = new SingleBlock[TOTAL_ROW_COUNT][COLUMN_COUNT];
@@ -146,6 +150,7 @@ public class BoardPanelModel {
 		public void reset() {
 			this.isFrozen=false;
 			this.isOccupied=false;
+			this.color = Color.BLACK;
 		}
 		/**
 		 * Clear this block.
@@ -247,6 +252,9 @@ public class BoardPanelModel {
 	 * 
 	 */
 	public void rotateCurrentPiece(){
+		if (isGameOver) {
+			return;
+		}
 		// The piece only has four rotate statuses.
 		int rotate = (currentPieceRotate +1) % 4;
 		// Check if we are able to rotate this block.
@@ -260,6 +268,9 @@ public class BoardPanelModel {
 
 	
 	public void moveCurrentPieceLeft() {
+		if (isGameOver) {
+			return;
+		}
 		boolean ableToMove = checkPosition(currentPiece, 
 				currentPieceCol - 1 , 
 				currentPieceRow, 
@@ -271,6 +282,9 @@ public class BoardPanelModel {
 	}
 	
 	public void moveCurrentPieceRight() {
+		if (isGameOver) {
+			return;
+		}
 		boolean ableToMove = checkPosition(currentPiece, 
 				currentPieceCol + 1 , 
 				currentPieceRow, 
@@ -281,6 +295,9 @@ public class BoardPanelModel {
 	}
 	
 	public synchronized void moveCurrentPieceDown(){
+		if (isGameOver) {
+			return;
+		}
 		boolean ableToMove = checkPosition(currentPiece, 
 				currentPieceCol, 
 				currentPieceRow + 1, 
@@ -291,6 +308,12 @@ public class BoardPanelModel {
 		}
 		// If not able to move down, the piece must hit something. Add this piece and release next piece.
 		else {
+			int[][] points = getPoints(currentPiece, currentPieceRotate, currentPieceRow, currentPieceCol);
+			isGameOver = checkGameOver(points);
+			if (isGameOver) {
+				player.gameOver();
+				return;
+			}
 			addPieceToBoard(currentPiece, currentPieceColor, currentPieceRotate);
 			if (nextPiece == null) {
 				this.nextPiece = createNextPiece();
@@ -299,6 +322,17 @@ public class BoardPanelModel {
 		}
 	}
 	
+
+	private boolean checkGameOver(int[][] points) {
+		for (int i = 0; i < 4; i++) {
+			if (points[i][0] <= 1) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
+
 	/**
 	 * Add a piece to board. Will not check position.
 	 * @param piecePattern the piece's pattern.
@@ -426,6 +460,21 @@ public class BoardPanelModel {
 		return coordToCheck;
 	}
 
+	public void reset() {
+		for (SingleBlock[] lineBlocks : board) {
+			for (SingleBlock block : lineBlocks) {
+				block.reset();				
+			}
+		}
+		
+		currentPiece = null;
+		currentPieceCol = -1;
+		currentPieceRow = -1;
+		currentPieceColor = null;
+		currentPieceRotate = 0;
+		nextPiece = null;
+		nextPieceColor = null;
+	}
 	public Color getCurrentPieceColor() {
 		return currentPieceColor;
 	}
@@ -461,6 +510,18 @@ public class BoardPanelModel {
 
 	public void setCurrentPieceRow(int currentPieceRow) {
 		this.currentPieceRow = currentPieceRow;
+	}
+
+	public boolean isGameOver() {
+		return isGameOver;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	
 	

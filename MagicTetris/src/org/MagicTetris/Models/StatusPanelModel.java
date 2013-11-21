@@ -18,7 +18,7 @@ public class StatusPanelModel {
 	/**
 	 * The speed of block dropping.
 	 */
-	private int speed;
+	private float speed;
 	
 	/**
 	 * Player's items.
@@ -73,7 +73,7 @@ public class StatusPanelModel {
 		return score;
 	}
 
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
@@ -93,7 +93,7 @@ public class StatusPanelModel {
 		this.score = score;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 
