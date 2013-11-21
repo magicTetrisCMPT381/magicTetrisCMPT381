@@ -35,6 +35,11 @@ public class StatusPanel extends JPanel {
 	private JLabel lblItems;
 	private JLabel lblNextPiece;
 	private JLabel lblPlayerScore;
+	private JLabel lblPlayerSpeed;
+	private JLabel lblPlayerBuff;
+	private JLabel lblPlayerDebuff;
+	private JLabel lblPlayerItems;
+	private JLabel lblPlayerNextPiece;
 	private ArrayList<JLabel> listOfLabels;
 	
 	public StatusPanel() {
@@ -52,14 +57,24 @@ public class StatusPanel extends JPanel {
 		lblItems = new JLabel(ITEMS_STRING);
 		lblNextPiece = new JLabel(NEXTPIECE_STRING);
 		lblPlayerScore = new JLabel("000000");
+		lblPlayerSpeed = new JLabel("000000");
+		lblPlayerBuff = new JLabel("Work In Progress...");
+		lblPlayerDebuff = new JLabel("Work In Progress...");
+		lblPlayerItems = new JLabel("Work In Progress...");
+		lblPlayerNextPiece = new JLabel();
 		listOfLabels = new ArrayList<JLabel>();
 		listOfLabels.add(lblItems);
+		listOfLabels.add(lblPlayerItems);
 		listOfLabels.add(lblNextPiece);
+		listOfLabels.add(lblPlayerNextPiece);
 		listOfLabels.add(lblSpeed);
+		listOfLabels.add(lblPlayerSpeed);
 		listOfLabels.add(lblScore);
 		listOfLabels.add(lblPlayerScore);
 		listOfLabels.add(lblBuff);
+		listOfLabels.add(lblPlayerBuff);
 		listOfLabels.add(lblDebuff);
+		listOfLabels.add(lblPlayerDebuff);
 		
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -67,6 +82,7 @@ public class StatusPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.ipadx = 10;
@@ -78,6 +94,13 @@ public class StatusPanel extends JPanel {
 			c.gridy += 1;
 		}
 	}
+	
+	public void update() {
+		if (model != null) {
+			lblPlayerScore.setText(String.valueOf(model.getScore()));
+		}
+	}
+	
 	public StatusPanelModel getModel() {
 		return model;
 	}
