@@ -15,16 +15,14 @@ public class Player {
 	private StatusPanelModel playerStatusPanel;
 	private BoardPanelModel playerBoardPanel;
 	private PlayerController playerController;
-	private playerTimerTask timer;
-	private float playerSpeed;
+	private playerTimerTask timerTask;
 	
 	public Player()
 	{
 		playerStatusPanel = new StatusPanelModel();
 		playerBoardPanel = new BoardPanelModel();
-		timer = new playerTimerTask();
-		playerController = new PlayerController(playerBoardPanel,timer);
-		playerSpeed = 1;
+		timerTask = new playerTimerTask(playerBoardPanel);
+		playerController = new PlayerController(playerBoardPanel,timerTask);
 	}
 
 	public void updateGame(){

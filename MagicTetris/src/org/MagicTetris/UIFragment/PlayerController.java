@@ -42,6 +42,7 @@ public class PlayerController implements KeyListener {
 	 * store current speed
 	 */
 	private float currentSpeed;
+	private float tempSpeed;
 
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
@@ -63,6 +64,8 @@ public class PlayerController implements KeyListener {
 		changeItem = KeyEvent.VK_E;
 		this.boardModel = board;
 		this.timer = timer;
+		currentSpeed = 1;
+		tempSpeed = 1;
 		
 	}	
 
@@ -79,8 +82,8 @@ public class PlayerController implements KeyListener {
 		}
 		
 		if(arg0.getKeyCode() == down){
-			currentSpeed = timer.getDropSpeed();
-			timer.setDropSpeed(2*currentSpeed);  //change speed to  2* current speed
+			tempSpeed = currentSpeed;
+			currentSpeed =2*currentSpeed;
 		}
 		
 		if(arg0.getKeyCode() == left){
@@ -103,7 +106,7 @@ public class PlayerController implements KeyListener {
 	public void keyReleased(KeyEvent arg0) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
 		if(arg0.getKeyCode() == down){
-			timer.setDropSpeed(currentSpeed);
+			currentSpeed = tempSpeed;
 		}
 
 		
@@ -114,6 +117,14 @@ public class PlayerController implements KeyListener {
 		// 	System.out.println("Released: changeItem");
 		
 
+	}
+
+	public float getCurrentSpeed() {
+		return currentSpeed;
+	}
+
+	public void setCurrentSpeed(float currentSpeed) {
+		this.currentSpeed = currentSpeed;
 	}
 
 
