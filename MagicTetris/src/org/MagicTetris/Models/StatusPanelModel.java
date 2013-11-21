@@ -1,5 +1,7 @@
 package org.MagicTetris.Models;
 
+import java.awt.Color;
+
 import org.MagicTetris.GameItems.MagicItem;
 
 /**
@@ -40,6 +42,8 @@ public class StatusPanelModel {
 	 */
 	private Integer[][] nextPiece;
 	
+	private Color nextPieceColor;
+	
 	public StatusPanelModel()
 	{
 		score = 0;
@@ -48,6 +52,7 @@ public class StatusPanelModel {
 		buff = null;
 		debuff = null;
 		nextPiece = null;
+		nextPieceColor = Color.BLACK;
 	}
 	
 	/**
@@ -67,6 +72,20 @@ public class StatusPanelModel {
 	 	items[0] = items[1];
 	 	items[1] = items[2];
 	 	items[2] = item;		 	
+	}
+
+	public MagicItem useItem(){
+		MagicItem item = items[0];
+		items[0] = items[1];
+		items[1] = items[2];
+		items[2] = null;
+		return item;
+	}
+
+	public void clearItem() {
+		for (int i = 0; i < items.length; i++) {
+			items[i] = null;
+		}
 	}
 
 	public int getScore() {
@@ -105,12 +124,6 @@ public class StatusPanelModel {
 		this.debuff = debuff;
 	}
 
-	public void clearItem() {
-		for (int i = 0; i < items.length; i++) {
-			items[i] = null;
-		}
-	}
-
 	public Integer[][] getNextPiece() {
 		return nextPiece;
 	}
@@ -119,12 +132,12 @@ public class StatusPanelModel {
 		this.nextPiece = nextPiece;
 	}
 	
-	public MagicItem useItem(){
-		MagicItem item = items[0];
-		items[0] = items[1];
-		items[1] = items[2];
-		items[2] = null;
-		return item;
+	public Color getNextPieceColor() {
+		return nextPieceColor;
+	}
+
+	public void setNextPieceColor(Color nextPieceColor) {
+		this.nextPieceColor = nextPieceColor;
 	}
 
 }
