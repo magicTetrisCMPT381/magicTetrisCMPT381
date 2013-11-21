@@ -51,7 +51,7 @@ public class StatusPanel extends JPanel {
 	public StatusPanel() {
 		this.setBackground(Color.BLACK);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		Dimension d = new Dimension(300, 
+		Dimension d = new Dimension(200, 
 				BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE);
 		this.setPreferredSize(d);
 		this.setLayout(new GridBagLayout());		
