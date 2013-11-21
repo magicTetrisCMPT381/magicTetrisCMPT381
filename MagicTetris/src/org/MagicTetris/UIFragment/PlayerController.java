@@ -45,7 +45,7 @@ public class PlayerController implements KeyListener {
 	private float currentSpeed;
 	private Player player;
 	
-	private final float MAX_SPEED = 1000; 
+	private final float MAX_SPEED = 75; 
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
 	 */
@@ -57,13 +57,12 @@ public class PlayerController implements KeyListener {
 	 */
 	private StatusPanelModel statusModel;
 	
+	private boolean moveDown;
+	private boolean moveLeft;
+	private boolean moveRight;
+	private boolean moveRotate;
+	
 	public PlayerController(BoardPanelModel board,playerTimerTask timer,Player player) {
-//		rotate = KeyEvent.VK_W;
-//		down = KeyEvent.VK_S;
-//		left = KeyEvent.VK_A;
-//		right = KeyEvent.VK_D;
-//		useItem = KeyEvent.VK_Q;
-//		changeItem = KeyEvent.VK_E;
 		this.boardModel = board;
 		this.timer = timer;
 		currentSpeed = 1;
@@ -99,27 +98,21 @@ public class PlayerController implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == rotate){
-			boardModel.rotateCurrentPiece();
-			player.getBoardPanel().repaint();
+			moveRotate = true;
 		}
 		if(e.getKeyCode() == down){
-
-			if (currentSpeed >= MAX_SPEED) {
-				currentSpeed = MAX_SPEED;
-			}
-			player.setTimer();
-			player.getBoardPanel().repaint();
+			moveDown = true;
 		}
 		
 		if(e.getKeyCode() == left){
-			boardModel.moveCurrentPieceLeft();
-			player.getBoardPanel().repaint();
+			moveLeft = true;
 		}
 		
 		if(e.getKeyCode() == right){
-			boardModel.moveCurrentPieceRight();
-			player.getBoardPanel().repaint();
+			moveRight = true;
 		}
+		
+		movePiece();
 		// if(arg0.getKeyCode() == useItem)
 		// 	boardModel.getCurrentPieceRotate();
 		
@@ -132,12 +125,19 @@ public class PlayerController implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
-		if(e.getKeyCode() == down){
-			currentSpeed = player.getSpeed();
-			player.setTimer();
+		if(e.getKeyCode() == rotate){
+			moveRotate = false;
 		}
-
-		
+		if(e.getKeyCode() == down){
+			moveDown = false;
+		}
+		if(e.getKeyCode() == left){
+			moveLeft = false;
+		}
+		if(e.getKeyCode() == right){
+			moveRight = false;
+		}
+		movePiece();
 		// if(arg0.getKeyCode() == useItem)
 		// 	System.out.println("Released: useItem");
 		
@@ -153,6 +153,38 @@ public class PlayerController implements KeyListener {
 
 	public void setCurrentSpeed(float currentSpeed) {
 		this.currentSpeed = currentSpeed;
+	}
+	
+	private void movePiece(){
+		if (moveRotate) {
+			boardModel.rotateCurrentPiece();
+		}
+		
+		if (moveDown) {
+			System.out.println("down");
+			currentSpeed = MAX_SPEED;
+			player.setTimer();
+		}
+		else {
+			if (currentSpeed != player.getSpeed()) {
+				currentSpeed = player.getSpeed();
+				player.setTimer();
+			}			
+		}
+		
+		
+		if (moveLeft) {
+			System.out.println("left");
+			boardModel.moveCurrentPieceLeft();
+		}
+		
+		if (moveRight) {
+			System.out.println("right");
+			boardModel.moveCurrentPieceRight();
+		}
+		
+		
+		player.getBoardPanel().repaint();
 	}
 
 
