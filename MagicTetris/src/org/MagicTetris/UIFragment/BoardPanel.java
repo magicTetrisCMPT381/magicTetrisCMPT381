@@ -84,8 +84,6 @@ public class BoardPanel extends JPanel {
 			for (int patternRow = 0; patternRow < 4; patternRow++) {
 				if (pattern[rotate][patternRow*4 + patternCol] == 1 &&
 						(row + patternRow) >= BoardPanelModel.HIDDEN_ROW_COUNT) {
-					System.out.println("Draw on: row " + (row + patternRow - BoardPanelModel.HIDDEN_ROW_COUNT) + 
-							" col: " + (col + patternCol));
 					drawBlock(patternColor, 
 							row + patternRow - BoardPanelModel.HIDDEN_ROW_COUNT, 
 							col + patternCol, g);
@@ -104,7 +102,7 @@ public class BoardPanel extends JPanel {
 			SingleBlock[][] board = model.getBoard();
 			for (int row = BoardPanelModel.HIDDEN_ROW_COUNT; row < BoardPanelModel.TOTAL_ROW_COUNT; row++) {
 				for (int col = 0; col < BoardPanelModel.COLUMN_COUNT; col++) {
-					drawBlock(board[row][col].getColor(), row, col, g);
+					drawBlock(board[row][col].getColor(), row - BoardPanelModel.HIDDEN_ROW_COUNT, col, g);
 				}
 			}
 		}

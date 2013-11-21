@@ -3,6 +3,8 @@ package org.MagicTetris.util;
 import java.util.TimerTask;
 
 import org.MagicTetris.Models.BoardPanelModel;
+import org.MagicTetris.Models.Player;
+import org.MagicTetris.UIFragment.BoardPanel;
 
 /**
  * This class is to control the dropping speed of blocks.
@@ -11,17 +13,19 @@ import org.MagicTetris.Models.BoardPanelModel;
  *
  */
 public class playerTimerTask extends TimerTask{
-	private BoardPanelModel paleyBoard;
-	
-	public playerTimerTask(BoardPanelModel B) {
+	private BoardPanelModel model;
+	private BoardPanel panel;
 
-		paleyBoard = B;
+	
+	public playerTimerTask(BoardPanel p, BoardPanelModel m) {
+		panel = p;
+		model = m;
 	}
 
 	@Override
 	public void run() {
-		paleyBoard.moveCurrentPieceDown();	
-		System.out.println("Tiemr Test");
+		model.moveCurrentPieceDown();	
+		panel.repaint();
 
 		
 	}

@@ -308,7 +308,7 @@ public class BoardPanelModel {
 	 */
 	public void addPieceToBoard(Integer[][] piecePattern, Color pieceColor,  int rotate) {
 		Integer[] piece = piecePattern[rotate];
-		for (int i = 0; i < piece.length; i++) {
+		for (int i = 0; i < 16; i++) {
 			if (piece[i] == 1) {
 				board[currentPieceRow + i / 4]
 					[currentPieceCol + i % 4]
@@ -319,6 +319,7 @@ public class BoardPanelModel {
 			}
 			
 		}
+
 	}
 
 	/**
@@ -355,12 +356,16 @@ public class BoardPanelModel {
 		}
 		
 		for (int[] is : coordToCheck) {
-			if (is[1] >= COLUMN_COUNT || is[1] < 0 ||
-					is[0] >= TOTAL_ROW_COUNT || is[0] < 0) {
+			
+			
+			if (is[1] >= COLUMN_COUNT -1 || is[1] < 0 ||
+					is[0] >= TOTAL_ROW_COUNT  || is[0] < 0) {
+				System.out.println("检查边框: row " + is[0] +", col " + is[1] );
 				return false;
 			}
 			
 			if (board[is[0]][is[1]].isOccupied) {
+				System.out.println("检查占用: row " + is[0] +", col " + is[1] );
 				return false;
 			}
 		}

@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import org.MagicTetris.Models.BoardPanelModel;
+import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
 import org.MagicTetris.util.playerTimerTask;
 
@@ -43,7 +44,7 @@ public class PlayerController implements KeyListener {
 	 */
 	private float currentSpeed;
 	private float tempSpeed;
-
+	private Player player;
 	/**
 	 * the {@link BoardPanelModel} this controller associated with.
 	 */
@@ -55,7 +56,7 @@ public class PlayerController implements KeyListener {
 	 */
 	private StatusPanelModel statusModel;
 	
-	public PlayerController(BoardPanelModel board,playerTimerTask timer) {
+	public PlayerController(BoardPanelModel board,playerTimerTask timer,Player player) {
 		rotate = KeyEvent.VK_W;
 		down = KeyEvent.VK_S;
 		left = KeyEvent.VK_A;
@@ -64,9 +65,9 @@ public class PlayerController implements KeyListener {
 		changeItem = KeyEvent.VK_E;
 		this.boardModel = board;
 		this.timer = timer;
-		currentSpeed = 1;
+		currentSpeed = 2;
 		tempSpeed = 1;
-		
+		this.player = player;
 	}	
 
 	@Override
@@ -74,16 +75,18 @@ public class PlayerController implements KeyListener {
 			
 	}
 
-	// TODO: replaced by actual code.
+
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if(arg0.getKeyCode() == rotate){
-			boardModel.getCurrentPieceRotate();
+			boardModel.rotateCurrentPiece();
 		}
 		
 		if(arg0.getKeyCode() == down){
 			tempSpeed = currentSpeed;
 			currentSpeed =2*currentSpeed;
+			player.setTimer();
+			
 		}
 		
 		if(arg0.getKeyCode() == left){
@@ -107,6 +110,7 @@ public class PlayerController implements KeyListener {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
 		if(arg0.getKeyCode() == down){
 			currentSpeed = tempSpeed;
+			player.setTimer();
 		}
 
 		
