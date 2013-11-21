@@ -58,18 +58,38 @@ public class PlayerController implements KeyListener {
 	private StatusPanelModel statusModel;
 	
 	public PlayerController(BoardPanelModel board,playerTimerTask timer,Player player) {
-		rotate = KeyEvent.VK_W;
-		down = KeyEvent.VK_S;
-		left = KeyEvent.VK_A;
-		right = KeyEvent.VK_D;
-		useItem = KeyEvent.VK_Q;
-		changeItem = KeyEvent.VK_E;
+//		rotate = KeyEvent.VK_W;
+//		down = KeyEvent.VK_S;
+//		left = KeyEvent.VK_A;
+//		right = KeyEvent.VK_D;
+//		useItem = KeyEvent.VK_Q;
+//		changeItem = KeyEvent.VK_E;
 		this.boardModel = board;
 		this.timer = timer;
 		currentSpeed = 1;
 		this.player = player;
 	}	
 
+	public void setDefaultControlKeys(int DefaultKeyGroup){
+		if (DefaultKeyGroup == 1) {
+			this.rotate = KeyEvent.VK_W;
+			this.down = KeyEvent.VK_S;
+			this.left = KeyEvent.VK_A;
+			this.right = KeyEvent.VK_D;
+			this.useItem = KeyEvent.VK_Q;
+			this.changeItem = KeyEvent.VK_E;
+		}
+		
+		else {
+			this.rotate = KeyEvent.VK_I;
+			this.down = KeyEvent.VK_K;
+			this.left = KeyEvent.VK_J;
+			this.right = KeyEvent.VK_L;
+			this.useItem = KeyEvent.VK_ALT;
+			this.changeItem = KeyEvent.VK_CONTROL;
+		}
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 			
@@ -77,13 +97,13 @@ public class PlayerController implements KeyListener {
 
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == rotate){
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == rotate){
 			boardModel.rotateCurrentPiece();
 			player.getBoardPanel().repaint();
 		}
-		
-		if(arg0.getKeyCode() == down){
+		if(e.getKeyCode() == down){
+
 			if (currentSpeed >= MAX_SPEED) {
 				currentSpeed = MAX_SPEED;
 			}
@@ -91,12 +111,12 @@ public class PlayerController implements KeyListener {
 			player.getBoardPanel().repaint();
 		}
 		
-		if(arg0.getKeyCode() == left){
+		if(e.getKeyCode() == left){
 			boardModel.moveCurrentPieceLeft();
 			player.getBoardPanel().repaint();
 		}
 		
-		if(arg0.getKeyCode() == right){
+		if(e.getKeyCode() == right){
 			boardModel.moveCurrentPieceRight();
 			player.getBoardPanel().repaint();
 		}
@@ -110,9 +130,9 @@ public class PlayerController implements KeyListener {
 
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent e) {
 		//ToDo: BUG: When real speed change in the period, speed will set incorrectly
-		if(arg0.getKeyCode() == down){
+		if(e.getKeyCode() == down){
 			currentSpeed = player.getSpeed();
 			player.setTimer();
 		}
