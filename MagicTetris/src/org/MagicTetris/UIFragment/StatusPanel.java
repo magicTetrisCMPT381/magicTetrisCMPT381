@@ -98,6 +98,7 @@ public class StatusPanel extends JPanel {
 	public void update() {
 		if (model != null) {
 			lblPlayerScore.setText(String.valueOf(model.getScore()));
+			lblPlayerSpeed.setText(String.valueOf(model.getSpeed()));
 		}
 	}
 	
