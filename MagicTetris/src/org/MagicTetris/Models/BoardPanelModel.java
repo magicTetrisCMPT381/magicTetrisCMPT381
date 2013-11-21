@@ -280,7 +280,7 @@ public class BoardPanelModel {
 		}
 	}
 	
-	public void moveCurrentPieceDown(){
+	public synchronized void moveCurrentPieceDown(){
 		boolean ableToMove = checkPosition(currentPiece, 
 				currentPieceCol, 
 				currentPieceRow + 1, 
@@ -331,7 +331,7 @@ public class BoardPanelModel {
 	 * @param rotate the rotate status of the piece.
 	 * @return
 	 */
-	public boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
+	public synchronized boolean checkPosition(Integer[][] piece, int col, int row, int rotate) {
 		// check if the piece is moving out of board.
 		if (col >= COLUMN_COUNT || col < 0 ||
 				row >= TOTAL_ROW_COUNT || row < 0) {
@@ -343,29 +343,22 @@ public class BoardPanelModel {
 			return false;
 		}
 		
-		// There should be 4 coordinates to check.
-		int[][] coordToCheck = new int[4][2];
-		int coordGroupNo = 0;
-		for (int i = 0; i < 16; i++) {
-			if (piece[rotate][i] == 1) {
-				// col + i / 4 is column number; row + i % 4 is row number.
-				coordToCheck[coordGroupNo][0] = row + i % 4;
-				coordToCheck[coordGroupNo][1] = col + i / 4;
-				coordGroupNo++;
-			}
-		}
-		
+		int[][] coordToCheck = getPoints(piece, rotate, row, col);
+//		for (int[] is : coordToCheck) {
+//			System.out.println("检查点：行" + is[0] + "，列" + is[1]);
+//		}
+//		System.out.println("----------");
 		for (int[] is : coordToCheck) {
 			
 			
-			if (is[1] >= COLUMN_COUNT -1 || is[1] < 0 ||
+			if (is[1] >= COLUMN_COUNT || is[1] < 0 ||
 					is[0] >= TOTAL_ROW_COUNT  || is[0] < 0) {
-				System.out.println("检查边框: row " + is[0] +", col " + is[1] );
+//				System.out.println("检查边框: row " + is[0] +", col " + is[1] );
 				return false;
 			}
 			
 			if (board[is[0]][is[1]].isOccupied) {
-				System.out.println("检查占用: row " + is[0] +", col " + is[1] );
+//				System.out.println("检查占用: row " + is[0] +", col " + is[1] );
 				return false;
 			}
 		}
@@ -408,9 +401,29 @@ public class BoardPanelModel {
 			for (int col = 0; col < COLUMN_COUNT; col++) {
 				board[row+1][col].isFrozen = board[row][col].isFrozen;
 				board[row+1][col].isOccupied = board[row][col].isOccupied;
+				board[row+1][col].color = board[row][col].color;
 			}
 		}
 		return true;
+	}
+	
+	private synchronized int[][] getPoints(Integer[][] pattern, int rotate, int row, int col){
+		int[][] coordToCheck = new int[4][2];
+		int coordGroupNo = 0;
+		for (int i = 0; i < 16; i++) {
+			if (pattern[rotate][i] == 1) {
+				// i / 4 is row number;
+				// i % 4 is column number.
+				coordToCheck[coordGroupNo][0] = i / 4;
+				coordToCheck[coordGroupNo][1] = i % 4;
+				coordGroupNo++;
+			}
+		}
+		for (int i = 0; i < coordToCheck.length; i++) {
+			coordToCheck[i][0] += row;
+			coordToCheck[i][1] += col;
+		}
+		return coordToCheck;
 	}
 
 	public Color getCurrentPieceColor() {
