@@ -61,7 +61,8 @@ public class MagicTetris extends JFrame {
 		frame.addKeyListener(player2.getPlayerController());
 
 		
-		frame.setSize(1200,800);
+		frame.setSize(1000,700);
+		frame.setResizable(false);
 		frame.setVisible(true);
 		
 		player1.startGame();
