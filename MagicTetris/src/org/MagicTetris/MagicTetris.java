@@ -1,7 +1,9 @@
 package org.MagicTetris;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
@@ -15,25 +17,38 @@ import org.MagicTetris.UIFragment.BoardPanel;
  * @author Da
  *
  */
+@SuppressWarnings("serial")
 public class MagicTetris extends JFrame {
 
-	public MagicTetris(String string) {
-		super(string);
-	}
+	Player player1;
+	Player player2;
+	
+	public MagicTetris() {
+		super("Magic Tetris");
+		getContentPane().setBackground(Color.BLACK);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new GridBagLayout());
+		
+		createPlayer();
+		
+		add(player1.getBoardPanel());
+		add(player1.getStatusPanel());
+		add(player2.getBoardPanel());
+		add(player2.getStatusPanel());
+		setLayout(new GridLayout(1,0));
+		requestFocus();
+		
+		addKeyListener(player1.getPlayerController());
+		addKeyListener(player2.getPlayerController());
+		pack();
+		setResizable(false);
+		setVisible(true);
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		MagicTetris frame = new MagicTetris("Magic Tetris");
-		frame.getContentPane().setBackground(Color.BLACK);
-		Player player1 = new Player();
-		Player player2 = new Player();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		frame.setLayout(new GridBagLayout());
-		
-		
+	}
+	
+	public void createPlayer() {
+		player1 = new Player();
+		player2 = new Player();
 		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
 		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
 		
@@ -49,24 +64,34 @@ public class MagicTetris extends JFrame {
 		
 		player1.getPlayerController().setDefaultControlKeys(1);
 		player2.getPlayerController().setDefaultControlKeys(2);
-		
-		frame.add(player1.getBoardPanel());
-		frame.add(player1.getStatusPanel());
-		frame.add(player2.getBoardPanel());
-		frame.add(player2.getStatusPanel());
-		
-		frame.requestFocus();
-		
-		frame.addKeyListener(player1.getPlayerController());
-		frame.addKeyListener(player2.getPlayerController());
-
-		
-		frame.setSize(1000,700);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		
+	}
+	
+	public void startGame() {
 		player1.startGame();
 		player2.startGame();
+	}
+	
+	
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		MagicTetris frame = new MagicTetris();
+		frame.startGame();
+		
+		
+		
+
+		
+
+		
+
+		
+		
+
+		
+
 
 	}
 
