@@ -161,7 +161,6 @@ public class PlayerController implements KeyListener {
 		}
 		
 		if (moveDown) {
-			System.out.println("down");
 			currentSpeed = MAX_SPEED;
 			player.setTimer();
 		}
@@ -174,12 +173,10 @@ public class PlayerController implements KeyListener {
 		
 		
 		if (moveLeft) {
-			System.out.println("left");
 			boardModel.moveCurrentPieceLeft();
 		}
 		
 		if (moveRight) {
-			System.out.println("right");
 			boardModel.moveCurrentPieceRight();
 		}
 		

@@ -13,6 +13,7 @@ import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
  * @author Da
  *
  */
+@SuppressWarnings("serial")
 public class BoardPanel extends JPanel {
 	/**
 	 * The model associated with this board.
