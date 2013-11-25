@@ -4,13 +4,17 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
 import org.MagicTetris.UIFragment.BoardPanel;
+import org.MagicTetris.UIFragment.OptionPanel;
 
 /**
  * Entry point. Game starts here.
@@ -20,8 +24,8 @@ import org.MagicTetris.UIFragment.BoardPanel;
 @SuppressWarnings("serial")
 public class MagicTetris extends JFrame {
 
-	Player player1;
-	Player player2;
+	private Player player1;
+	private Player player2;
 	
 	public MagicTetris() {
 		super("Magic Tetris");
@@ -30,23 +34,19 @@ public class MagicTetris extends JFrame {
 		setLayout(new GridBagLayout());
 		
 		createPlayer();
-		
-		add(player1.getBoardPanel());
-		add(player1.getStatusPanel());
-		add(player2.getBoardPanel());
-		add(player2.getStatusPanel());
+		addPanels();
+		addDefaultControls();
+
 		setLayout(new GridLayout(1,0));
 		requestFocus();
 		
-		addKeyListener(player1.getPlayerController());
-		addKeyListener(player2.getPlayerController());
 		pack();
 		setResizable(false);
 		setVisible(true);
 
 	}
 	
-	public void createPlayer() {
+	protected void createPlayer() {
 		player1 = new Player();
 		player2 = new Player();
 		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
@@ -66,6 +66,19 @@ public class MagicTetris extends JFrame {
 		player2.getPlayerController().setDefaultControlKeys(2);
 	}
 	
+	protected void addPanels(){
+		add(player1.getBoardPanel());
+		add(player1.getStatusPanel());
+		add(player2.getBoardPanel());
+		add(player2.getStatusPanel());
+	}
+	
+	protected void addDefaultControls() {
+		addKeyListener(player1.getPlayerController());
+		addKeyListener(player2.getPlayerController());
+		addKeyListener(new mainFrameController(this));
+	}
+	
 	public void startGame() {
 		player1.startGame();
 		player2.startGame();
@@ -78,21 +91,31 @@ public class MagicTetris extends JFrame {
 	 */
 	public static void main(String[] args) {
 		MagicTetris frame = new MagicTetris();
-		frame.startGame();
-		
-		
-		
+	}
+	
+	private class mainFrameController extends KeyAdapter{
+		private final int START_KEY = KeyEvent.VK_ENTER;
+		private final int OPTION_KEY = KeyEvent.VK_ESCAPE;
+		private MagicTetris frame;
 
+		public mainFrameController(MagicTetris frame) {
+			this.frame = frame;
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == START_KEY) {
+				frame.startGame();
+			}
+			if (e.getKeyCode() == OPTION_KEY) {
+				OptionPanel test = new OptionPanel();
+				int selection = JOptionPane.showConfirmDialog(null, 
+						test, 
+						"Options", 
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE);
+			}
+		}
 		
-
-		
-
-		
-		
-
-		
-
-
 	}
 
 }
