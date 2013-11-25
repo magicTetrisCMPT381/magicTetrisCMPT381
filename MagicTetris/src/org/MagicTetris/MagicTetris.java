@@ -8,11 +8,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
 import org.MagicTetris.UIFragment.BoardPanel;
+import org.MagicTetris.UIFragment.OptionPanel;
 
 /**
  * Entry point. Game starts here.
@@ -89,11 +91,10 @@ public class MagicTetris extends JFrame {
 	 */
 	public static void main(String[] args) {
 		MagicTetris frame = new MagicTetris();
-//		frame.startGame();
 	}
 	
 	private class mainFrameController extends KeyAdapter{
-		private final int DEFAULT_START_KEY = KeyEvent.VK_ENTER;
+		private final int START_KEY = KeyEvent.VK_ENTER;
 		private final int OPTION_KEY = KeyEvent.VK_ESCAPE;
 		private MagicTetris frame;
 
@@ -102,12 +103,16 @@ public class MagicTetris extends JFrame {
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == DEFAULT_START_KEY) {
+			if (e.getKeyCode() == START_KEY) {
 				frame.startGame();
-				return;
 			}
 			if (e.getKeyCode() == OPTION_KEY) {
-				
+				OptionPanel test = new OptionPanel();
+				int selection = JOptionPane.showConfirmDialog(null, 
+						test, 
+						"Options", 
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 		
