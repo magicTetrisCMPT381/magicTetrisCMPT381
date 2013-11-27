@@ -69,7 +69,7 @@ public class StatusPanel extends JPanel {
 		lblPlayerItems = new JLabel("Work In Progress...");
 		lblPlayerNextPiece = new JLabel();
 		
-		lblPlayerNextPiece.setText("Nothing...");;
+
 		lblPlayerNextPiece.setPreferredSize(new Dimension(BoardPanel.BLOCK_SIZE * 4 + 10, BoardPanel.BLOCK_SIZE * 4 + 10));
 		
 		listOfLabels = new ArrayList<JLabel>();
