@@ -1,14 +1,24 @@
 package org.MagicTetris.test;
-import net.java.games.input.*;
 
-public class JXInputTest {
+import de.hardcode.jxinput.JXInputManager;
+import de.hardcode.jxinput.directinput.DirectInputDevice;
+import de.hardcode.jxinput.event.JXInputEventManager;
 
- 	public static void main(String[] args) { 
-		System.out.println("JInput version: " + Version.getVersion()); 
-		ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment(); 
-		Controller[] cs = ce.getControllers(); 
-		for (int i = 0; i < cs.length; i++) 
-			System.out.println(i + ". " + cs[i].getName() + ", " + cs[i].getType() ); 
-		}	  
+public class JXInputTest{
+
+        
+        
+        public static void main(String[] args){
+                
+                System.load("E:\\gitHub\\magicTetrisCMPT381\\MagicTetris\\jxinput.dll");
+                JXInputEventManager.setTriggerIntervall( 50 );
+                for(int i = 0; i < JXInputManager.getNumberOfDevices(); i++){
+                        if(JXInputManager.getJXInputDevice(i).getName().equals("Controller (XBOX 360 For Windows)")){
+                                DirectInputDevice xbox = new DirectInputDevice(i);
+                                System.out.println("This is XBOX");
+                      }
+                }
+
+        }
 
 }
