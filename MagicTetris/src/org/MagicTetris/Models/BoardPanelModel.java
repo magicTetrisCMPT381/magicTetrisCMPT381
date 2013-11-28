@@ -3,6 +3,9 @@ package org.MagicTetris.Models;
 import java.awt.Color;
 import java.util.Random;
 
+import org.MagicTetris.GameItems.MagicItem;
+import org.MagicTetris.GameItems.MagicItemType;
+
 /**
  * Model for BoardPanel.
  * Stores panel data and receive the effect from item use.
@@ -76,6 +79,8 @@ public class BoardPanelModel {
 	private Player player;
 	
 	private boolean isGameOver;
+	
+	private MagicItem item;
 	
 	public BoardPanelModel() {
 		random = new Random();
@@ -314,7 +319,19 @@ public class BoardPanelModel {
 				player.gameOver();
 				return;
 			}
-			addPieceToBoard(currentPiece, currentPieceColor, currentPieceRotate);
+			
+			if (item != null) {
+				if (item.itemType != MagicItemType.BOMB) {
+					addPieceToBoard(currentPiece, currentPieceColor, currentPieceRotate);
+				}
+				else {
+					item.changeBoardModel(this);
+				}
+				
+			}
+			else {
+				addPieceToBoard(currentPiece, currentPieceColor, currentPieceRotate);
+			}
 			if (nextPiece == null) {
 				this.nextPiece = createNextPiece();
 			}

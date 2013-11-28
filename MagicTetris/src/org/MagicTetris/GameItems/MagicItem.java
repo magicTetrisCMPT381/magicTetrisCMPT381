@@ -3,6 +3,8 @@
  */
 package org.MagicTetris.GameItems;
 
+import java.awt.Graphics;
+
 import javax.swing.ImageIcon;
 
 import org.MagicTetris.Models.BoardPanelModel;
@@ -24,6 +26,7 @@ public abstract class MagicItem {
 	 */
 	public final ImageIcon itemIcon;
 	
+	public final MagicItemType itemType;
 
 	/**
 	 * Create a MagicItem.
@@ -31,9 +34,10 @@ public abstract class MagicItem {
 	 * @param name the item's name
 	 * @param icon the item's icon
 	 */
-	public MagicItem(String name, ImageIcon icon){
+	public MagicItem(String name, ImageIcon icon, MagicItemType type){
 		itemName = name;
 		itemIcon = icon;
+		itemType = type;
 	}
 	
 	/**
@@ -49,4 +53,11 @@ public abstract class MagicItem {
 	 * @param model the {@link StatusPanelModel} to be changed.
 	 */
 	public abstract void changeStatusModel(StatusPanelModel model);
+	
+	/**
+	 * This method will draw visual effect for a magic item.
+	 * This method should be override by subclass to show a MagicItem's effect.
+	 * @param g The surface to draw on.
+	 */
+	public abstract void drawEffect(Graphics g);
 }
