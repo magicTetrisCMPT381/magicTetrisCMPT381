@@ -44,8 +44,12 @@ public class OptionPanel extends JPanel {
 		placePrompts(keySetAreas2, 3, 0);
 	}
 	
+	/**
+	 * This method returns a human friendly style of key settings.
+	 * @return
+	 */
 	public String[][] getOptions() {
-		String[][] result = new String[2][8];
+		String[][] result = new String[2][6];
 		int i = 0;
 		for (JTextField key : keySetAreas1) {
 			result[0][i] = key.getText();
@@ -56,6 +60,30 @@ public class OptionPanel extends JPanel {
 		
 		for (JTextField key : keySetAreas2) {
 			result[1][i] = key.getText();
+			i++;
+		}
+		return result;
+	}
+	
+	/**
+	 * This method returns a VK_* style ket settings.
+	 * @return
+	 */
+	public int[][] getKeys() {
+		int[][] result = new int[2][6];
+		int i = 0;
+		keyRetriever k = null;
+		for (JTextField key : keySetAreas1) {
+			k = (keyRetriever) key.getKeyListeners()[0];
+			result[0][i] = k.getKeycode();
+			i++;
+		}
+		
+		i = 0;
+		
+		for (JTextField key : keySetAreas2) {
+			k = (keyRetriever) key.getKeyListeners()[0];
+			result[1][i] = k.getKeycode();
 			i++;
 		}
 		return result;
@@ -115,17 +143,17 @@ public class OptionPanel extends JPanel {
 	private class keyRetriever extends KeyAdapter{
 
 		private JTextField textField;
+		private int keycode;
 		public keyRetriever(JTextField target) {
 			this.textField = target;
 		}
 		@Override
-		public void keyTyped(KeyEvent e) {
-			if (!Character.isLetterOrDigit(e.getKeyChar())) {
-				JOptionPane.showMessageDialog(null, "Must be a number or letter.");
-				return;
-			}
-			String key = String.valueOf(e.getKeyChar()).toUpperCase();
-			textField.setText(key);
+		public void keyPressed(KeyEvent e) {
+			keycode = e.getKeyCode();
+			textField.setText(KeyEvent.getKeyText(e.getKeyCode()));
+		}
+		public int getKeycode() {
+			return keycode;
 		}
 		
 	}

@@ -21,6 +21,12 @@ public class TesterOptionDialog {
 				System.out.println(s);
 			}
 		}
+		int[][] keys = test.getKeys();
+		for (int[] is : keys) {
+			for (int i : is) {
+				System.out.println(i);
+			}
+		}
 		System.out.println(selection);
 		
 	}

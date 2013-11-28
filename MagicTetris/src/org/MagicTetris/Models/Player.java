@@ -53,6 +53,13 @@ public class Player {
 		setTimer();
 	}
 	
+	public void pauseGame() {
+		if (timer != null) {
+			timer.cancel();
+		}
+		
+	}
+	
 	public void setTimer() {
 		if (!boardPanelModel.isGameOver()) {
 			timer.cancel();

@@ -8,7 +8,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
@@ -26,13 +28,12 @@ public class MagicTetris extends JFrame {
 
 	private Player player1;
 	private Player player2;
-	
+	private boolean isPaused;
 	public MagicTetris() {
 		super("Magic Tetris");
 		getContentPane().setBackground(Color.BLACK);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
-		
 		createPlayer();
 		addPanels();
 		addDefaultControls();
@@ -43,7 +44,9 @@ public class MagicTetris extends JFrame {
 		pack();
 		setResizable(false);
 		setVisible(true);
-
+		
+		
+		isPaused = true;
 	}
 	
 	protected void createPlayer() {
@@ -74,14 +77,27 @@ public class MagicTetris extends JFrame {
 	}
 	
 	protected void addDefaultControls() {
+		addKeyListener(new mainFrameController(this));
+	}
+	
+	protected void addPlayerControls(){
 		addKeyListener(player1.getPlayerController());
 		addKeyListener(player2.getPlayerController());
-		addKeyListener(new mainFrameController(this));
+	}
+	
+	protected void removePlayerControls() {
+		removeKeyListener(player1.getPlayerController());
+		removeKeyListener(player2.getPlayerController());
 	}
 	
 	public void startGame() {
 		player1.startGame();
 		player2.startGame();
+	}
+	
+	public void pauseGame(){
+		player1.pauseGame();
+		player2.pauseGame();
 	}
 	
 	
@@ -97,22 +113,35 @@ public class MagicTetris extends JFrame {
 		private final int START_KEY = KeyEvent.VK_ENTER;
 		private final int OPTION_KEY = KeyEvent.VK_ESCAPE;
 		private MagicTetris frame;
-
 		public mainFrameController(MagicTetris frame) {
 			this.frame = frame;
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == START_KEY) {
-				frame.startGame();
+				if (isPaused) {
+					frame.startGame();
+					frame.addPlayerControls();
+					isPaused = false;
+				}
+				else {
+					frame.pauseGame();
+					frame.removePlayerControls();
+					isPaused = true;
+				}
+				
 			}
 			if (e.getKeyCode() == OPTION_KEY) {
+				frame.pauseGame();
 				OptionPanel test = new OptionPanel();
 				int selection = JOptionPane.showConfirmDialog(null, 
 						test, 
 						"Options", 
 						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
+				if (!isPaused) {
+					frame.startGame();
+				}
 			}
 		}
 		
