@@ -54,7 +54,10 @@ public class Player {
 	}
 	
 	public void pauseGame() {
-		timer.cancel();
+		if (timer != null) {
+			timer.cancel();
+		}
+		
 	}
 	
 	public void setTimer() {
