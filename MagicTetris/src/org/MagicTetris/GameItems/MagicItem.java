@@ -26,6 +26,7 @@ public abstract class MagicItem {
 	 */
 	public final ImageIcon itemIcon;
 	
+	public final MagicItemType itemType;
 
 	/**
 	 * Create a MagicItem.
@@ -33,9 +34,10 @@ public abstract class MagicItem {
 	 * @param name the item's name
 	 * @param icon the item's icon
 	 */
-	public MagicItem(String name, ImageIcon icon){
+	public MagicItem(String name, ImageIcon icon, MagicItemType type){
 		itemName = name;
 		itemIcon = icon;
+		itemType = type;
 	}
 	
 	/**
