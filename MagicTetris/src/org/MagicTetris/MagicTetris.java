@@ -139,6 +139,9 @@ public class MagicTetris extends JFrame {
 						"Options", 
 						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
+				if (!isPaused) {
+					frame.startGame();
+				}
 			}
 		}
 		
