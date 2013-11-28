@@ -3,7 +3,10 @@ package org.MagicTetris.UIFragment;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
+
+import org.MagicTetris.GameItems.MagicBomb;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 
@@ -123,7 +126,9 @@ public class BoardPanel extends JPanel {
 			g.translate(5, 5);
 			
 			drawBoard(g);
-			
+			if (model.getItem() != null) {
+				model.getItem().drawEffect(g);
+			}
 			if (model.getCurrentPiece() != null) {
 				drawPiece(model.getCurrentPiece(),
 						model.getCurrentPieceColor(),

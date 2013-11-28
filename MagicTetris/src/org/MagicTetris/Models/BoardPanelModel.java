@@ -540,6 +540,10 @@ public class BoardPanelModel {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+
+	public MagicItem getItem() {
+		return item;
+	}
 	
 	
 }
