@@ -6,7 +6,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import org.MagicTetris.GameItems.MagicBomb;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 

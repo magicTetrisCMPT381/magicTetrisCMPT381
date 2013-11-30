@@ -19,6 +19,7 @@ import org.MagicTetris.Models.StatusPanelModel;
  * @author Da
  *
  */
+@SuppressWarnings("serial")
 public class StatusPanel extends JPanel {
 	private StatusPanelModel model;
 

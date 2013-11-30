@@ -1,9 +1,7 @@
 package org.MagicTetris.Models;
 
-import java.awt.Color;
 import java.util.Timer;
 
-import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 import org.MagicTetris.UIFragment.BoardPanel;
 import org.MagicTetris.UIFragment.PlayerController;
 import org.MagicTetris.UIFragment.StatusPanel;

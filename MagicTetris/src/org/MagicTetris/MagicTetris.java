@@ -1,21 +1,14 @@
 package org.MagicTetris;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
-import org.MagicTetris.Models.StatusPanelModel;
-import org.MagicTetris.UIFragment.BoardPanel;
 import org.MagicTetris.UIFragment.OptionPanel;
 
 /**
