@@ -2,6 +2,7 @@ package org.MagicTetris.Models;
 
 import java.util.Timer;
 
+import org.MagicTetris.GameItems.MagicItem;
 import org.MagicTetris.UIFragment.BoardPanel;
 import org.MagicTetris.UIFragment.PlayerController;
 import org.MagicTetris.UIFragment.StatusPanel;
@@ -24,6 +25,8 @@ public class Player {
 	private Timer timer;
 	private playerTimerTask timerTask;
 	private float speed;
+	private Player opponent;
+	private boolean isProtected;
 
 	
 	public Player()
@@ -42,7 +45,7 @@ public class Player {
 		timerTask = new playerTimerTask(this);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
-		
+		isProtected = false;
 
 	}
 	
@@ -76,6 +79,42 @@ public class Player {
 		boardPanelModel.reset();
 		boardPanel.repaint();
 	}
+	
+	public void useItem() {
+		MagicItem item = statusPanelModel.useItem();
+		if (item == null) {
+			return;
+		}
+		switch (item.itemType) {
+		case BOMB:
+			item.changeBoardModel(opponent.getBoardPanelModel());
+			item.drawEffect(opponent.getBoardPanel().getGraphics());
+			break;
+
+		case BUFF:
+			isProtected = true;
+			item.drawEffect(boardPanel.getGraphics());
+			break;
+			
+		case DEBUFF:
+			item.changeBoardModel(boardPanelModel);
+			item.changeStatusModel(statusPanelModel);
+			item.drawEffect(opponent.getBoardPanel().getGraphics());
+			if (this.speed != statusPanelModel.getSpeed()) {
+				setSpeed(statusPanelModel.getSpeed());
+			}
+			break;
+			
+		case FREEZER:
+			item.changeBoardModel(boardPanelModel);
+			item.drawEffect(opponent.getBoardPanel().getGraphics());
+			break;
+			
+		default:
+			break;
+		}
+		
+	}
 
 
 	public PlayerController getPlayerController() {
@@ -105,9 +144,19 @@ public class Player {
 	public float getSpeed() {
 		return speed;
 	}
+	
+	public void setOpponent(Player opponent){
+		this.opponent = opponent;
+	}
+	
+	public Player getOpponent() {
+		return opponent;
+	}
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+		setTimer();
+		statusPanelModel.setSpeed(speed);
 	}
 
 }

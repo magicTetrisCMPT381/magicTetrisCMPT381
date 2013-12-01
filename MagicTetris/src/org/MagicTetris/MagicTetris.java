@@ -45,6 +45,10 @@ public class MagicTetris extends JFrame {
 	protected void createPlayer() {
 		player1 = new Player();
 		player2 = new Player();
+		
+		player1.setOpponent(player2);
+		player2.setOpponent(player1);
+		
 		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
 		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
 		
