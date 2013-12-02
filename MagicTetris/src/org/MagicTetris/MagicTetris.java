@@ -6,9 +6,15 @@ import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLayer;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.plaf.LayerUI;
+
 import org.MagicTetris.Models.Player;
+import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.OptionPanel;
 
 /**
@@ -19,9 +25,13 @@ import org.MagicTetris.UIFragment.OptionPanel;
 @SuppressWarnings("serial")
 public class MagicTetris extends JFrame {
 
-	private Player player1;
-	private Player player2;
+	private Player playerOne;
+	private Player playerTwo;
 	private boolean isPaused;
+	private JLayer<JComponent> playerOneBoard;
+	private JLayer<JComponent> playerTwoBoard;
+	
+
 	public MagicTetris() {
 		super("Magic Tetris");
 		getContentPane().setBackground(Color.BLACK);
@@ -43,34 +53,41 @@ public class MagicTetris extends JFrame {
 	}
 	
 	protected void createPlayer() {
-		player1 = new Player();
-		player2 = new Player();
+		playerOne = new Player();
+		playerTwo = new Player();
 		
-		player1.setOpponent(player2);
-		player2.setOpponent(player1);
+		playerOne.setOpponent(playerTwo);
+		playerTwo.setOpponent(playerOne);
 		
-		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
-		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
+		Integer[][] piece1 = playerOne.getBoardPanelModel().createNextPiece();
+		Integer[][] piece2 = playerTwo.getBoardPanelModel().createNextPiece();
 		
-		player1.getStatusPanelModel().setSpeed(1);
-		player1.getBoardPanelModel().setPlayer(player1);
-		player1.getBoardPanelModel().setNextPiece(piece1);
-		player1.getBoardPanelModel().spawnNextPiece();
+		playerOne.getStatusPanelModel().setSpeed(1);
+		playerOne.getBoardPanelModel().setPlayer(playerOne);
+		playerOne.getBoardPanelModel().setNextPiece(piece1);
+		playerOne.getBoardPanelModel().spawnNextPiece();
 		
-		player2.getStatusPanelModel().setSpeed(1);
-		player2.getBoardPanelModel().setPlayer(player2);
-		player2.getBoardPanelModel().setNextPiece(piece2);
-		player2.getBoardPanelModel().spawnNextPiece();
+		playerTwo.getStatusPanelModel().setSpeed(1);
+		playerTwo.getBoardPanelModel().setPlayer(playerTwo);
+		playerTwo.getBoardPanelModel().setNextPiece(piece2);
+		playerTwo.getBoardPanelModel().spawnNextPiece();
 		
-		player1.getPlayerController().setDefaultControlKeys(1);
-		player2.getPlayerController().setDefaultControlKeys(2);
+		playerOne.getPlayerController().setDefaultControlKeys(1);
+		playerTwo.getPlayerController().setDefaultControlKeys(2);
 	}
 	
 	protected void addPanels(){
-		add(player1.getBoardPanel());
-		add(player1.getStatusPanel());
-		add(player2.getBoardPanel());
-		add(player2.getStatusPanel());
+		LayerUI<JComponent> playerBoard = new EffectLayer();
+		playerOneBoard = new JLayer<JComponent>(playerOne.getBoardPanel(), playerBoard);
+		add(playerOneBoard);
+//		add(playerOne.getBoardPanel());
+		add(playerOne.getStatusPanel());
+		
+		playerBoard = new EffectLayer();
+		playerTwoBoard = new JLayer<JComponent>(playerTwo.getBoardPanel(), playerBoard);
+		add(playerTwoBoard);
+//		add(playerTwo.getBoardPanel());
+		add(playerTwo.getStatusPanel());
 	}
 	
 	protected void addDefaultControls() {
@@ -78,23 +95,23 @@ public class MagicTetris extends JFrame {
 	}
 	
 	protected void addPlayerControls(){
-		addKeyListener(player1.getPlayerController());
-		addKeyListener(player2.getPlayerController());
+		addKeyListener(playerOne.getPlayerController());
+		addKeyListener(playerTwo.getPlayerController());
 	}
 	
 	protected void removePlayerControls() {
-		removeKeyListener(player1.getPlayerController());
-		removeKeyListener(player2.getPlayerController());
+		removeKeyListener(playerOne.getPlayerController());
+		removeKeyListener(playerTwo.getPlayerController());
 	}
 	
 	public void startGame() {
-		player1.startGame();
-		player2.startGame();
+		playerOne.startGame();
+		playerTwo.startGame();
 	}
 	
 	public void pauseGame(){
-		player1.pauseGame();
-		player2.pauseGame();
+		playerOne.pauseGame();
+		playerTwo.pauseGame();
 	}
 	
 	
