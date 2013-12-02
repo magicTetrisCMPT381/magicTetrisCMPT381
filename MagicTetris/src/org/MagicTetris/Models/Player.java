@@ -86,20 +86,35 @@ public class Player {
 			return;
 		}
 		switch (item.itemType) {
-		case BOMB:
-			item.changeBoardModel(opponent.getBoardPanelModel());
-			item.drawEffect(opponent.getBoardPanel().getGraphics());
-			break;
-
 		case BUFF:
 			isProtected = true;
 			item.drawEffect(boardPanel.getGraphics());
+			break;
+		case BOMB:
+		case DEBUFF:
+		case FREEZER:
+			opponent.doItemEffect(item);
+			break;
+			
+		default:
+			break;
+		}
+		
+	}
+	
+	public void doItemEffect(MagicItem item) {
+		if (isProtected || item == null) {
+			return;
+		}
+		switch (item.itemType) {
+		case BOMB:
+			item.changeBoardModel(boardPanelModel);
+			
 			break;
 			
 		case DEBUFF:
 			item.changeBoardModel(boardPanelModel);
 			item.changeStatusModel(statusPanelModel);
-			item.drawEffect(opponent.getBoardPanel().getGraphics());
 			if (this.speed != statusPanelModel.getSpeed()) {
 				setSpeed(statusPanelModel.getSpeed());
 			}
@@ -107,13 +122,12 @@ public class Player {
 			
 		case FREEZER:
 			item.changeBoardModel(boardPanelModel);
-			item.drawEffect(opponent.getBoardPanel().getGraphics());
 			break;
 			
 		default:
 			break;
 		}
-		
+		item.drawEffect(boardPanel.getGraphics());
 	}
 
 
