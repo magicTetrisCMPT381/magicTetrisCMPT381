@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.LayerUI;
 
+import org.MagicTetris.GameItems.MagicFlash;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.OptionPanel;
@@ -48,8 +49,8 @@ public class MagicTetris extends JFrame {
 		
 		
 		isPaused = true;
-		System.out.println(playerOne);
-		System.out.println(playerTwo);
+		
+		Tester();
 	}
 	
 	protected void createPlayer() {
@@ -108,7 +109,9 @@ public class MagicTetris extends JFrame {
 		playerTwo.pauseGame();
 	}
 	
-	
+	private void Tester() {
+		playerOne.getStatusPanelModel().addItem(new MagicFlash());
+	}
 
 	/**
 	 * @param args

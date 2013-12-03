@@ -2,7 +2,7 @@ package org.MagicTetris.Models;
 
 import java.awt.Color;
 
-import org.MagicTetris.GameItems.MagicBomb;
+
 import org.MagicTetris.GameItems.MagicItem;
 
 /**
@@ -102,11 +102,11 @@ public class StatusPanelModel {
 	}
 
 	public MagicItem getBuff() {
-		return new MagicBomb();
+		return buff;
 	}
 
 	public MagicItem getDebuff() {
-		return new MagicBomb();
+		return debuff;
 	}
 
 	public void setScore(int score) {

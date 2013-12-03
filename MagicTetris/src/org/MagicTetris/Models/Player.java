@@ -1,6 +1,8 @@
 package org.MagicTetris.Models;
 
+import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JComponent;
 import javax.swing.JLayer;
@@ -28,6 +30,7 @@ public class Player {
 	private BoardPanelModel boardPanelModel;
 	private PlayerController playerController;
 	private Timer timer;
+	private Timer effectTimer;
 	private playerTimerTask timerTask;
 	private float speed;
 	private Player opponent;
@@ -50,6 +53,8 @@ public class Player {
 
 		effectLayer = new EffectLayer();
 		playerBoard = new JLayer<JComponent>(boardPanel, effectLayer);
+		
+		effectTimer = new Timer(true);
 		
 		timerTask = new playerTimerTask(this);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
@@ -97,12 +102,16 @@ public class Player {
 		switch (item.itemType) {
 		case BUFF:
 			isProtected = true;
+			statusPanelModel.setBuff(item);
 			effectLayer.setItem(item);
 			break;
 		case BOMB:
+			item.changeBoardModel(boardPanelModel);
+			effectLayer.setItem(item);
+			break;
+		case ENEMY_BOMB:
 		case DEBUFF:
 		case FREEZER:
-			System.out.println(opponent);
 			opponent.doItemEffect(item);
 			break;
 			
@@ -118,33 +127,35 @@ public class Player {
 		}
 		if (isProtected) {
 			effectLayer.setItem(null);
+			statusPanelModel.setBuff(null);
 			isProtected = false;
+			return;
 		}
 		switch (item.itemType) {
-		case BOMB:
+		case ENEMY_BOMB:
 			item.changeBoardModel(boardPanelModel);
 			effectLayer.setItem(item);
+			effectTimer.schedule(new effectTimerTask(), new Date(System.currentTimeMillis() + item.getEffectTime()));
 			break;
 			
 		case DEBUFF:
 			item.changeBoardModel(boardPanelModel);
 			item.changeStatusModel(statusPanelModel);
-			if (this.speed != statusPanelModel.getSpeed()) {
-				setSpeed(statusPanelModel.getSpeed());
-			}
+			effectLayer.setItem(item);
+			effectTimer.schedule(new effectTimerTask(), new Date(System.currentTimeMillis() + item.getEffectTime()));
 			break;
 			
 		case FREEZER:
 			item.changeBoardModel(boardPanelModel);
 			effectLayer.setItem(item);
+			effectTimer.schedule(new effectTimerTask(), new Date(System.currentTimeMillis() + item.getEffectTime()));
 			break;
 			
 		default:
 			break;
 		}
 		item.drawEffect(boardPanel.getGraphics());
-	}
-
+	}	
 
 	public PlayerController getPlayerController() {
 		return playerController;
@@ -186,6 +197,15 @@ public class Player {
 		this.speed = speed;
 		setTimer();
 		statusPanelModel.setSpeed(speed);
+	}
+	
+	private class effectTimerTask extends TimerTask{
+		@Override
+		public void run() {
+			effectLayer.setItem(null);
+			statusPanelModel.setDebuff(null);
+		}
+		
 	}
 
 }
