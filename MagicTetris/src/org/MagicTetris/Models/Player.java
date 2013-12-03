@@ -121,6 +121,10 @@ public class Player {
 		
 	}
 	
+	public void changeItem() {
+		statusPanelModel.changeItem();
+	}
+	
 	public void doItemEffect(MagicItem item) {
 		if (item == null) {
 			return;
