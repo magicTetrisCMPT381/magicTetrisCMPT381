@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,6 +21,7 @@ import org.MagicTetris.Models.StatusPanelModel;
  * @author Da
  *
  */
+@SuppressWarnings("serial")
 public class StatusPanel extends JPanel {
 	private StatusPanelModel model;
 
@@ -64,9 +67,9 @@ public class StatusPanel extends JPanel {
 		lblNextPiece = new JLabel(NEXTPIECE_STRING);
 		lblPlayerScore = new JLabel("000000");
 		lblPlayerSpeed = new JLabel("000000");
-		lblPlayerBuff = new JLabel("Work In Progress...");
-		lblPlayerDebuff = new JLabel("Work In Progress...");
-		lblPlayerItems = new JLabel("Work In Progress...");
+		lblPlayerBuff = new JLabel();
+		lblPlayerDebuff = new JLabel();
+		lblPlayerItems = new JLabel("Test Mode - You have all items");
 		lblPlayerNextPiece = new JLabel();
 		
 
@@ -124,6 +127,16 @@ public class StatusPanel extends JPanel {
 								0 + patternCol, g);
 					}
 				}
+			}
+			if (model.getBuff() != null) {
+				Image img = model.getBuff().itemIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(img);
+				lblPlayerBuff.setIcon(icon);
+			}
+			if (model.getDebuff() != null) {
+				Image img = model.getDebuff().itemIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(img);
+				lblPlayerDebuff.setIcon(icon);
 			}
 		}
 	}

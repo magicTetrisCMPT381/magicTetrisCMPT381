@@ -1,10 +1,14 @@
 package org.MagicTetris.Models;
 
-import java.awt.Color;
 import java.util.Timer;
 
-import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
+import javax.swing.JComponent;
+import javax.swing.JLayer;
+import javax.swing.plaf.LayerUI;
+
+import org.MagicTetris.GameItems.MagicItem;
 import org.MagicTetris.UIFragment.BoardPanel;
+import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.PlayerController;
 import org.MagicTetris.UIFragment.StatusPanel;
 import org.MagicTetris.util.playerTimerTask;
@@ -26,7 +30,10 @@ public class Player {
 	private Timer timer;
 	private playerTimerTask timerTask;
 	private float speed;
-
+	private Player opponent;
+	private boolean isProtected;
+	public final JLayer<JComponent> playerBoard;
+	private EffectLayer effectLayer;
 	
 	public Player()
 	{
@@ -41,10 +48,13 @@ public class Player {
 		statusPanel.setModel(statusPanelModel);
 		boardPanel.setModel(boardPanelModel);
 
+		effectLayer = new EffectLayer();
+		playerBoard = new JLayer<JComponent>(boardPanel, effectLayer);
+		
 		timerTask = new playerTimerTask(this);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
-		
+		isProtected = false;
 
 	}
 	
@@ -78,6 +88,62 @@ public class Player {
 		boardPanelModel.reset();
 		boardPanel.repaint();
 	}
+	
+	public void useItem() {
+		MagicItem item = statusPanelModel.useItem();
+		if (item == null) {
+			return;
+		}
+		switch (item.itemType) {
+		case BUFF:
+			isProtected = true;
+			effectLayer.setItem(item);
+			break;
+		case BOMB:
+		case DEBUFF:
+		case FREEZER:
+			System.out.println(opponent);
+			opponent.doItemEffect(item);
+			break;
+			
+		default:
+			break;
+		}
+		
+	}
+	
+	public void doItemEffect(MagicItem item) {
+		if (item == null) {
+			return;
+		}
+		if (isProtected) {
+			effectLayer.setItem(null);
+			isProtected = false;
+		}
+		switch (item.itemType) {
+		case BOMB:
+			item.changeBoardModel(boardPanelModel);
+			effectLayer.setItem(item);
+			break;
+			
+		case DEBUFF:
+			item.changeBoardModel(boardPanelModel);
+			item.changeStatusModel(statusPanelModel);
+			if (this.speed != statusPanelModel.getSpeed()) {
+				setSpeed(statusPanelModel.getSpeed());
+			}
+			break;
+			
+		case FREEZER:
+			item.changeBoardModel(boardPanelModel);
+			effectLayer.setItem(item);
+			break;
+			
+		default:
+			break;
+		}
+		item.drawEffect(boardPanel.getGraphics());
+	}
 
 
 	public PlayerController getPlayerController() {
@@ -107,9 +173,19 @@ public class Player {
 	public float getSpeed() {
 		return speed;
 	}
+	
+	public void setOpponent(Player opponent){
+		this.opponent = opponent;
+	}
+	
+	public Player getOpponent() {
+		return opponent;
+	}
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+		setTimer();
+		statusPanelModel.setSpeed(speed);
 	}
 
 }
