@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -175,7 +176,7 @@ public class StatusPanel extends JPanel {
 					lblPlayerItems[i].setIcon(icon);
 				}
 				else {
-					lblPlayerItems[i].setIcon(null);
+					lblPlayerItems[i].setIcon(new ImageIcon("res/stop.png"));
 				}
 			}
 			

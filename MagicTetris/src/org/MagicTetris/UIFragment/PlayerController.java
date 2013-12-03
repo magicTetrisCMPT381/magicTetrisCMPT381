@@ -139,9 +139,12 @@ public class PlayerController implements KeyListener {
 		if(e.getKeyCode() == useItem){
 			 player.useItem();
 		}
+		if(e.getKeyCode() == changeItem){
+			player.changeItem();
+		}
+				 	
 		movePiece();
-		// if(arg0.getKeyCode() == changeItem)
-		// 	System.out.println("Released: changeItem");
+		
 		
 
 	}
