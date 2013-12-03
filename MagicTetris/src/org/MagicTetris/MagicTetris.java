@@ -28,8 +28,6 @@ public class MagicTetris extends JFrame {
 	private Player playerOne;
 	private Player playerTwo;
 	private boolean isPaused;
-	private JLayer<JComponent> playerOneBoard;
-	private JLayer<JComponent> playerTwoBoard;
 	
 
 	public MagicTetris() {
@@ -50,6 +48,8 @@ public class MagicTetris extends JFrame {
 		
 		
 		isPaused = true;
+		System.out.println(playerOne);
+		System.out.println(playerTwo);
 	}
 	
 	protected void createPlayer() {
@@ -77,16 +77,10 @@ public class MagicTetris extends JFrame {
 	}
 	
 	protected void addPanels(){
-		LayerUI<JComponent> playerBoard = new EffectLayer();
-		playerOneBoard = new JLayer<JComponent>(playerOne.getBoardPanel(), playerBoard);
-		add(playerOneBoard);
-//		add(playerOne.getBoardPanel());
+		add(playerOne.playerBoard);
 		add(playerOne.getStatusPanel());
 		
-		playerBoard = new EffectLayer();
-		playerTwoBoard = new JLayer<JComponent>(playerTwo.getBoardPanel(), playerBoard);
-		add(playerTwoBoard);
-//		add(playerTwo.getBoardPanel());
+		add(playerTwo.playerBoard);
 		add(playerTwo.getStatusPanel());
 	}
 	

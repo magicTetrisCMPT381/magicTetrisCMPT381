@@ -2,8 +2,13 @@ package org.MagicTetris.Models;
 
 import java.util.Timer;
 
+import javax.swing.JComponent;
+import javax.swing.JLayer;
+import javax.swing.plaf.LayerUI;
+
 import org.MagicTetris.GameItems.MagicItem;
 import org.MagicTetris.UIFragment.BoardPanel;
+import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.PlayerController;
 import org.MagicTetris.UIFragment.StatusPanel;
 import org.MagicTetris.util.playerTimerTask;
@@ -27,7 +32,8 @@ public class Player {
 	private float speed;
 	private Player opponent;
 	private boolean isProtected;
-
+	public final JLayer<JComponent> playerBoard;
+	private EffectLayer effectLayer;
 	
 	public Player()
 	{
@@ -42,6 +48,9 @@ public class Player {
 		statusPanel.setModel(statusPanelModel);
 		boardPanel.setModel(boardPanelModel);
 
+		effectLayer = new EffectLayer();
+		playerBoard = new JLayer<JComponent>(boardPanel, effectLayer);
+		
 		timerTask = new playerTimerTask(this);
 		playerController = new PlayerController(boardPanelModel,timerTask,this);
 		
@@ -88,11 +97,12 @@ public class Player {
 		switch (item.itemType) {
 		case BUFF:
 			isProtected = true;
-			item.drawEffect(boardPanel.getGraphics());
+			effectLayer.setItem(item);
 			break;
 		case BOMB:
 		case DEBUFF:
 		case FREEZER:
+			System.out.println(opponent);
 			opponent.doItemEffect(item);
 			break;
 			
@@ -103,13 +113,17 @@ public class Player {
 	}
 	
 	public void doItemEffect(MagicItem item) {
-		if (isProtected || item == null) {
+		if (item == null) {
 			return;
+		}
+		if (isProtected) {
+			effectLayer.setItem(null);
+			isProtected = false;
 		}
 		switch (item.itemType) {
 		case BOMB:
 			item.changeBoardModel(boardPanelModel);
-			
+			effectLayer.setItem(item);
 			break;
 			
 		case DEBUFF:
@@ -122,6 +136,7 @@ public class Player {
 			
 		case FREEZER:
 			item.changeBoardModel(boardPanelModel);
+			effectLayer.setItem(item);
 			break;
 			
 		default:
