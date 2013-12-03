@@ -459,7 +459,7 @@ public class BoardPanelModel {
 	}
 	
 	private synchronized int[][] getPoints(Integer[][] pattern, int rotate, int row, int col){
-		int[][] coordToCheck = new int[4][2];
+		int[][] coordToCheck = new int[16][2];
 		int coordGroupNo = 0;
 		for (int i = 0; i < 16; i++) {
 			if (pattern[rotate][i] == 1) {
