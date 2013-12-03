@@ -16,7 +16,7 @@ public class MagicAtom extends MagicItem {
 	public MagicAtom() {
 		super("Nuclear Bomb",
 				new ImageIcon("res/nuclear.png"),
-				MagicItemType.ENEMY_BOMB);
+				MagicItemType.BOMB);
 		super.effectTime = 3000;
 	}
 
