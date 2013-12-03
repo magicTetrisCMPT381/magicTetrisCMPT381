@@ -167,6 +167,7 @@ public class BoardPanelModel {
 				color = Color.GRAY;
 			} else {
 				isOccupied=false;
+				color = color.BLACK;
 			}
 		}
 		public Color getColor() {
@@ -341,8 +342,11 @@ public class BoardPanelModel {
 	
 
 	private boolean checkGameOver(int[][] points) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 16; i++) {
 			if (points[i][0] <= 1) {
+				if (points[i][0] == -1 && points[i][1] == -1) {
+					continue;
+				}
 				return true;
 			}
 		}
@@ -400,7 +404,9 @@ public class BoardPanelModel {
 //		}
 //		System.out.println("----------");
 		for (int[] is : coordToCheck) {
-			
+			if (is[1] == -1 && is[0] == -1) {
+				continue;
+			}
 			
 			if (is[1] >= COLUMN_COUNT || is[1] < 0 ||
 					is[0] >= TOTAL_ROW_COUNT  || is[0] < 0) {
@@ -434,6 +440,7 @@ public class BoardPanelModel {
 		// Check if all blocks in that line are occupied.
 		for (SingleBlock b : lineBlocks) {
 			if (!b.isOccupied()) {
+				
 				return false;
 			}
 		}
@@ -442,8 +449,8 @@ public class BoardPanelModel {
 			b.clear();
 		}
 		// Check if all blocks are cleared.
-		for (SingleBlock b : lineBlocks) {
-			if (b.isOccupied()) {
+		for (int col = 0; col < BoardPanelModel.COLUMN_COUNT; col++) {
+			if (lineBlocks[col].isOccupied()) {
 				return false;
 			}
 		}
@@ -467,12 +474,19 @@ public class BoardPanelModel {
 				// i % 4 is column number.
 				coordToCheck[coordGroupNo][0] = i / 4;
 				coordToCheck[coordGroupNo][1] = i % 4;
-				coordGroupNo++;
+				
 			}
+			else {
+				coordToCheck[coordGroupNo][0] = -1;
+				coordToCheck[coordGroupNo][1] = -1;
+			}
+			coordGroupNo++;
 		}
 		for (int i = 0; i < coordToCheck.length; i++) {
-			coordToCheck[i][0] += row;
-			coordToCheck[i][1] += col;
+			if (coordToCheck[i][0] != -1 && coordToCheck[i][1] != -1) {
+				coordToCheck[i][0] += row;
+				coordToCheck[i][1] += col;
+			}
 		}
 		return coordToCheck;
 	}

@@ -16,12 +16,13 @@ import org.MagicTetris.Models.BoardPanelModel.SingleBlock;
 import org.MagicTetris.Models.StatusPanelModel;
 import org.MagicTetris.UIFragment.BoardPanel;
 
-public class MagicBomb extends MagicItem {
+public class MagicCleaner extends MagicItem {
 
-	public MagicBomb() {
+	public MagicCleaner() {
 		super("Small Bomb",
 				new ImageIcon("res/bomb.png"),
 				MagicItemType.BOMB);
+		super.effectTime = 3000;
 	}
 
 	@Override
@@ -51,7 +52,6 @@ public class MagicBomb extends MagicItem {
 		g2.translate(5, 5);
 		Color c = new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),50);
 		g2.setColor(c);
-		
 		g2.fillRect(0, 0, BoardPanelModel.COLUMN_COUNT * BoardPanel.BLOCK_SIZE+1, BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE+1);
 
 	}

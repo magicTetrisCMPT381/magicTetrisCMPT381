@@ -26,6 +26,11 @@ public abstract class MagicItem {
 	 */
 	public final ImageIcon itemIcon;
 	
+	/**
+	 * the visual effect duration.
+	 */
+	protected long effectTime;
+	
 	public final MagicItemType itemType;
 
 	/**
@@ -60,4 +65,8 @@ public abstract class MagicItem {
 	 * @param g The surface to draw on.
 	 */
 	public abstract void drawEffect(Graphics g);
+
+	public long getEffectTime() {
+		return effectTime;
+	}
 }

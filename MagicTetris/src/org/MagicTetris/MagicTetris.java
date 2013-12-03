@@ -13,6 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.LayerUI;
 
+import org.MagicTetris.GameItems.MagicAtom;
+import org.MagicTetris.GameItems.MagicCleaner;
+import org.MagicTetris.GameItems.MagicFlash;
+import org.MagicTetris.GameItems.MagicFreezer;
+import org.MagicTetris.GameItems.MagicShield;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.OptionPanel;
@@ -48,8 +53,8 @@ public class MagicTetris extends JFrame {
 		
 		
 		isPaused = true;
-		System.out.println(playerOne);
-		System.out.println(playerTwo);
+		
+		Tester();
 	}
 	
 	protected void createPlayer() {
@@ -108,7 +113,18 @@ public class MagicTetris extends JFrame {
 		playerTwo.pauseGame();
 	}
 	
-	
+	private void Tester() {
+		playerOne.getStatusPanelModel().addItem(new MagicAtom());
+		playerOne.getStatusPanelModel().addItem(new MagicFlash());
+		playerOne.getStatusPanelModel().addItem(new MagicFreezer());
+		playerOne.getStatusPanelModel().addItem(new MagicShield());
+		playerOne.getStatusPanelModel().addItem(new MagicCleaner());
+		playerTwo.getStatusPanelModel().addItem(new MagicAtom());
+		playerTwo.getStatusPanelModel().addItem(new MagicFlash());
+		playerTwo.getStatusPanelModel().addItem(new MagicFreezer());
+		playerTwo.getStatusPanelModel().addItem(new MagicShield());
+		playerTwo.getStatusPanelModel().addItem(new MagicCleaner());
+	}
 
 	/**
 	 * @param args

@@ -133,10 +133,16 @@ public class StatusPanel extends JPanel {
 				ImageIcon icon = new ImageIcon(img);
 				lblPlayerBuff.setIcon(icon);
 			}
+			else {
+				lblPlayerBuff.setIcon(null);
+			}
 			if (model.getDebuff() != null) {
 				Image img = model.getDebuff().itemIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
 				ImageIcon icon = new ImageIcon(img);
 				lblPlayerDebuff.setIcon(icon);
+			}
+			else {
+				lblPlayerDebuff.setIcon(null);
 			}
 		}
 	}
