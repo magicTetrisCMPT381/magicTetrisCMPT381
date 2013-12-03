@@ -1,21 +1,20 @@
 package org.MagicTetris;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+import javax.swing.JLayer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.LayerUI;
 
-import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
-import org.MagicTetris.Models.StatusPanelModel;
-import org.MagicTetris.UIFragment.BoardPanel;
+import org.MagicTetris.UIFragment.EffectLayer;
 import org.MagicTetris.UIFragment.OptionPanel;
 
 /**
@@ -26,9 +25,11 @@ import org.MagicTetris.UIFragment.OptionPanel;
 @SuppressWarnings("serial")
 public class MagicTetris extends JFrame {
 
-	private Player player1;
-	private Player player2;
+	private Player playerOne;
+	private Player playerTwo;
 	private boolean isPaused;
+	
+
 	public MagicTetris() {
 		super("Magic Tetris");
 		getContentPane().setBackground(Color.BLACK);
@@ -47,33 +48,40 @@ public class MagicTetris extends JFrame {
 		
 		
 		isPaused = true;
+		System.out.println(playerOne);
+		System.out.println(playerTwo);
 	}
 	
 	protected void createPlayer() {
-		player1 = new Player();
-		player2 = new Player();
-		Integer[][] piece1 = player1.getBoardPanelModel().createNextPiece();
-		Integer[][] piece2 = player2.getBoardPanelModel().createNextPiece();
+		playerOne = new Player();
+		playerTwo = new Player();
 		
-		player1.getStatusPanelModel().setSpeed(1);
-		player1.getBoardPanelModel().setPlayer(player1);
-		player1.getBoardPanelModel().setNextPiece(piece1);
-		player1.getBoardPanelModel().spawnNextPiece();
+		playerOne.setOpponent(playerTwo);
+		playerTwo.setOpponent(playerOne);
 		
-		player2.getStatusPanelModel().setSpeed(1);
-		player2.getBoardPanelModel().setPlayer(player2);
-		player2.getBoardPanelModel().setNextPiece(piece2);
-		player2.getBoardPanelModel().spawnNextPiece();
+		Integer[][] piece1 = playerOne.getBoardPanelModel().createNextPiece();
+		Integer[][] piece2 = playerTwo.getBoardPanelModel().createNextPiece();
 		
-		player1.getPlayerController().setDefaultControlKeys(1);
-		player2.getPlayerController().setDefaultControlKeys(2);
+		playerOne.getStatusPanelModel().setSpeed(1);
+		playerOne.getBoardPanelModel().setPlayer(playerOne);
+		playerOne.getBoardPanelModel().setNextPiece(piece1);
+		playerOne.getBoardPanelModel().spawnNextPiece();
+		
+		playerTwo.getStatusPanelModel().setSpeed(1);
+		playerTwo.getBoardPanelModel().setPlayer(playerTwo);
+		playerTwo.getBoardPanelModel().setNextPiece(piece2);
+		playerTwo.getBoardPanelModel().spawnNextPiece();
+		
+		playerOne.getPlayerController().setDefaultControlKeys(1);
+		playerTwo.getPlayerController().setDefaultControlKeys(2);
 	}
 	
 	protected void addPanels(){
-		add(player1.getBoardPanel());
-		add(player1.getStatusPanel());
-		add(player2.getBoardPanel());
-		add(player2.getStatusPanel());
+		add(playerOne.playerBoard);
+		add(playerOne.getStatusPanel());
+		
+		add(playerTwo.playerBoard);
+		add(playerTwo.getStatusPanel());
 	}
 	
 	protected void addDefaultControls() {
@@ -81,23 +89,23 @@ public class MagicTetris extends JFrame {
 	}
 	
 	protected void addPlayerControls(){
-		addKeyListener(player1.getPlayerController());
-		addKeyListener(player2.getPlayerController());
+		addKeyListener(playerOne.getPlayerController());
+		addKeyListener(playerTwo.getPlayerController());
 	}
 	
 	protected void removePlayerControls() {
-		removeKeyListener(player1.getPlayerController());
-		removeKeyListener(player2.getPlayerController());
+		removeKeyListener(playerOne.getPlayerController());
+		removeKeyListener(playerTwo.getPlayerController());
 	}
 	
 	public void startGame() {
-		player1.startGame();
-		player2.startGame();
+		playerOne.startGame();
+		playerTwo.startGame();
 	}
 	
 	public void pauseGame(){
-		player1.pauseGame();
-		player2.pauseGame();
+		playerOne.pauseGame();
+		playerTwo.pauseGame();
 	}
 	
 	

@@ -111,10 +111,9 @@ public class PlayerController implements KeyListener {
 		if(e.getKeyCode() == right){
 			moveRight = true;
 		}
-		
+
 		movePiece();
-		// if(arg0.getKeyCode() == useItem)
-		// 	boardModel.getCurrentPieceRotate();
+		
 		
 		// if(arg0.getKeyCode() == changeItem)
 		// 	boardModel.getCurrentPieceRotate();
@@ -137,10 +136,10 @@ public class PlayerController implements KeyListener {
 		if(e.getKeyCode() == right){
 			moveRight = false;
 		}
+		if(e.getKeyCode() == useItem){
+			 player.useItem();
+		}
 		movePiece();
-		// if(arg0.getKeyCode() == useItem)
-		// 	System.out.println("Released: useItem");
-		
 		// if(arg0.getKeyCode() == changeItem)
 		// 	System.out.println("Released: changeItem");
 		

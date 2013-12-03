@@ -2,6 +2,7 @@ package org.MagicTetris.util;
 
 import java.util.TimerTask;
 
+import org.MagicTetris.GameItems.MagicBomb;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
@@ -44,6 +45,11 @@ public class playerTimerTask extends TimerTask{
 				break;
 			default:
 				break;
+			}
+			player.getStatusPanelModel().addItem(new MagicBomb());
+			if (clearedLine >= 4) {
+				
+				System.out.println("Get bomb");
 			}
 			int currentScore = spm.getScore();
 			spm.setScore(currentScore + 100 * clearedLine);
