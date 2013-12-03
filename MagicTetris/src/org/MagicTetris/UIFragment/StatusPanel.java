@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.MagicTetris.GameItems.MagicItem;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.StatusPanelModel;
 /**
@@ -45,67 +46,117 @@ public class StatusPanel extends JPanel {
 	private JLabel lblPlayerSpeed;
 	private JLabel lblPlayerBuff;
 	private JLabel lblPlayerDebuff;
-	private JLabel lblPlayerItems;
+	private JLabel[] lblPlayerItems;
 	private JLabel lblPlayerNextPiece;
 	
-	// 
-	private ArrayList<JLabel> listOfLabels;
+
 	
 	public StatusPanel() {
 		this.setBackground(Color.BLACK);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		Dimension d = new Dimension(200, 
+		Dimension d = new Dimension(170, 
 				BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE);
 		this.setPreferredSize(d);
-		this.setLayout(new GridBagLayout());		
+		this.setLayout(null);		
 		
 		lblSpeed = new JLabel(SPEED_STRING);
-		lblScore = new JLabel(SCORE_STRING);
-		lblBuff = new JLabel(BUFF_STRING);
-		lblDebuff = new JLabel(DEBUFF_STRING);
-		lblItems = new JLabel(ITEMS_STRING);
-		lblNextPiece = new JLabel(NEXTPIECE_STRING);
-		lblPlayerScore = new JLabel("000000");
-		lblPlayerSpeed = new JLabel("000000");
-		lblPlayerBuff = new JLabel();
-		lblPlayerDebuff = new JLabel();
-		lblPlayerItems = new JLabel("Test Mode - You have all items");
-		lblPlayerNextPiece = new JLabel();
+		lblSpeed.setBackground(Color.BLACK);
+		lblSpeed.setForeground(Color.WHITE);
 		
+		lblScore = new JLabel(SCORE_STRING);
+		lblScore.setBackground(Color.BLACK);
+		lblScore.setForeground(Color.WHITE);
+		
+		lblBuff = new JLabel(BUFF_STRING);
+		lblBuff.setBackground(Color.BLACK);
+		lblBuff.setForeground(Color.WHITE);
+		
+		lblDebuff = new JLabel(DEBUFF_STRING);
+		lblDebuff.setBackground(Color.BLACK);
+		lblDebuff.setForeground(Color.WHITE);
+		
+		lblItems = new JLabel(ITEMS_STRING);
+		lblItems.setBackground(Color.BLACK);
+		lblItems.setForeground(Color.WHITE);
+		
+		lblNextPiece = new JLabel(NEXTPIECE_STRING);
+		lblNextPiece.setBackground(Color.BLACK);
+		lblNextPiece.setForeground(Color.WHITE);
+		
+		lblPlayerScore = new JLabel("000000");
+		lblPlayerScore.setBackground(Color.BLACK);
+		lblPlayerScore.setForeground(Color.WHITE);
+		
+		lblPlayerSpeed = new JLabel("000000");
+		lblPlayerSpeed.setBackground(Color.BLACK);
+		lblPlayerSpeed.setForeground(Color.WHITE);
+		
+		lblPlayerBuff = new JLabel();
+		lblPlayerBuff.setBackground(Color.BLACK);
+		lblPlayerBuff.setForeground(Color.WHITE);
+		
+		lblPlayerDebuff = new JLabel();
+		lblPlayerDebuff.setBackground(Color.BLACK);
+		lblPlayerDebuff.setForeground(Color.WHITE);
+		
+		lblPlayerItems = new JLabel[5];
+		
+		for (int i = 0; i < lblPlayerItems.length; i++) {
+			lblPlayerItems[i] = new JLabel();
+//			lblPlayerItems[i].setBackground(Color.BLACK);
+//			lblPlayerItems[i].setForeground(Color.BLACK);
+		}
+		
+		lblPlayerNextPiece = new JLabel();
+		lblPlayerNextPiece.setBackground(Color.BLACK);
+		lblPlayerNextPiece.setForeground(Color.WHITE);
 
 		lblPlayerNextPiece.setPreferredSize(new Dimension(BoardPanel.BLOCK_SIZE * 4 + 10, BoardPanel.BLOCK_SIZE * 4 + 10));
 		
-		listOfLabels = new ArrayList<JLabel>();
-		listOfLabels.add(lblItems);
-		listOfLabels.add(lblPlayerItems);
-		listOfLabels.add(lblNextPiece);
-		listOfLabels.add(lblPlayerNextPiece);
-		listOfLabels.add(lblSpeed);
-		listOfLabels.add(lblPlayerSpeed);
-		listOfLabels.add(lblScore);
-		listOfLabels.add(lblPlayerScore);
-		listOfLabels.add(lblBuff);
-		listOfLabels.add(lblPlayerBuff);
-		listOfLabels.add(lblDebuff);
-		listOfLabels.add(lblPlayerDebuff);
 		
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridheight = 1;
-		c.gridwidth = 1;
-		c.ipadx = 10;
-		c.ipady = 10;
-		for (JLabel label : listOfLabels) {
-			label.setBackground(Color.BLACK);
-			label.setForeground(Color.WHITE);
-			this.add(label,c);
-			c.gridy += 1;
+		add(lblItems);
+		lblItems.setBounds(10, 10, 150, 10);
+
+		for (int i = 0; i < lblPlayerItems.length; i++) {
+			add(lblPlayerItems[i]);
+			lblPlayerItems[i].setBounds(25 + i * 32, 25, 40, 40);
 		}
+		
+
+
+		
+
+		add(lblNextPiece);
+		lblNextPiece.setBounds(10, 70, 150, 10);
+
+		add(lblPlayerNextPiece);
+		lblPlayerNextPiece.setBounds(10, 85, BoardPanel.BLOCK_SIZE *4 +10, BoardPanel.BLOCK_SIZE *4 +10);
+
+		add(lblSpeed);
+		lblSpeed.setBounds(10, 180, 150, 10);
+
+		add(lblPlayerSpeed);
+		lblPlayerSpeed.setBounds(10, 195, 150, 10);
+
+		add(lblScore);
+		lblScore.setBounds(10, 210, 150, 10);
+		
+
+		add(lblPlayerScore);
+		lblPlayerScore.setBounds(10, 225, 150, 10);
+
+		add(lblBuff);
+		lblBuff.setBounds(10, 240, 150, 10);
+
+		add(lblPlayerBuff);
+		lblPlayerBuff.setBounds(10, 255, 40, 40);
+
+		add(lblDebuff);
+		lblDebuff.setBounds(10, 320, 150, 10);
+
+		add(lblPlayerDebuff);
+		lblPlayerDebuff.setBounds(10, 335, 40, 40);
 	}
 	
 	public void update() {
@@ -116,6 +167,17 @@ public class StatusPanel extends JPanel {
 			Color patternColor = model.getNextPieceColor();
 			Graphics g = lblPlayerNextPiece.getGraphics();
 			g.fillRect(0, 0, lblPlayerNextPiece.getWidth(), lblPlayerNextPiece.getHeight());
+			MagicItem items[] = model.getItems();
+			for (int i = 0; i < items.length; i++) {
+				if (items[i] != null) {
+					ImageIcon icon = items[i].itemIcon;
+					
+					lblPlayerItems[i].setIcon(icon);
+				}
+				else {
+					lblPlayerItems[i].setIcon(null);
+				}
+			}
 			
 			g.translate(5, 5);
 			for (int patternCol = 0; patternCol < 4; patternCol++) {
