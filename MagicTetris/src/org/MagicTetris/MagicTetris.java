@@ -105,16 +105,18 @@ public class MagicTetris extends JFrame {
 	}
 	
 	private void Tester() {
+		playerOne.getStatusPanelModel().addItem(new MagicFreezer());
+		playerOne.getStatusPanelModel().addItem(new MagicCleaner());
+		playerOne.getStatusPanelModel().addItem(new MagicShield());		
 		playerOne.getStatusPanelModel().addItem(new MagicOdd());
 		playerOne.getStatusPanelModel().addItem(new MagicFlash());
-		playerOne.getStatusPanelModel().addItem(new MagicFreezer());
-		playerOne.getStatusPanelModel().addItem(new MagicShield());
-		playerOne.getStatusPanelModel().addItem(new MagicCleaner());
-		playerTwo.getStatusPanelModel().addItem(new MagicOdd());
-		playerTwo.getStatusPanelModel().addItem(new MagicFlash());
+		
+		
 		playerTwo.getStatusPanelModel().addItem(new MagicFreezer());
-		playerTwo.getStatusPanelModel().addItem(new MagicShield());
 		playerTwo.getStatusPanelModel().addItem(new MagicCleaner());
+		playerTwo.getStatusPanelModel().addItem(new MagicShield());
+		playerTwo.getStatusPanelModel().addItem(new MagicOdd());
+		playerTwo.getStatusPanelModel().addItem(new MagicFlash());		
 	}
 
 	/**
