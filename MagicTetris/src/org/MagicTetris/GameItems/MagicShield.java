@@ -35,7 +35,7 @@ public class MagicShield extends MagicItem {
 	public void drawEffect(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.translate(5, 5);
-		Color c = new Color(255,224,27,50);
+		Color c = new Color(255,224,27,125);
 		g2.setColor(c);
 		g2.fillRect(0, 0, BoardPanelModel.COLUMN_COUNT * BoardPanel.BLOCK_SIZE+1, BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE+1);
 

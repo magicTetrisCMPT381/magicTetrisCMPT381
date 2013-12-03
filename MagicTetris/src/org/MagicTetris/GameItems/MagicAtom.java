@@ -13,7 +13,7 @@ import org.MagicTetris.UIFragment.BoardPanel;
 
 public class MagicAtom extends MagicItem {
 
-	public MagicAtom(String name, ImageIcon icon, MagicItemType type) {
+	public MagicAtom() {
 		super("Nuclear Bomb",
 				new ImageIcon("res/nuclear.png"),
 				MagicItemType.ENEMY_BOMB);
@@ -41,7 +41,7 @@ public class MagicAtom extends MagicItem {
 	public void drawEffect(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.translate(5, 5);
-		Color c = new Color(87,27,27,50);
+		Color c = new Color(87,27,27,175);
 		g2.setColor(c);
 		g2.fillRect(0, 0, BoardPanelModel.COLUMN_COUNT * BoardPanel.BLOCK_SIZE+1, BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE+1);
 		
