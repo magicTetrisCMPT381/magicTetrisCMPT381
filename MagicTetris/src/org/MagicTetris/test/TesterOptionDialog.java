@@ -21,13 +21,18 @@ public class TesterOptionDialog {
 				System.out.println(s);
 			}
 		}
+		System.out.println("Selection is: " + selection);
 		int[][] keys = test.getKeys();
+		if (keys == null) {
+			System.out.println("Duplicate keys found!!");
+			return;
+		}
 		for (int[] is : keys) {
 			for (int i : is) {
 				System.out.println(i);
 			}
 		}
-		System.out.println(selection);
+		
 		
 	}
 
