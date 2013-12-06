@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
+import org.MagicTetris.util.KeySettings;
+import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
 import org.MagicTetris.util.playerTimerTask;
 
 /**
@@ -69,23 +71,32 @@ public class PlayerController implements KeyListener {
 		this.player = player;
 	}	
 
-	public void setDefaultControlKeys(int DefaultKeyGroup){
-		if (DefaultKeyGroup == 1) {
-			this.rotate = KeyEvent.VK_W;
-			this.down = KeyEvent.VK_S;
-			this.left = KeyEvent.VK_A;
-			this.right = KeyEvent.VK_D;
-			this.useItem = KeyEvent.VK_Q;
-			this.changeItem = KeyEvent.VK_E;
+	public void LoadControlKeys(KeySettings keys) {
+		if (keys != null) {
+			this.rotate = keys.getKEY_ROTATE();
+			this.down = keys.getKEY_DOWN();
+			this.left = keys.getKEY_LEFT();
+			this.right = keys.getKEY_RIGHT();
+			this.useItem = keys.getKEY_USE_ITEM();
+			this.changeItem = keys.getKEY_CHANGE_ITEM();
+			return;
 		}
 		
-		else {
-			this.rotate = KeyEvent.VK_I;
-			this.down = KeyEvent.VK_K;
-			this.left = KeyEvent.VK_J;
-			this.right = KeyEvent.VK_L;
-			this.useItem = KeyEvent.VK_ALT;
-			this.changeItem = KeyEvent.VK_CONTROL;
+		throw new IllegalArgumentException("Null is not permitted");
+	}
+	
+	public void setDefaultControlKeys(DEFAULT_KEYS key_group){
+		switch (key_group) {
+		case ONE:
+			LoadControlKeys(new KeySettings(DEFAULT_KEYS.ONE));
+			break;
+			
+		case TWO:
+			LoadControlKeys(new KeySettings(DEFAULT_KEYS.TWO));
+			break;
+			
+		default:
+			throw new IllegalArgumentException();
 		}
 	}
 	
@@ -184,6 +195,30 @@ public class PlayerController implements KeyListener {
 		
 		
 		player.getBoardPanel().repaint();
+	}
+
+	public void setRotate(int rotate) {
+		this.rotate = rotate;
+	}
+
+	public void setDown(int down) {
+		this.down = down;
+	}
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	public void setUseItem(int useItem) {
+		this.useItem = useItem;
+	}
+
+	public void setChangeItem(int changeItem) {
+		this.changeItem = changeItem;
 	}
 
 

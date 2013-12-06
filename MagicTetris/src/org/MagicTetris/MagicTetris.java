@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import org.MagicTetris.GameItems.*;
 import org.MagicTetris.Models.*;
 import org.MagicTetris.UIFragment.*;
+import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
 
 /**
  * Entry point. Game starts here.
@@ -68,8 +69,8 @@ public class MagicTetris extends JFrame {
 		playerTwo.getBoardPanelModel().setNextPiece(piece2);
 		playerTwo.getBoardPanelModel().spawnNextPiece();
 		
-		playerOne.getPlayerController().setDefaultControlKeys(1);
-		playerTwo.getPlayerController().setDefaultControlKeys(2);
+		playerOne.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.ONE);
+		playerTwo.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.TWO);
 	}
 	
 	protected void addPanels(){
