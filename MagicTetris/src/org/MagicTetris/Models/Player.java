@@ -159,7 +159,12 @@ public class Player {
 			break;
 		}
 		item.drawEffect(boardPanel.getGraphics());
-	}	
+	}
+	
+	public void addItem(MagicItem item){
+		statusPanelModel.addItem(item);
+		statusPanel.update();
+	}
 
 	public PlayerController getPlayerController() {
 		return playerController;

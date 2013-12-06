@@ -24,12 +24,12 @@ public class Settings {
 	public static void saveSettings(KeySettings settings) {
 		File settingFile = new File("Settings.xml");
 		Properties properties = new Properties();
-		properties.setProperty("ROTATE", String.valueOf(settings.KEY_ROTATE));
-		properties.setProperty("LEFT", String.valueOf(settings.KEY_LEFT));
-		properties.setProperty("RIGHT", String.valueOf(settings.KEY_RIGHT));
-		properties.setProperty("DOWN", KeyEvent.getKeyText(settings.KEY_DOWN));
-		properties.setProperty("USE_ITEM", String.valueOf(settings.KEY_USE_ITEM));
-		properties.setProperty("CHANGE_ITEM", String.valueOf(settings.KEY_CHANGE_ITEM));
+		properties.setProperty("ROTATE", String.valueOf(settings.getKEY_ROTATE()));
+		properties.setProperty("LEFT", String.valueOf(settings.getKEY_LEFT()));
+		properties.setProperty("RIGHT", String.valueOf(settings.getKEY_RIGHT()));
+		properties.setProperty("DOWN", KeyEvent.getKeyText(settings.getKEY_DOWN()));
+		properties.setProperty("USE_ITEM", String.valueOf(settings.getKEY_USE_ITEM()));
+		properties.setProperty("CHANGE_ITEM", String.valueOf(settings.getKEY_CHANGE_ITEM()));
 		
 		// try to store settings in XML. Notice user when failed.
 		try {
@@ -76,7 +76,13 @@ public class Settings {
 					&& KEY_CHANGE_ITEM > 0
 					&& KEY_USE_ITEM > 0) {
 				
-				settings = new KeySettings(KEY_ROTATE, KEY_LEFT, KEY_RIGHT, KEY_DOWN, KEY_CHANGE_ITEM, KEY_USE_ITEM);
+				settings = new KeySettings();
+				settings.setKEY_CHANGE_ITEM(KEY_CHANGE_ITEM);
+				settings.setKEY_DOWN(KEY_DOWN);
+				settings.setKEY_LEFT(KEY_LEFT);
+				settings.setKEY_RIGHT(KEY_RIGHT);
+				settings.setKEY_ROTATE(KEY_ROTATE);
+				settings.setKEY_USE_ITEM(KEY_USE_ITEM);
 			}
 			
 		};

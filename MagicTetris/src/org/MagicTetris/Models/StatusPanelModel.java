@@ -69,7 +69,7 @@ public class StatusPanelModel {
 				return;
 			}
 		}
-		// if not, then kick out the first item and add the new item as the third one.
+		// if not, then kick out the first item and add the new item as the last one.
 	 	items[0] = items[1];
 	 	items[1] = items[2];
 	 	items[2] = items[3];
