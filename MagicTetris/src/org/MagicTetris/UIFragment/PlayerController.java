@@ -59,6 +59,8 @@ public class PlayerController implements KeyListener {
 	 */
 	private StatusPanelModel statusModel;
 	
+	private KeySettings keys;
+	
 	private boolean moveDown;
 	private boolean moveLeft;
 	private boolean moveRight;
@@ -71,7 +73,7 @@ public class PlayerController implements KeyListener {
 		this.player = player;
 	}	
 
-	public void LoadControlKeys(KeySettings keys) {
+	public void setControlKeys(KeySettings keys) {
 		if (keys != null) {
 			this.rotate = keys.getKEY_ROTATE();
 			this.down = keys.getKEY_DOWN();
@@ -79,6 +81,7 @@ public class PlayerController implements KeyListener {
 			this.right = keys.getKEY_RIGHT();
 			this.useItem = keys.getKEY_USE_ITEM();
 			this.changeItem = keys.getKEY_CHANGE_ITEM();
+			this.keys = keys;
 			return;
 		}
 		
@@ -88,11 +91,13 @@ public class PlayerController implements KeyListener {
 	public void setDefaultControlKeys(DEFAULT_KEYS key_group){
 		switch (key_group) {
 		case ONE:
-			LoadControlKeys(new KeySettings(DEFAULT_KEYS.ONE));
+			this.keys = new KeySettings(DEFAULT_KEYS.ONE);
+			setControlKeys(keys);
 			break;
 			
 		case TWO:
-			LoadControlKeys(new KeySettings(DEFAULT_KEYS.TWO));
+			this.keys = new KeySettings(DEFAULT_KEYS.TWO);
+			setControlKeys(keys);
 			break;
 			
 		default:
@@ -124,10 +129,6 @@ public class PlayerController implements KeyListener {
 		}
 
 		movePiece();
-		
-		
-		// if(arg0.getKeyCode() == changeItem)
-		// 	boardModel.getCurrentPieceRotate();
 		
 	}
 
