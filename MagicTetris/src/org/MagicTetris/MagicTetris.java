@@ -1,6 +1,7 @@
 package org.MagicTetris;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -39,9 +40,7 @@ public class MagicTetris extends JFrame {
 		setLayout(new GridLayout(1,0));
 		requestFocus();
 		
-		pack();
-		setResizable(false);
-		setVisible(true);
+		
 		
 		
 		isPaused = true;
@@ -125,6 +124,11 @@ public class MagicTetris extends JFrame {
 	 */
 	public static void main(String[] args) {
 		MagicTetris frame = new MagicTetris();
+		frame.pack();
+		frame.setResizable(false);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		
 	}
 	
 	private class mainFrameController extends KeyAdapter{
