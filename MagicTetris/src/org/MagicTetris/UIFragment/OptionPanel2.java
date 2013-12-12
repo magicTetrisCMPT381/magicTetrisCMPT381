@@ -151,6 +151,24 @@ public class OptionPanel2 extends JPanel {
 	}
 	
 	public void loadKeySettings(KeySettings[] keys) {
+		if(keys[0].isXboxController()){
+			playerOneXBOX.doClick();
+			playerOneControllSettingPanel.loadFromKeySettings(keys[0]);
+		}
+		else {
+			playerOneKeyboard.doClick();
+			playerOneKeySettingPanel.loadFromKeySettings(keys[0]);
+		}
+		
+		if(keys[1].isXboxController()){
+			playerTwoXBOX.doClick();
+			playerTwoControllSettingPanel.loadFromKeySettings(keys[1]);
+		}
+		else {
+			playerTwoKeyboard.doClick();
+			playerTwoKeySettingPanel.loadFromKeySettings(keys[1]);
+		}
+		
 		
 	}
 	

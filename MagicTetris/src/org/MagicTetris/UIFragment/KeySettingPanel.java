@@ -56,12 +56,12 @@ public class KeySettingPanel extends JPanel implements KeySetting {
 	
 	public float[] keySettings() {
 		float[] keys = new float[6];
-		keys[0] = ((mKeyAdapter) keyRotate.getKeyListeners()[0]).getKeyCode();
-		keys[1] = ((mKeyAdapter) keyLeft.getKeyListeners()[0]).getKeyCode();
-		keys[2] = ((mKeyAdapter) keyRight.getKeyListeners()[0]).getKeyCode();
-		keys[3] = ((mKeyAdapter) keyDown.getKeyListeners()[0]).getKeyCode();
-		keys[4] = ((mKeyAdapter) keyUseItem.getKeyListeners()[0]).getKeyCode();
-		keys[5] = ((mKeyAdapter) keyChangeItem.getKeyListeners()[0]).getKeyCode();
+		keys[0] = ((mKeyAdapter) keyRotate.getKeyListeners()[0]).getKeycode();
+		keys[1] = ((mKeyAdapter) keyLeft.getKeyListeners()[0]).getKeycode();
+		keys[2] = ((mKeyAdapter) keyRight.getKeyListeners()[0]).getKeycode();
+		keys[3] = ((mKeyAdapter) keyDown.getKeyListeners()[0]).getKeycode();
+		keys[4] = ((mKeyAdapter) keyUseItem.getKeyListeners()[0]).getKeycode();
+		keys[5] = ((mKeyAdapter) keyChangeItem.getKeyListeners()[0]).getKeycode();
 		
 		if (hasDuplicateItem(keys)) {
 			return null;
@@ -72,7 +72,19 @@ public class KeySettingPanel extends JPanel implements KeySetting {
 	
 	@Override
 	public void loadFromKeySettings(KeySettings keys) {
-		// TODO Auto-generated method stub
+		keyRotate.setText(KeyEvent.getKeyText((int) keys.getKEY_ROTATE()));
+		keyLeft.setText(KeyEvent.getKeyText((int) keys.getKEY_LEFT()));
+		keyRight.setText(KeyEvent.getKeyText((int) keys.getKEY_RIGHT()));
+		keyDown.setText(KeyEvent.getKeyText((int) keys.getKEY_DOWN()));
+		keyChangeItem.setText(KeyEvent.getKeyText((int) keys.getKEY_CHANGE_ITEM()));
+		keyUseItem.setText(KeyEvent.getKeyText((int) keys.getKEY_USE_ITEM()));
+		
+		((mKeyAdapter) keyRotate.getKeyListeners()[0]).setKeycode(keys.getKEY_ROTATE());
+		((mKeyAdapter) keyLeft.getKeyListeners()[0]).setKeycode(keys.getKEY_LEFT());
+		((mKeyAdapter) keyRight.getKeyListeners()[0]).setKeycode(keys.getKEY_RIGHT());
+		((mKeyAdapter) keyDown.getKeyListeners()[0]).setKeycode(keys.getKEY_DOWN());
+		((mKeyAdapter) keyUseItem.getKeyListeners()[0]).setKeycode(keys.getKEY_USE_ITEM());
+		((mKeyAdapter) keyChangeItem.getKeyListeners()[0]).setKeycode(keys.getKEY_CHANGE_ITEM());
 		
 	}
 
@@ -89,7 +101,7 @@ public class KeySettingPanel extends JPanel implements KeySetting {
 	private class mKeyAdapter extends KeyAdapter{
 
 		private JTextField textField;
-		private int keycode;
+		private float keycode;
 		public mKeyAdapter(JTextField target) {
 			this.textField = target;
 		}
@@ -98,8 +110,11 @@ public class KeySettingPanel extends JPanel implements KeySetting {
 			keycode = e.getKeyCode();
 			textField.setText(KeyEvent.getKeyText(e.getKeyCode()));
 		}
-		public int getKeyCode() {
+		public float getKeycode() {
 			return keycode;
+		}
+		public void setKeycode(float keycode) {
+			this.keycode = keycode;
 		}
 		
 	}

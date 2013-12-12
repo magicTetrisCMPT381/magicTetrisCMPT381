@@ -99,13 +99,47 @@ public class XboxSettingPanel extends JPanel implements ControllerListener,KeySe
 	
 	@Override
 	public void loadFromKeySettings(KeySettings keys) {
-		(findFocusAdapter(keyRotate.getFocusListeners())).setKeyCode(keys.getKEY_ROTATE());;
+		(findFocusAdapter(keyRotate.getFocusListeners())).setKeyCode(keys.getKEY_ROTATE());
 		(findFocusAdapter(keyLeft.getFocusListeners())).setKeyCode(keys.getKEY_LEFT());
 		(findFocusAdapter(keyRight.getFocusListeners())).setKeyCode(keys.getKEY_RIGHT());
 		(findFocusAdapter(keyDown.getFocusListeners())).setKeyCode(keys.getKEY_DOWN());
 		(findFocusAdapter(keyUseItem.getFocusListeners())).setKeyCode(keys.getKEY_USE_ITEM());
 		(findFocusAdapter(keyChangeItem.getFocusListeners())).setKeyCode(keys.getKEY_CHANGE_ITEM());
 		
+		keyRotate.setText(valueToName(keys.getKEY_ROTATE(), keys.getKEY_ROTATE() > 1.0f));
+		keyLeft.setText(valueToName(keys.getKEY_LEFT(), keys.getKEY_LEFT() > 1.0f));
+		keyRight.setText(valueToName(keys.getKEY_RIGHT(), keys.getKEY_RIGHT() > 1.0f));
+		keyDown.setText(valueToName(keys.getKEY_DOWN(), keys.getKEY_DOWN() > 1.0f));
+		keyChangeItem.setText(valueToName(keys.getKEY_CHANGE_ITEM(), keys.getKEY_CHANGE_ITEM() > 1.0f));
+		keyUseItem.setText(valueToName(keys.getKEY_USE_ITEM(), keys.getKEY_USE_ITEM() > 1.0f));
+	}
+	
+	private String valueToName(float value,boolean isButton){
+		StringBuilder sb = new StringBuilder();
+		if (isButton) {
+			sb.append("Button ");
+			return sb.append((int)value).toString();
+		}
+		else {
+			sb.append("POV hat ");
+			if (value == Component.POV.DOWN) {
+				sb.append("DOWN");
+			}
+			else if (value == Component.POV.UP) {
+				sb.append("UP");
+			}
+			else if (value == Component.POV.LEFT) {
+				sb.append("LEFT");
+			}
+			else if (value == Component.POV.RIGHT) {
+				sb.append("RIGHT");
+			}
+			else {
+				return "Unaccepted";
+			}
+			
+			return sb.toString();
+		}
 	}
 
 	public void gracefullyStop(){
