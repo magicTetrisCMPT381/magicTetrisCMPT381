@@ -8,11 +8,11 @@ import net.java.games.input.Controller;
 import org.MagicTetris.UIFragment.*;
 import org.MagicTetris.util.ControllerPoller;
 
-public class TesterControllerPanel {
+public class TesterXboxPanel {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Controller Panel");
-		ControllSettingPanel panel = new ControllSettingPanel();
+		XboxSettingPanel panel = new XboxSettingPanel();
 		frame.add(panel);
 		JInputJoystick stick = new JInputJoystick(Controller.Type.GAMEPAD);
 		ControllerPoller poller = new ControllerPoller(stick, panel);

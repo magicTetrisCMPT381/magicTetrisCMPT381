@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class KeySettingPanel extends JPanel {
+public class KeySettingPanel extends JPanel implements KeySetting {
 	private JTextField keyRotate;
 	private JTextField keyLeft;
 	private JTextField keyRight;

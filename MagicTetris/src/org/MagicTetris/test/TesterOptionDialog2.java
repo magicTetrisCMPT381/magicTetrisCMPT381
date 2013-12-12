@@ -13,7 +13,7 @@ public class TesterOptionDialog2 {
 				"Options", 
 				JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
-		test.findSettingPanel();
+//		test.findSettingPanel();
 		System.out.println(test.isUseKeyboardForPlayerOne());
 		System.out.println(test.isUseKeyboardForPlayerTwo());
 
