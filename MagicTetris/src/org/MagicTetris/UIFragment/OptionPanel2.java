@@ -104,17 +104,24 @@ public class OptionPanel2 extends JPanel {
 		add(playerTwoKeyPanel,c);
 		
 		
-		playerOneKeyboard.doClick();
-		playerTwoKeyboard.doClick();
+//		playerOneKeyboard.doClick();
+//		playerTwoKeyboard.doClick();
 
 	}
 	
-	public KeySettings[] obtainKeySettings() {
+	public KeySettings[] obtainKeySettings() throws IllegalArgumentException {
 		KeySettings[] keys = new KeySettings[2];
 		KeySetting[] settingPanels = findSettingPanel();
 		
-		float[] keys_float = new float[6];
+		System.out.println(settingPanels[0]);
+		System.out.println(settingPanels[1]);
+		
+		float[] keys_float;
 		keys_float = settingPanels[0].keySettings();
+
+		if(keys_float == null){
+			throw new IllegalArgumentException("Duplicate key detected.");
+		}
 		
 		keys[0] = new KeySettings();
 		keys[0].setKEY_ROTATE(keys_float[0]);
@@ -127,6 +134,10 @@ public class OptionPanel2 extends JPanel {
 
 		keys_float = settingPanels[1].keySettings();
 		
+		if(keys_float == null){
+			throw new IllegalArgumentException("Duplicate key detected.");
+		}
+		
 		keys[1] = new KeySettings();
 		keys[1].setKEY_ROTATE(keys_float[0]);
 		keys[1].setKEY_LEFT(keys_float[1]);
@@ -136,29 +147,34 @@ public class OptionPanel2 extends JPanel {
 		keys[1].setKEY_CHANGE_ITEM(keys_float[5]);
 		keys[1].setXboxController(useXboxForPlayerTwo);
 		
+		playerOneControllSettingPanel.gracefullyStop();
+		playerTwoControllSettingPanel.gracefullyStop();
+		
 		return keys;
 	}
 	
+	public void loadKeySettings(KeySettings[] keys) {
+		
+	}
 	
 	private KeySetting[] findSettingPanel(){
 		KeySetting[] playerPanels = new KeySetting[2];
 		
 		if (useXboxForPlayerOne) {
-			playerPanels[0] = playerOneKeySettingPanel;
+			playerPanels[0] = playerOneControllSettingPanel;
 		}
 		else {
-			playerPanels[0] = playerOneControllSettingPanel;
+			playerPanels[0] = playerOneKeySettingPanel;
 		}
 		
 		if (useXboxForPlayerTwo) {
-			playerPanels[1] = playerTwoKeySettingPanel;
-		}
-		else {
 			playerPanels[1] = playerTwoControllSettingPanel;
 		}
+		else {
+			playerPanels[1] = playerTwoKeySettingPanel;
+		}
 		
-		playerOneControllSettingPanel.gracefullyStop();
-		playerTwoControllSettingPanel.gracefullyStop();
+
 		
 		return playerPanels;
 	}
