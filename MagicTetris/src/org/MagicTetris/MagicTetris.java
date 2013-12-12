@@ -1,7 +1,6 @@
 package org.MagicTetris;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -10,9 +9,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import joystick.JInputJoystick;
+import net.java.games.input.Component;
+import net.java.games.input.Controller;
+
 import org.MagicTetris.GameItems.*;
 import org.MagicTetris.Models.*;
 import org.MagicTetris.UIFragment.*;
+import org.MagicTetris.util.ControllerPoller;
 import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
 
 /**
@@ -26,7 +30,9 @@ public class MagicTetris extends JFrame {
 	private Player playerOne;
 	private Player playerTwo;
 	private boolean isPaused;
-	
+	private boolean isControllerExist;
+	private static ControllerPoller poller;
+	private Thread controllerThread;
 
 	public MagicTetris() {
 		super("Magic Tetris");
@@ -123,7 +129,23 @@ public class MagicTetris extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		JInputJoystick stick = new JInputJoystick(Controller.Type.GAMEPAD);
+		if (stick.isControllerConnected()) {
+			poller = new ControllerPoller(stick);
+		}
 		MagicTetris frame = new MagicTetris();
+		frame.isControllerExist = stick.isControllerConnected();
+		
+//		if (poller != null) {
+//			frame.playerOne.getPlayerController().setKeyRotate(Component.POV.UP);
+//			frame.playerOne.getPlayerController().setKeyLeft(Component.POV.LEFT);
+//			frame.playerOne.getPlayerController().setKeyRight(Component.POV.RIGHT);
+//			frame.playerOne.getPlayerController().setKeyDown(Component.POV.DOWN);
+//			poller.setControlListener(frame.playerOne.getPlayerController());
+//			frame.controllerThread = new Thread(poller);
+//			frame.controllerThread.start();
+//		}
+		
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);

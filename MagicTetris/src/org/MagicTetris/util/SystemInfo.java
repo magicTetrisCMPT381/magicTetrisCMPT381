@@ -21,6 +21,10 @@ public class SystemInfo {
 		return stick.isControllerConnected();
 	}
 	
+	public JInputJoystick getXboxController() {
+		return stick;
+	}
+	
 	public Dimension DefaultScreenResolution() {
 		return displays.getDefaultScreenResolution();
 	}

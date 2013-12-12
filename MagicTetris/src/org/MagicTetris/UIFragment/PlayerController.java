@@ -3,9 +3,13 @@ package org.MagicTetris.UIFragment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import net.java.games.input.Component;
+import net.java.games.input.Component.POV;
+
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
+import org.MagicTetris.util.ControllerListener;
 import org.MagicTetris.util.KeySettings;
 import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
 import org.MagicTetris.util.playerTimerTask;
@@ -15,7 +19,7 @@ import org.MagicTetris.util.playerTimerTask;
  *  
  *
  */
-public class PlayerController implements KeyListener {
+public class PlayerController implements KeyListener, ControllerListener {
 	/**
 	 * the key to rotate block
 	 */
@@ -54,10 +58,12 @@ public class PlayerController implements KeyListener {
 	private BoardPanelModel boardModel;
 	
 	private playerTimerTask timer;
-	/**
-	 * the {@link StatusPanelModel} this controller associated with.
-	 */
-	private StatusPanelModel statusModel;
+
+	private float keyRotate = -1.0f;
+	private float keyLeft = -1.0f;
+	private float keyRight = -1.0f;
+	private float keyDown = -1.0f;
+	
 	
 	private KeySettings keys;
 	
@@ -160,13 +166,75 @@ public class PlayerController implements KeyListener {
 		
 
 	}
-
-	public float getCurrentSpeed() {
-		return currentSpeed;
+	
+	@Override
+	public void HatSwitchChanged(float HatPosition){
+		if(HatPosition == keyRotate){
+			moveRotate = true;
+		}
+		else if(HatPosition == keyDown){
+			moveDown = true;
+		}
+		else if(HatPosition == keyLeft){
+			moveLeft = true;
+		}
+		else if(HatPosition == keyRight){
+			moveRight = true;
+		}
+		else {
+			moveRotate = false;
+			moveDown = false;
+			moveLeft = false;
+			moveRight = false;
+		}
+		
+		movePiece();
 	}
 
-	public void setCurrentSpeed(float currentSpeed) {
-		this.currentSpeed = currentSpeed;
+	@Override
+	public void ButtonPressed(int ButtonNum) {
+		if(ButtonNum == rotate){
+			moveRotate = true;
+		}
+		if(ButtonNum == down){
+			moveDown = true;
+		}
+		
+		if(ButtonNum == left){
+			moveLeft = true;
+		}
+		
+		if(ButtonNum == right){
+			moveRight = true;
+		}
+		
+		movePiece();
+		
+	}
+
+	@Override
+	public void ButtonReleased(int ButtonNum) {
+		if(ButtonNum == rotate){
+			moveRotate = false;
+		}
+		if(ButtonNum == down){
+			moveDown = false;
+		}
+		if(ButtonNum == left){
+			moveLeft = false;
+		}
+		if(ButtonNum == right){
+			moveRight = false;
+		}
+		if(ButtonNum == useItem){
+			 player.useItem();
+		}
+		if(ButtonNum == changeItem){
+			player.changeItem();
+		}
+				 	
+		movePiece();
+		
 	}
 	
 	private void movePiece(){
@@ -198,6 +266,14 @@ public class PlayerController implements KeyListener {
 		player.getBoardPanel().repaint();
 	}
 
+	public float getCurrentSpeed() {
+		return currentSpeed;
+	}
+
+	public void setCurrentSpeed(float currentSpeed) {
+		this.currentSpeed = currentSpeed;
+	}
+
 	public void setRotate(int rotate) {
 		this.rotate = rotate;
 	}
@@ -221,6 +297,24 @@ public class PlayerController implements KeyListener {
 	public void setChangeItem(int changeItem) {
 		this.changeItem = changeItem;
 	}
+
+	public void setKeyRotate(float keyRotate) {
+		this.keyRotate = keyRotate;
+	}
+
+	public void setKeyLeft(float keyLeft) {
+		this.keyLeft = keyLeft;
+	}
+
+	public void setKeyRight(float keyRight) {
+		this.keyRight = keyRight;
+	}
+
+	public void setKeyDown(float keyDown) {
+		this.keyDown = keyDown;
+	}
+
+
 
 
 
