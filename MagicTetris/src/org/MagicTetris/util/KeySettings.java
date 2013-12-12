@@ -16,6 +16,7 @@ public class KeySettings {
 	private float KEY_DOWN;
 	private float KEY_CHANGE_ITEM;
 	private float KEY_USE_ITEM;
+	private boolean isXboxController;
 	
 	public KeySettings() {
 		KEY_ROTATE = -1;
@@ -24,6 +25,7 @@ public class KeySettings {
 		KEY_DOWN = -1;
 		KEY_CHANGE_ITEM = -1;
 		KEY_USE_ITEM = -1;
+		isXboxController = false;
 	}
 	
 	public KeySettings(DEFAULT_KEYS KeyGroup) {
@@ -102,6 +104,14 @@ public class KeySettings {
 
 	public void setKEY_USE_ITEM(float use_item) {
 		KEY_USE_ITEM = use_item;
+	}
+
+	public boolean isXboxController() {
+		return isXboxController;
+	}
+
+	public void setXboxController(boolean isXboxController) {
+		this.isXboxController = isXboxController;
 	}
 	
 	

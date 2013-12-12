@@ -24,6 +24,7 @@ public class Settings {
 	public static void saveSettings(KeySettings[] settings) {
 		File settingFile = new File("Settings.xml");
 		Properties properties = new Properties();
+		properties.setProperty("P1_USEXBOX", String.valueOf(settings[0].isXboxController()));
 		properties.setProperty("P1_ROTATE", String.valueOf(settings[0].getKEY_ROTATE()));
 		properties.setProperty("P1_LEFT", String.valueOf(settings[0].getKEY_LEFT()));
 		properties.setProperty("P1_RIGHT", String.valueOf(settings[0].getKEY_RIGHT()));
@@ -31,6 +32,7 @@ public class Settings {
 		properties.setProperty("P1_USE_ITEM", String.valueOf(settings[0].getKEY_USE_ITEM()));
 		properties.setProperty("P1_CHANGE_ITEM", String.valueOf(settings[0].getKEY_CHANGE_ITEM()));
 		
+		properties.setProperty("P2_USEXBOX", String.valueOf(settings[1].isXboxController()));
 		properties.setProperty("P2_ROTATE", String.valueOf(settings[1].getKEY_ROTATE()));
 		properties.setProperty("P2_LEFT", String.valueOf(settings[1].getKEY_LEFT()));
 		properties.setProperty("P2_RIGHT", String.valueOf(settings[1].getKEY_RIGHT()));
@@ -66,10 +68,11 @@ public class Settings {
 		} catch (Exception e) {
 			return settings;
 		}
-		settings = new KeySettings[2];
+		
 		if (settingFile.exists() && settingFile.canRead()) {
-			
-			// Read settings from file. If a value cannot be found, -1 will be returned.			
+			settings = new KeySettings[2];
+			// Read settings from file. If a value cannot be found, -1 will be returned.
+			boolean isXboxController = Boolean.valueOf(properties.getProperty("P1_USEXBOX","false"));
 			float KEY_ROTATE = Float.valueOf(properties.getProperty("P1_ROTATE","-1"));
 			float KEY_LEFT = Float.valueOf(properties.getProperty("P1_LEFT","-1"));
 			float KEY_RIGHT = Float.valueOf(properties.getProperty("P1_RIGHT","-1"));
@@ -77,9 +80,10 @@ public class Settings {
 			float KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P1_USE_ITEM","-1"));
 			float KEY_USE_ITEM = Float.valueOf(properties.getProperty("P1_CHANGE_ITEM","-1"));
 			
-			// Check whether all keys are legal.
+
 				
 			settings[0] = new KeySettings();
+			settings[0].setXboxController(isXboxController);
 			settings[0].setKEY_CHANGE_ITEM(KEY_CHANGE_ITEM);
 			settings[0].setKEY_DOWN(KEY_DOWN);
 			settings[0].setKEY_LEFT(KEY_LEFT);
@@ -87,6 +91,7 @@ public class Settings {
 			settings[0].setKEY_ROTATE(KEY_ROTATE);
 			settings[0].setKEY_USE_ITEM(KEY_USE_ITEM);
 			
+			isXboxController = Boolean.valueOf(properties.getProperty("P2_USEXBOX","false"));
 			KEY_ROTATE = Float.valueOf(properties.getProperty("P2_ROTATE","-1"));
 			KEY_LEFT = Float.valueOf(properties.getProperty("P2_LEFT","-1"));
 			KEY_RIGHT = Float.valueOf(properties.getProperty("P2_RIGHT","-1"));
@@ -94,6 +99,7 @@ public class Settings {
 			KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P2_USE_ITEM","-1"));
 			KEY_USE_ITEM = Float.valueOf(properties.getProperty("P2_CHANGE_ITEM","-1"));
 			
+			settings[1].setXboxController(isXboxController);
 			settings[1] = new KeySettings();
 			settings[1].setKEY_CHANGE_ITEM(KEY_CHANGE_ITEM);
 			settings[1].setKEY_DOWN(KEY_DOWN);
