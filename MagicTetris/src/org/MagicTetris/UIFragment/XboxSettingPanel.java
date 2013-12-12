@@ -22,7 +22,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import joystick.JInputJoystick;
 
-public class ControllSettingPanel extends JPanel implements ControllerListener {
+public class XboxSettingPanel extends JPanel implements ControllerListener {
 	private JTextField keyRotate;
 	private JTextField keyLeft;
 	private JTextField keyRight;
@@ -33,7 +33,7 @@ public class ControllSettingPanel extends JPanel implements ControllerListener {
 	private JTextField focusedField;
 	private ControllerPoller poller;
 	
-	public ControllSettingPanel() {
+	public XboxSettingPanel() {
 
 		setLayout(new GridLayout(6, 1, 5, 5));
 		
