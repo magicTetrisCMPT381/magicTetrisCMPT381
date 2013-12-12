@@ -1,6 +1,7 @@
 package org.MagicTetris.UIFragment;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -95,6 +96,27 @@ public class OptionPanel2 extends JPanel {
 
 	}
 	
+	public JPanel[] findSettingPanel(){
+		JPanel[] playerPanels = new JPanel[2];
+		Component[] playerOnePanels = playerOneKeyPanel.getComponents();
+		Component[] playerTwoPanels = playerTwoKeyPanel.getComponents();
+		System.out.println("PlayerOnePanels:");
+		for (Component component : playerOnePanels) {
+			if (component instanceof ControllSettingPanel) {
+				((ControllSettingPanel) component).gracefullyStop();
+			}
+		}
+		System.out.println("PlayerTwoPanels:");
+		for (Component component : playerTwoPanels) {
+			if (component instanceof ControllSettingPanel) {
+				((ControllSettingPanel) component).gracefullyStop();
+			}
+		}
+		return null;
+	}
+	
+	
+	
 	private class promptPanel extends JPanel{
 		private final String ROTATE_KEY_STRING = "Rotate";
 		private final String MOVE_LEFT_KEY_STRING = "Move left";
@@ -145,5 +167,13 @@ public class OptionPanel2 extends JPanel {
 
 		}
 
+	}
+
+	public boolean isUseKeyboardForPlayerOne() {
+		return useKeyboardForPlayerOne;
+	}
+
+	public boolean isUseKeyboardForPlayerTwo() {
+		return useKeyboardForPlayerTwo;
 	}
 }

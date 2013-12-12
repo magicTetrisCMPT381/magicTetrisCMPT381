@@ -22,7 +22,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import joystick.JInputJoystick;
 
-public class ControllSettingPanel extends JPanel implements ControllerListener {
+public class XboxSettingPanel extends JPanel implements ControllerListener {
 	private JTextField keyRotate;
 	private JTextField keyLeft;
 	private JTextField keyRight;
@@ -31,9 +31,9 @@ public class ControllSettingPanel extends JPanel implements ControllerListener {
 	private JTextField keyUseItem;
 	private String prompt = "Click to change";
 	private JTextField focusedField;
-	private Thread thread;
+	private ControllerPoller poller;
 	
-	public ControllSettingPanel() {
+	public XboxSettingPanel() {
 
 		setLayout(new GridLayout(6, 1, 5, 5));
 		
@@ -67,8 +67,10 @@ public class ControllSettingPanel extends JPanel implements ControllerListener {
 		keyUseItem.addFocusListener(new mFocusAdapter(keyUseItem));
 		add(keyUseItem);
 		
-		thread = new Thread(new ControllerPoller(new JInputJoystick(Controller.Type.GAMEPAD), this));
-		thread.start();
+		poller =new ControllerPoller(new JInputJoystick(Controller.Type.GAMEPAD));
+		Thread t = new Thread(poller);
+		t.setDaemon(true);
+		t.start();
 	}
 	
 	public float[] keySettings() {
@@ -90,6 +92,10 @@ public class ControllSettingPanel extends JPanel implements ControllerListener {
 		}
 		
 		return keys;
+	}
+	
+	public void gracefullyStop(){
+		poller.stop();
 	}
 	
 	private boolean hasDuplicateItem(float[] arr){
