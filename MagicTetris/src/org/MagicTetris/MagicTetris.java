@@ -177,7 +177,7 @@ public class MagicTetris extends JFrame {
 			}
 			if (e.getKeyCode() == OPTION_KEY) {
 				frame.pauseGame();
-				OptionPanel test = new OptionPanel();
+				OptionPanel2 test = new OptionPanel2();
 				int selection = JOptionPane.showConfirmDialog(null, 
 						test, 
 						"Options", 
