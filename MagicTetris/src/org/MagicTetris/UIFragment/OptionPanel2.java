@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
+import joystick.JInputJoystick;
+import net.java.games.input.Controller;
+
 import org.MagicTetris.util.KeySettings;
 
 @SuppressWarnings("serial")
@@ -40,6 +43,9 @@ public class OptionPanel2 extends JPanel {
 	
 	private mActionListener actionListener;
 	public OptionPanel2() {
+		
+		boolean isControllerExist = new JInputJoystick(Controller.Type.GAMEPAD).isControllerConnected();
+		
 		actionListener = new mActionListener();
 		
 		playerOneControllerType = new ButtonGroup();
@@ -89,18 +95,33 @@ public class OptionPanel2 extends JPanel {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		playerOneKeyPanel = new JPanel(new CardLayout());
-		playerOneKeySettingPanel = new KeySettingPanel();
-		playerOneControllSettingPanel = new XboxSettingPanel();
+		
+		playerOneKeySettingPanel = new KeySettingPanel();		
 		playerOneKeyPanel.add(playerOneKeySettingPanel,KEYBORD_CTRL);
-		playerOneKeyPanel.add(playerOneControllSettingPanel,XBOX_CTRL);
+		
+		if (isControllerExist) {
+			playerOneControllSettingPanel = new XboxSettingPanel();
+			playerOneKeyPanel.add(playerOneControllSettingPanel,XBOX_CTRL);
+		}
+		else {
+			playerOneKeyPanel.add(new JPanel(),XBOX_CTRL);
+		}
+		
 		add(playerOneKeyPanel,c);
 		
 		c.gridx = 3;
 		playerTwoKeyPanel = new JPanel(new CardLayout());
+		
 		playerTwoKeySettingPanel = new KeySettingPanel();
-		playerTwoControllSettingPanel = new XboxSettingPanel();
 		playerTwoKeyPanel.add(playerTwoKeySettingPanel,KEYBORD_CTRL);
-		playerTwoKeyPanel.add(playerTwoControllSettingPanel,XBOX_CTRL);
+
+		if (isControllerExist) {
+			playerTwoControllSettingPanel = new XboxSettingPanel();
+			playerTwoKeyPanel.add(playerTwoControllSettingPanel, XBOX_CTRL);
+		}
+		else {
+			playerTwoKeyPanel.add(new JPanel(),XBOX_CTRL);
+		}
 		add(playerTwoKeyPanel,c);
 		
 		
@@ -192,6 +213,11 @@ public class OptionPanel2 extends JPanel {
 
 		
 		return playerPanels;
+	}
+	
+	public void disableController() {
+		playerOneXBOX.setEnabled(false);
+		playerTwoXBOX.setEnabled(false);
 	}
 	
 	

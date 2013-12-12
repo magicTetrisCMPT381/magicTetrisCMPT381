@@ -42,6 +42,7 @@ public class MagicTetris extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		createPlayer();
+		loadSettings();
 		addPanels();
 		addDefaultControls();
 
@@ -76,8 +77,14 @@ public class MagicTetris extends JFrame {
 		playerTwo.getBoardPanelModel().setNextPiece(piece2);
 		playerTwo.getBoardPanelModel().spawnNextPiece();
 		
-		playerOne.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.ONE);
-		playerTwo.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.TWO);
+	}
+	
+	protected void loadSettings() {
+		KeySettings[] keys = Settings.loadSettings();
+		if (keys == null) {
+			playerOne.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.ONE);
+			playerTwo.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.TWO);
+		}
 	}
 	
 	protected void addPanels(){
@@ -138,15 +145,17 @@ public class MagicTetris extends JFrame {
 		MagicTetris frame = new MagicTetris();
 		frame.isControllerExist = stick.isControllerConnected();
 		
-//		if (poller != null) {
-//			frame.playerOne.getPlayerController().setKeyRotate(Component.POV.UP);
-//			frame.playerOne.getPlayerController().setKeyLeft(Component.POV.LEFT);
-//			frame.playerOne.getPlayerController().setKeyRight(Component.POV.RIGHT);
-//			frame.playerOne.getPlayerController().setKeyDown(Component.POV.DOWN);
-//			poller.setControlListener(frame.playerOne.getPlayerController());
-//			frame.controllerThread = new Thread(poller);
-//			frame.controllerThread.start();
-//		}
+		if (poller != null) {
+			if (frame.playerOne.getPlayerController().getControlKeys().isXboxController()) {
+				poller.addListener(frame.playerOne.getPlayerController());
+			}
+			if (frame.playerTwo.getPlayerController().getControlKeys().isXboxController()) {
+				poller.addListener(frame.playerOne.getPlayerController());
+			}
+			
+			frame.controllerThread = new Thread(poller);
+			frame.controllerThread.start();
+		}
 		
 		frame.pack();
 		frame.setResizable(false);
@@ -180,6 +189,14 @@ public class MagicTetris extends JFrame {
 			if (e.getKeyCode() == OPTION_KEY) {
 				frame.pauseGame();
 				OptionPanel2 option = new OptionPanel2();
+				KeySettings[] keys = new KeySettings[2];
+				keys[0] = playerOne.getPlayerController().getControlKeys();
+				keys[1] = playerTwo.getPlayerController().getControlKeys();
+				option.loadKeySettings(keys);
+				if (!isControllerExist) {
+					JOptionPane.showMessageDialog(frame, "Controller not availiable.", "Message", JOptionPane.INFORMATION_MESSAGE);
+					option.disableController();
+				}
 				int selection = JOptionPane.showConfirmDialog(null, 
 						option, 
 						"Options", 

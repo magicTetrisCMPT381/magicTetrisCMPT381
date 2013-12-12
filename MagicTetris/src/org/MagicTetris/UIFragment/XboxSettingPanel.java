@@ -70,7 +70,7 @@ public class XboxSettingPanel extends JPanel implements ControllerListener,KeySe
 		add(keyUseItem);
 		
 		poller =new ControllerPoller(new JInputJoystick(Controller.Type.GAMEPAD));
-		poller.setControlListener(this);
+		poller.addListener(this);
 		Thread t = new Thread(poller);
 		t.setDaemon(true);
 		t.start();
