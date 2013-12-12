@@ -27,7 +27,7 @@ public class Settings {
 		properties.setProperty("ROTATE", String.valueOf(settings.getKEY_ROTATE()));
 		properties.setProperty("LEFT", String.valueOf(settings.getKEY_LEFT()));
 		properties.setProperty("RIGHT", String.valueOf(settings.getKEY_RIGHT()));
-		properties.setProperty("DOWN", KeyEvent.getKeyText(settings.getKEY_DOWN()));
+		properties.setProperty("DOWN", String.valueOf(settings.getKEY_DOWN()));
 		properties.setProperty("USE_ITEM", String.valueOf(settings.getKEY_USE_ITEM()));
 		properties.setProperty("CHANGE_ITEM", String.valueOf(settings.getKEY_CHANGE_ITEM()));
 		

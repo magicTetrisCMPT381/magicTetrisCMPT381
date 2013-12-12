@@ -23,27 +23,27 @@ public class PlayerController implements KeyListener, ControllerListener {
 	/**
 	 * the key to rotate block
 	 */
-	private int rotate;
+	private float rotate;
 	/**
 	 * the key to move block down
 	 */
-	private int down;
+	private float down;
 	/**
 	 * the key to move block left
 	 */
-	private int left;
+	private float left;
 	/**
 	 * the key to move block right
 	 */
-	private int right;
+	private float right;
 	/**
 	 * the key to use current item
 	 */
-	private int useItem;
+	private float useItem;
 	/**
 	 * the key to change current item.
 	 */
-	private int changeItem;
+	private float changeItem;
 	
 	/**
 	 * store current speed
@@ -58,11 +58,6 @@ public class PlayerController implements KeyListener, ControllerListener {
 	private BoardPanelModel boardModel;
 	
 	private playerTimerTask timer;
-
-	private float keyRotate = -1.0f;
-	private float keyLeft = -1.0f;
-	private float keyRight = -1.0f;
-	private float keyDown = -1.0f;
 	
 	
 	private KeySettings keys;
@@ -169,16 +164,16 @@ public class PlayerController implements KeyListener, ControllerListener {
 	
 	@Override
 	public void HatSwitchChanged(float HatPosition){
-		if(HatPosition == keyRotate){
+		if(HatPosition == rotate){
 			moveRotate = true;
 		}
-		else if(HatPosition == keyDown){
+		else if(HatPosition == down){
 			moveDown = true;
 		}
-		else if(HatPosition == keyLeft){
+		else if(HatPosition == left){
 			moveLeft = true;
 		}
-		else if(HatPosition == keyRight){
+		else if(HatPosition == right){
 			moveRight = true;
 		}
 		else {
@@ -274,45 +269,30 @@ public class PlayerController implements KeyListener, ControllerListener {
 		this.currentSpeed = currentSpeed;
 	}
 
-	public void setRotate(int rotate) {
+	public void setRotate(float rotate) {
 		this.rotate = rotate;
 	}
 
-	public void setDown(int down) {
+	public void setDown(float down) {
 		this.down = down;
 	}
 
-	public void setLeft(int left) {
+	public void setLeft(float left) {
 		this.left = left;
 	}
 
-	public void setRight(int right) {
+	public void setRight(float right) {
 		this.right = right;
 	}
 
-	public void setUseItem(int useItem) {
+	public void setUseItem(float useItem) {
 		this.useItem = useItem;
 	}
 
-	public void setChangeItem(int changeItem) {
+	public void setChangeItem(float changeItem) {
 		this.changeItem = changeItem;
 	}
 
-	public void setKeyRotate(float keyRotate) {
-		this.keyRotate = keyRotate;
-	}
-
-	public void setKeyLeft(float keyLeft) {
-		this.keyLeft = keyLeft;
-	}
-
-	public void setKeyRight(float keyRight) {
-		this.keyRight = keyRight;
-	}
-
-	public void setKeyDown(float keyDown) {
-		this.keyDown = keyDown;
-	}
 
 
 

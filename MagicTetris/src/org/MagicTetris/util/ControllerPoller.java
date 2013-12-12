@@ -13,7 +13,7 @@ public class ControllerPoller implements Runnable {
 	}
 	
 	public ControllerPoller(JInputJoystick stick, ControllerListener listener) {
-		
+		stick.pollController();
 		this.stick = stick;
 		CountofControllerButton = stick.getNumberOfButtons();
 		thisThread = Thread.currentThread();
@@ -30,8 +30,9 @@ public class ControllerPoller implements Runnable {
 	
 	public void run() {
 		stick.pollController();
-		Boolean buttonValues[] = new Boolean[stick.getNumberOfButtons()];
-		Boolean newButtonValues[] = new Boolean[stick.getNumberOfButtons()];
+		Boolean buttonValues[] = new Boolean[CountofControllerButton];
+		Boolean newButtonValues[] = new Boolean[CountofControllerButton];
+		stick.getButtonsValues().toArray(buttonValues);
 		while(thisThread != null){
 			if (stick.pollController()) {
 				if (listener != null) {
