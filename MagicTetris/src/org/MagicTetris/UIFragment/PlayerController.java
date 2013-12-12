@@ -49,6 +49,9 @@ public class PlayerController implements KeyListener, ControllerListener {
 	 * store current speed
 	 */
 	private float currentSpeed;
+	
+	private boolean isXboxController;
+	
 	private Player player;
 	
 	private final float MAX_SPEED = 75; 
@@ -82,11 +85,24 @@ public class PlayerController implements KeyListener, ControllerListener {
 			this.right = keys.getKEY_RIGHT();
 			this.useItem = keys.getKEY_USE_ITEM();
 			this.changeItem = keys.getKEY_CHANGE_ITEM();
+			this.isXboxController = keys.isXboxController();
 			this.keys = keys;
 			return;
 		}
 		
 		throw new IllegalArgumentException("Null is not permitted");
+	}
+	
+	public KeySettings getControlKeys() {
+		KeySettings keys = new KeySettings();
+		keys.setKEY_ROTATE(rotate);
+		keys.setKEY_DOWN(down);
+		keys.setKEY_LEFT(left);
+		keys.setKEY_RIGHT(right);
+		keys.setKEY_USE_ITEM(useItem);
+		keys.setKEY_CHANGE_ITEM(changeItem);
+		keys.setXboxController(isXboxController);
+		return keys;
 	}
 	
 	public void setDefaultControlKeys(DEFAULT_KEYS key_group){
@@ -291,6 +307,14 @@ public class PlayerController implements KeyListener, ControllerListener {
 
 	public void setChangeItem(float changeItem) {
 		this.changeItem = changeItem;
+	}
+
+	public boolean isXboxController() {
+		return isXboxController;
+	}
+
+	public void setXboxController(boolean isXboxController) {
+		this.isXboxController = isXboxController;
 	}
 
 

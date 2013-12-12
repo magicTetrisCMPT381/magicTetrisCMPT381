@@ -38,6 +38,7 @@ public class KeySettings {
 			KEY_DOWN = KeyEvent.VK_S;
 			KEY_CHANGE_ITEM = KeyEvent.VK_Q;
 			KEY_USE_ITEM = KeyEvent.VK_E;
+			isXboxController = false;
 			break;
 
 		case TWO:
@@ -47,6 +48,7 @@ public class KeySettings {
 			KEY_DOWN = KeyEvent.VK_K;
 			KEY_CHANGE_ITEM = KeyEvent.VK_U;
 			KEY_USE_ITEM = KeyEvent.VK_O;
+			isXboxController = false;
 			break;
 		default:
 			throw new IllegalArgumentException();
