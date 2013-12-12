@@ -17,7 +17,9 @@ import org.MagicTetris.GameItems.*;
 import org.MagicTetris.Models.*;
 import org.MagicTetris.UIFragment.*;
 import org.MagicTetris.util.ControllerPoller;
+import org.MagicTetris.util.KeySettings;
 import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
+import org.MagicTetris.util.Settings;
 
 /**
  * Entry point. Game starts here.
@@ -177,12 +179,22 @@ public class MagicTetris extends JFrame {
 			}
 			if (e.getKeyCode() == OPTION_KEY) {
 				frame.pauseGame();
-				OptionPanel2 test = new OptionPanel2();
+				OptionPanel2 option = new OptionPanel2();
 				int selection = JOptionPane.showConfirmDialog(null, 
-						test, 
+						option, 
 						"Options", 
 						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.PLAIN_MESSAGE);
+				if (selection == JOptionPane.OK_OPTION) {
+					try {
+						KeySettings[] playersKeys = option.obtainKeySettings();
+						playerOne.getPlayerController().setControlKeys(playersKeys[0]);
+						playerTwo.getPlayerController().setControlKeys(playersKeys[1]);
+						Settings.saveSettings(playersKeys);
+					} catch (IllegalArgumentException iae) {
+						JOptionPane.showMessageDialog(frame, iae.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
 				if (!isPaused) {
 					frame.startGame();
 				}
