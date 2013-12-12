@@ -113,9 +113,6 @@ public class OptionPanel2 extends JPanel {
 		KeySettings[] keys = new KeySettings[2];
 		KeySetting[] settingPanels = findSettingPanel();
 		
-		System.out.println(settingPanels[0]);
-		System.out.println(settingPanels[1]);
-		
 		float[] keys_float;
 		keys_float = settingPanels[0].keySettings();
 

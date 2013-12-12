@@ -8,6 +8,8 @@ import java.util.HashSet;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.MagicTetris.util.KeySettings;
+
 @SuppressWarnings("serial")
 public class KeySettingPanel extends JPanel implements KeySetting {
 	private JTextField keyRotate;
@@ -68,6 +70,12 @@ public class KeySettingPanel extends JPanel implements KeySetting {
 		return keys;
 	}
 	
+	@Override
+	public void loadFromKeySettings(KeySettings keys) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private boolean hasDuplicateItem(float[] arr){
 		HashSet<Float> ht = new HashSet<Float>();
         for (float i : arr) {
