@@ -17,8 +17,6 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel {
-	private final String START_STRING = "Start Game";
-	private final String OPTION_STRING = "Show options";
 	private final String ROTATE_KEY_STRING = "Rotate";
 	private final String MOVE_LEFT_KEY_STRING = "Move left";
 	private final String MOVE_RIGHT_KEY_STRING = "Move right";

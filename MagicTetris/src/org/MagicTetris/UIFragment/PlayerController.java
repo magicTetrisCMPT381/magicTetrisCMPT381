@@ -3,9 +3,13 @@ package org.MagicTetris.UIFragment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import net.java.games.input.Component;
+import net.java.games.input.Component.POV;
+
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
+import org.MagicTetris.util.ControllerListener;
 import org.MagicTetris.util.KeySettings;
 import org.MagicTetris.util.KeySettings.DEFAULT_KEYS;
 import org.MagicTetris.util.playerTimerTask;
@@ -15,36 +19,39 @@ import org.MagicTetris.util.playerTimerTask;
  *  
  *
  */
-public class PlayerController implements KeyListener {
+public class PlayerController implements KeyListener, ControllerListener {
 	/**
 	 * the key to rotate block
 	 */
-	private int rotate;
+	private float rotate;
 	/**
 	 * the key to move block down
 	 */
-	private int down;
+	private float down;
 	/**
 	 * the key to move block left
 	 */
-	private int left;
+	private float left;
 	/**
 	 * the key to move block right
 	 */
-	private int right;
+	private float right;
 	/**
 	 * the key to use current item
 	 */
-	private int useItem;
+	private float useItem;
 	/**
 	 * the key to change current item.
 	 */
-	private int changeItem;
+	private float changeItem;
 	
 	/**
 	 * store current speed
 	 */
 	private float currentSpeed;
+	
+	private boolean isXboxController;
+	
 	private Player player;
 	
 	private final float MAX_SPEED = 75; 
@@ -54,10 +61,7 @@ public class PlayerController implements KeyListener {
 	private BoardPanelModel boardModel;
 	
 	private playerTimerTask timer;
-	/**
-	 * the {@link StatusPanelModel} this controller associated with.
-	 */
-	private StatusPanelModel statusModel;
+	
 	
 	private KeySettings keys;
 	
@@ -81,11 +85,24 @@ public class PlayerController implements KeyListener {
 			this.right = keys.getKEY_RIGHT();
 			this.useItem = keys.getKEY_USE_ITEM();
 			this.changeItem = keys.getKEY_CHANGE_ITEM();
+			this.isXboxController = keys.isXboxController();
 			this.keys = keys;
 			return;
 		}
 		
 		throw new IllegalArgumentException("Null is not permitted");
+	}
+	
+	public KeySettings getControlKeys() {
+		KeySettings keys = new KeySettings();
+		keys.setKEY_ROTATE(rotate);
+		keys.setKEY_DOWN(down);
+		keys.setKEY_LEFT(left);
+		keys.setKEY_RIGHT(right);
+		keys.setKEY_USE_ITEM(useItem);
+		keys.setKEY_CHANGE_ITEM(changeItem);
+		keys.setXboxController(isXboxController);
+		return keys;
 	}
 	
 	public void setDefaultControlKeys(DEFAULT_KEYS key_group){
@@ -160,13 +177,75 @@ public class PlayerController implements KeyListener {
 		
 
 	}
-
-	public float getCurrentSpeed() {
-		return currentSpeed;
+	
+	@Override
+	public void HatSwitchChanged(float HatPosition){
+		if(HatPosition == rotate){
+			moveRotate = true;
+		}
+		else if(HatPosition == down){
+			moveDown = true;
+		}
+		else if(HatPosition == left){
+			moveLeft = true;
+		}
+		else if(HatPosition == right){
+			moveRight = true;
+		}
+		else {
+			moveRotate = false;
+			moveDown = false;
+			moveLeft = false;
+			moveRight = false;
+		}
+		
+		movePiece();
 	}
 
-	public void setCurrentSpeed(float currentSpeed) {
-		this.currentSpeed = currentSpeed;
+	@Override
+	public void ButtonPressed(int ButtonNum) {
+		if(ButtonNum == rotate){
+			moveRotate = true;
+		}
+		if(ButtonNum == down){
+			moveDown = true;
+		}
+		
+		if(ButtonNum == left){
+			moveLeft = true;
+		}
+		
+		if(ButtonNum == right){
+			moveRight = true;
+		}
+		
+		movePiece();
+		
+	}
+
+	@Override
+	public void ButtonReleased(int ButtonNum) {
+		if(ButtonNum == rotate){
+			moveRotate = false;
+		}
+		if(ButtonNum == down){
+			moveDown = false;
+		}
+		if(ButtonNum == left){
+			moveLeft = false;
+		}
+		if(ButtonNum == right){
+			moveRight = false;
+		}
+		if(ButtonNum == useItem){
+			 player.useItem();
+		}
+		if(ButtonNum == changeItem){
+			player.changeItem();
+		}
+				 	
+		movePiece();
+		
 	}
 	
 	private void movePiece(){
@@ -198,29 +277,48 @@ public class PlayerController implements KeyListener {
 		player.getBoardPanel().repaint();
 	}
 
-	public void setRotate(int rotate) {
+	public float getCurrentSpeed() {
+		return currentSpeed;
+	}
+
+	public void setCurrentSpeed(float currentSpeed) {
+		this.currentSpeed = currentSpeed;
+	}
+
+	public void setRotate(float rotate) {
 		this.rotate = rotate;
 	}
 
-	public void setDown(int down) {
+	public void setDown(float down) {
 		this.down = down;
 	}
 
-	public void setLeft(int left) {
+	public void setLeft(float left) {
 		this.left = left;
 	}
 
-	public void setRight(int right) {
+	public void setRight(float right) {
 		this.right = right;
 	}
 
-	public void setUseItem(int useItem) {
+	public void setUseItem(float useItem) {
 		this.useItem = useItem;
 	}
 
-	public void setChangeItem(int changeItem) {
+	public void setChangeItem(float changeItem) {
 		this.changeItem = changeItem;
 	}
+
+	public boolean isXboxController() {
+		return isXboxController;
+	}
+
+	public void setXboxController(boolean isXboxController) {
+		this.isXboxController = isXboxController;
+	}
+
+
+
 
 
 

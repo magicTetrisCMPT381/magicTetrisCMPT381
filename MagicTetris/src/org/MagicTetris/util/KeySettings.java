@@ -10,12 +10,13 @@ import java.awt.event.KeyEvent;
  */
 public class KeySettings {
 	
-	private int KEY_ROTATE;
-	private int KEY_LEFT;
-	private int KEY_RIGHT;
-	private int KEY_DOWN;
-	private int KEY_CHANGE_ITEM;
-	private int KEY_USE_ITEM;
+	private float KEY_ROTATE;
+	private float KEY_LEFT;
+	private float KEY_RIGHT;
+	private float KEY_DOWN;
+	private float KEY_CHANGE_ITEM;
+	private float KEY_USE_ITEM;
+	private boolean isXboxController;
 	
 	public KeySettings() {
 		KEY_ROTATE = -1;
@@ -24,6 +25,7 @@ public class KeySettings {
 		KEY_DOWN = -1;
 		KEY_CHANGE_ITEM = -1;
 		KEY_USE_ITEM = -1;
+		isXboxController = false;
 	}
 	
 	public KeySettings(DEFAULT_KEYS KeyGroup) {
@@ -36,6 +38,7 @@ public class KeySettings {
 			KEY_DOWN = KeyEvent.VK_S;
 			KEY_CHANGE_ITEM = KeyEvent.VK_Q;
 			KEY_USE_ITEM = KeyEvent.VK_E;
+			isXboxController = false;
 			break;
 
 		case TWO:
@@ -45,6 +48,7 @@ public class KeySettings {
 			KEY_DOWN = KeyEvent.VK_K;
 			KEY_CHANGE_ITEM = KeyEvent.VK_U;
 			KEY_USE_ITEM = KeyEvent.VK_O;
+			isXboxController = false;
 			break;
 		default:
 			throw new IllegalArgumentException();
@@ -56,52 +60,60 @@ public class KeySettings {
 		TWO
 	}
 
-	public int getKEY_ROTATE() {
+	public float getKEY_ROTATE() {
 		return KEY_ROTATE;
 	}
 
-	public void setKEY_ROTATE(int rotate) {
+	public void setKEY_ROTATE(float rotate) {
 		KEY_ROTATE = rotate;
 	}
 
-	public int getKEY_LEFT() {
+	public float getKEY_LEFT() {
 		return KEY_LEFT;
 	}
 
-	public void setKEY_LEFT(int left) {
+	public void setKEY_LEFT(float left) {
 		KEY_LEFT = left;
 	}
 
-	public int getKEY_RIGHT() {
+	public float getKEY_RIGHT() {
 		return KEY_RIGHT;
 	}
 
-	public void setKEY_RIGHT(int right) {
+	public void setKEY_RIGHT(float right) {
 		KEY_RIGHT = right;
 	}
 
-	public int getKEY_DOWN() {
+	public float getKEY_DOWN() {
 		return KEY_DOWN;
 	}
 
-	public void setKEY_DOWN(int down) {
+	public void setKEY_DOWN(float down) {
 		KEY_DOWN = down;
 	}
 
-	public int getKEY_CHANGE_ITEM() {
+	public float getKEY_CHANGE_ITEM() {
 		return KEY_CHANGE_ITEM;
 	}
 
-	public void setKEY_CHANGE_ITEM(int change_item) {
+	public void setKEY_CHANGE_ITEM(float change_item) {
 		KEY_CHANGE_ITEM = change_item;
 	}
 
-	public int getKEY_USE_ITEM() {
+	public float getKEY_USE_ITEM() {
 		return KEY_USE_ITEM;
 	}
 
-	public void setKEY_USE_ITEM(int use_item) {
+	public void setKEY_USE_ITEM(float use_item) {
 		KEY_USE_ITEM = use_item;
+	}
+
+	public boolean isXboxController() {
+		return isXboxController;
+	}
+
+	public void setXboxController(boolean isXboxController) {
+		this.isXboxController = isXboxController;
 	}
 	
 	
