@@ -99,6 +99,7 @@ public class Settings {
 			KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P2_USE_ITEM","-1"));
 			KEY_USE_ITEM = Float.valueOf(properties.getProperty("P2_CHANGE_ITEM","-1"));
 			
+			settings[1] = new KeySettings();
 			settings[1].setXboxController(isXboxController);
 			settings[1] = new KeySettings();
 			settings[1].setKEY_CHANGE_ITEM(KEY_CHANGE_ITEM);
