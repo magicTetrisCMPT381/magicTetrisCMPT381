@@ -77,8 +77,8 @@ public class Settings {
 			float KEY_LEFT = Float.valueOf(properties.getProperty("P1_LEFT","-1"));
 			float KEY_RIGHT = Float.valueOf(properties.getProperty("P1_RIGHT","-1"));
 			float KEY_DOWN = Float.valueOf(properties.getProperty("P1_DOWN","-1"));
-			float KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P1_USE_ITEM","-1"));
-			float KEY_USE_ITEM = Float.valueOf(properties.getProperty("P1_CHANGE_ITEM","-1"));
+			float KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P1_CHANGE_ITEM","-1"));
+			float KEY_USE_ITEM = Float.valueOf(properties.getProperty("P1_USE_ITEM","-1"));
 			
 
 				
@@ -96,12 +96,11 @@ public class Settings {
 			KEY_LEFT = Float.valueOf(properties.getProperty("P2_LEFT","-1"));
 			KEY_RIGHT = Float.valueOf(properties.getProperty("P2_RIGHT","-1"));
 			KEY_DOWN = Float.valueOf(properties.getProperty("P2_DOWN","-1"));
-			KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P2_USE_ITEM","-1"));
-			KEY_USE_ITEM = Float.valueOf(properties.getProperty("P2_CHANGE_ITEM","-1"));
+			KEY_CHANGE_ITEM = Float.valueOf(properties.getProperty("P2_CHANGE_ITEM","-1"));
+			KEY_USE_ITEM = Float.valueOf(properties.getProperty("P2_USE_ITEM","-1"));
 			
 			settings[1] = new KeySettings();
 			settings[1].setXboxController(isXboxController);
-			settings[1] = new KeySettings();
 			settings[1].setKEY_CHANGE_ITEM(KEY_CHANGE_ITEM);
 			settings[1].setKEY_DOWN(KEY_DOWN);
 			settings[1].setKEY_LEFT(KEY_LEFT);
