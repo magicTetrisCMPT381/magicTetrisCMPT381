@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
+import joystick.JInputJoystick;
+import net.java.games.input.Controller;
+
 import org.MagicTetris.util.KeySettings;
 
 @SuppressWarnings("serial")
@@ -40,6 +43,9 @@ public class OptionPanel2 extends JPanel {
 	
 	private mActionListener actionListener;
 	public OptionPanel2() {
+		
+		boolean isControllerExist = new JInputJoystick(Controller.Type.GAMEPAD).isControllerConnected();
+		
 		actionListener = new mActionListener();
 		
 		playerOneControllerType = new ButtonGroup();
@@ -89,32 +95,51 @@ public class OptionPanel2 extends JPanel {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		playerOneKeyPanel = new JPanel(new CardLayout());
-		playerOneKeySettingPanel = new KeySettingPanel();
-		playerOneControllSettingPanel = new XboxSettingPanel();
+		
+		playerOneKeySettingPanel = new KeySettingPanel();		
 		playerOneKeyPanel.add(playerOneKeySettingPanel,KEYBORD_CTRL);
-		playerOneKeyPanel.add(playerOneControllSettingPanel,XBOX_CTRL);
+		
+		if (isControllerExist) {
+			playerOneControllSettingPanel = new XboxSettingPanel();
+			playerOneKeyPanel.add(playerOneControllSettingPanel,XBOX_CTRL);
+		}
+		else {
+			playerOneKeyPanel.add(new JPanel(),XBOX_CTRL);
+		}
+		
 		add(playerOneKeyPanel,c);
 		
 		c.gridx = 3;
 		playerTwoKeyPanel = new JPanel(new CardLayout());
+		
 		playerTwoKeySettingPanel = new KeySettingPanel();
-		playerTwoControllSettingPanel = new XboxSettingPanel();
 		playerTwoKeyPanel.add(playerTwoKeySettingPanel,KEYBORD_CTRL);
-		playerTwoKeyPanel.add(playerTwoControllSettingPanel,XBOX_CTRL);
+
+		if (isControllerExist) {
+			playerTwoControllSettingPanel = new XboxSettingPanel();
+			playerTwoKeyPanel.add(playerTwoControllSettingPanel, XBOX_CTRL);
+		}
+		else {
+			playerTwoKeyPanel.add(new JPanel(),XBOX_CTRL);
+		}
 		add(playerTwoKeyPanel,c);
 		
 		
-		playerOneKeyboard.doClick();
-		playerTwoKeyboard.doClick();
+//		playerOneKeyboard.doClick();
+//		playerTwoKeyboard.doClick();
 
 	}
 	
-	public KeySettings[] obtainKeySettings() {
+	public KeySettings[] obtainKeySettings() throws IllegalArgumentException {
 		KeySettings[] keys = new KeySettings[2];
 		KeySetting[] settingPanels = findSettingPanel();
 		
-		float[] keys_float = new float[6];
+		float[] keys_float;
 		keys_float = settingPanels[0].keySettings();
+
+		if(keys_float == null){
+			throw new IllegalArgumentException("Duplicate key detected.");
+		}
 		
 		keys[0] = new KeySettings();
 		keys[0].setKEY_ROTATE(keys_float[0]);
@@ -127,6 +152,10 @@ public class OptionPanel2 extends JPanel {
 
 		keys_float = settingPanels[1].keySettings();
 		
+		if(keys_float == null){
+			throw new IllegalArgumentException("Duplicate key detected.");
+		}
+		
 		keys[1] = new KeySettings();
 		keys[1].setKEY_ROTATE(keys_float[0]);
 		keys[1].setKEY_LEFT(keys_float[1]);
@@ -136,31 +165,59 @@ public class OptionPanel2 extends JPanel {
 		keys[1].setKEY_CHANGE_ITEM(keys_float[5]);
 		keys[1].setXboxController(useXboxForPlayerTwo);
 		
+		playerOneControllSettingPanel.gracefullyStop();
+		playerTwoControllSettingPanel.gracefullyStop();
+		
 		return keys;
 	}
 	
+	public void loadKeySettings(KeySettings[] keys) {
+		if(keys[0].isXboxController()){
+			playerOneXBOX.doClick();
+			playerOneControllSettingPanel.loadFromKeySettings(keys[0]);
+		}
+		else {
+			playerOneKeyboard.doClick();
+			playerOneKeySettingPanel.loadFromKeySettings(keys[0]);
+		}
+		
+		if(keys[1].isXboxController()){
+			playerTwoXBOX.doClick();
+			playerTwoControllSettingPanel.loadFromKeySettings(keys[1]);
+		}
+		else {
+			playerTwoKeyboard.doClick();
+			playerTwoKeySettingPanel.loadFromKeySettings(keys[1]);
+		}
+		
+		
+	}
 	
 	private KeySetting[] findSettingPanel(){
 		KeySetting[] playerPanels = new KeySetting[2];
 		
 		if (useXboxForPlayerOne) {
-			playerPanels[0] = playerOneKeySettingPanel;
+			playerPanels[0] = playerOneControllSettingPanel;
 		}
 		else {
-			playerPanels[0] = playerOneControllSettingPanel;
+			playerPanels[0] = playerOneKeySettingPanel;
 		}
 		
 		if (useXboxForPlayerTwo) {
-			playerPanels[1] = playerTwoKeySettingPanel;
-		}
-		else {
 			playerPanels[1] = playerTwoControllSettingPanel;
 		}
+		else {
+			playerPanels[1] = playerTwoKeySettingPanel;
+		}
 		
-		playerOneControllSettingPanel.gracefullyStop();
-		playerTwoControllSettingPanel.gracefullyStop();
+
 		
 		return playerPanels;
+	}
+	
+	public void disableController() {
+		playerOneXBOX.setEnabled(false);
+		playerTwoXBOX.setEnabled(false);
 	}
 	
 	

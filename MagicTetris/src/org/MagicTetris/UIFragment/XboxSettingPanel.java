@@ -9,11 +9,13 @@ import net.java.games.input.Controller;
 
 import org.MagicTetris.util.ControllerListener;
 import org.MagicTetris.util.ControllerPoller;
+import org.MagicTetris.util.KeySettings;
 
 import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashSet;
@@ -68,7 +70,7 @@ public class XboxSettingPanel extends JPanel implements ControllerListener,KeySe
 		add(keyUseItem);
 		
 		poller =new ControllerPoller(new JInputJoystick(Controller.Type.GAMEPAD));
-		poller.setControlListener(this);
+		poller.addListener(this);
 		Thread t = new Thread(poller);
 		t.setDaemon(true);
 		t.start();
@@ -95,6 +97,51 @@ public class XboxSettingPanel extends JPanel implements ControllerListener,KeySe
 		return keys;
 	}
 	
+	@Override
+	public void loadFromKeySettings(KeySettings keys) {
+		(findFocusAdapter(keyRotate.getFocusListeners())).setKeyCode(keys.getKEY_ROTATE());
+		(findFocusAdapter(keyLeft.getFocusListeners())).setKeyCode(keys.getKEY_LEFT());
+		(findFocusAdapter(keyRight.getFocusListeners())).setKeyCode(keys.getKEY_RIGHT());
+		(findFocusAdapter(keyDown.getFocusListeners())).setKeyCode(keys.getKEY_DOWN());
+		(findFocusAdapter(keyUseItem.getFocusListeners())).setKeyCode(keys.getKEY_USE_ITEM());
+		(findFocusAdapter(keyChangeItem.getFocusListeners())).setKeyCode(keys.getKEY_CHANGE_ITEM());
+		
+		keyRotate.setText(valueToName(keys.getKEY_ROTATE(), keys.getKEY_ROTATE() > 1.0f));
+		keyLeft.setText(valueToName(keys.getKEY_LEFT(), keys.getKEY_LEFT() > 1.0f));
+		keyRight.setText(valueToName(keys.getKEY_RIGHT(), keys.getKEY_RIGHT() > 1.0f));
+		keyDown.setText(valueToName(keys.getKEY_DOWN(), keys.getKEY_DOWN() > 1.0f));
+		keyChangeItem.setText(valueToName(keys.getKEY_CHANGE_ITEM(), keys.getKEY_CHANGE_ITEM() > 1.0f));
+		keyUseItem.setText(valueToName(keys.getKEY_USE_ITEM(), keys.getKEY_USE_ITEM() > 1.0f));
+	}
+	
+	private String valueToName(float value,boolean isButton){
+		StringBuilder sb = new StringBuilder();
+		if (isButton) {
+			sb.append("Button ");
+			return sb.append((int)value).toString();
+		}
+		else {
+			sb.append("POV hat ");
+			if (value == Component.POV.DOWN) {
+				sb.append("DOWN");
+			}
+			else if (value == Component.POV.UP) {
+				sb.append("UP");
+			}
+			else if (value == Component.POV.LEFT) {
+				sb.append("LEFT");
+			}
+			else if (value == Component.POV.RIGHT) {
+				sb.append("RIGHT");
+			}
+			else {
+				return "Unaccepted";
+			}
+			
+			return sb.toString();
+		}
+	}
+
 	public void gracefullyStop(){
 		poller.stop();
 	}
@@ -183,12 +230,10 @@ public class XboxSettingPanel extends JPanel implements ControllerListener,KeySe
 		}
 		public void focusGained(FocusEvent e){
 			focusedField = mTextField;
-			System.out.println("Gained Focus");
 		}
 		
 		public void focusLost(FocusEvent e){
 			focusedField = null;
-			System.out.println("Lost Focus");
 		}
 		
 		public float getKeyCode() {
