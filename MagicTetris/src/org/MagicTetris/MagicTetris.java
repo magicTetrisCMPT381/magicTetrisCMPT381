@@ -216,8 +216,14 @@ public class MagicTetris extends JFrame {
 							if (playersKeys[0].isXboxController()) {
 								poller.addListener(playerOne.getPlayerController());
 							}
+							else {
+								poller.removeListener(playerOne.getPlayerController());
+							}
 							if (playersKeys[1].isXboxController()) {
 								poller.addListener(playerTwo.getPlayerController());
+							}
+							else {
+								poller.removeListener(playerTwo.getPlayerController());
 							}
 						}
 						Settings.saveSettings(playersKeys);
