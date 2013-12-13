@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.plaf.LayerUI;
 
-import org.MagicTetris.GameItems.MagicBomb;
+
 import org.MagicTetris.GameItems.MagicItem;
 
 public class EffectLayer extends LayerUI<JComponent> {

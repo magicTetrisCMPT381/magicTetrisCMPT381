@@ -1,8 +1,14 @@
 package org.MagicTetris.util;
 
+import java.util.Random;
 import java.util.TimerTask;
 
-import org.MagicTetris.GameItems.MagicBomb;
+import org.MagicTetris.GameItems.MagicAtom;
+import org.MagicTetris.GameItems.MagicCleaner;
+import org.MagicTetris.GameItems.MagicFlash;
+import org.MagicTetris.GameItems.MagicFreezer;
+import org.MagicTetris.GameItems.MagicOdd;
+import org.MagicTetris.GameItems.MagicShield;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.Player;
 import org.MagicTetris.Models.StatusPanelModel;
@@ -46,13 +52,42 @@ public class playerTimerTask extends TimerTask{
 			default:
 				break;
 			}
-			player.getStatusPanelModel().addItem(new MagicBomb());
-			if (clearedLine >= 4) {
-				
-				System.out.println("Get bomb");
+			int speedModifier = (int) ((player.getSpeed() - 1.0f) / 0.2f);
+			if (clearedLine == 0) {
+				speedModifier = 0;
 			}
+			int oldScore = spm.getScore();
+			spm.setScore(oldScore + 100 * clearedLine + 100 * speedModifier);
 			int currentScore = spm.getScore();
-			spm.setScore(currentScore + 100 * clearedLine);
+			if (clearedLine > 0) {
+				player.setSpeed(1+currentScore/1000*0.2f);
+			}
+			
+			if (clearedLine >= 4) {
+				int randomItem = new Random().nextInt(7);
+				switch (randomItem) {
+				case 0:
+					player.addItem(new MagicAtom());
+					break;
+				case 1:
+					player.addItem(new MagicCleaner());
+					break;
+				case 2:
+					player.addItem(new MagicFlash());
+					break;
+				case 3:
+					player.addItem(new MagicFreezer());
+					break;
+				case 4:
+					player.addItem(new MagicOdd());
+					break;
+				case 5:
+					player.addItem(new MagicShield());
+					break;
+				default:
+					break;
+				}
+			}
 			if (bpm.getNextPiece() != null && bpm.getNextPieceColor() != null) {
 				spm.setNextPiece(bpm.getNextPiece());
 				spm.setNextPieceColor(bpm.getNextPieceColor());

@@ -5,6 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import javax.swing.JComponent;
@@ -14,8 +17,6 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel {
-	private final String START_STRING = "Start Game";
-	private final String OPTION_STRING = "Show options";
 	private final String ROTATE_KEY_STRING = "Rotate";
 	private final String MOVE_LEFT_KEY_STRING = "Move left";
 	private final String MOVE_RIGHT_KEY_STRING = "Move right";
@@ -63,10 +64,13 @@ public class OptionPanel extends JPanel {
 	}
 	
 	/**
-	 * This method returns a VK_* style ket settings.
-	 * @return
+	 * This method returns a VK_* style key settings.
+	 * @return null if there is a duplicate.
 	 */
 	public int[][] getKeys() {
+		if (checkDuplicated()) {
+			return null;
+		}
 		int[][] result = new int[2][6];
 		int i = 0;
 		keyRetriever k = null;
@@ -87,10 +91,10 @@ public class OptionPanel extends JPanel {
 	}
 	
 	/**
-	 * 将链表内的所有组件添加到窗口。
-	 * @param prompt 组件链表
-	 * @param col 添加到的列
-	 * @param row 从哪一行开始添加
+	 * Add all components in linked list to window.
+	 * @param prompt the linked list.
+	 * @param col the column to add into.
+	 * @param row start from which row.
 	 */
 	protected void placePrompts(LinkedList<? extends JComponent> prompt, int col, int row) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -135,6 +139,46 @@ public class OptionPanel extends JPanel {
 			test.addKeyListener(new keyRetriever(test));
 			test.setEditable(false);
 		}
+	}
+	
+	private boolean checkDuplicated(){
+		int[][] result = new int[2][6];
+		int i = 0;
+		keyRetriever k = null;
+		for (JTextField key : keySetAreas1) {
+			k = (keyRetriever) key.getKeyListeners()[0];
+			result[0][i] = k.getKeycode();
+			i++;
+		}
+		
+		i = 0;
+		
+		for (JTextField key : keySetAreas2) {
+			k = (keyRetriever) key.getKeyListeners()[0];
+			result[1][i] = k.getKeycode();
+			i++;
+		}
+		
+		int[] AllPlayer = Arrays.copyOf(result[0], 12);
+		for (int j = 6; j < AllPlayer.length; j++) {
+			AllPlayer[j] = result[1][j-6];
+		}
+		
+		boolean PlayerOne = hasDuplicateItem(result[0]);
+		boolean PlayerTwo = hasDuplicateItem(result[1]);		
+		boolean PlayerAndPlayer = hasDuplicateItem(AllPlayer);
+		
+		return (PlayerOne || PlayerTwo || PlayerAndPlayer);
+	}
+	
+	private boolean hasDuplicateItem(int[] arr){
+		HashSet<Integer> ht = new HashSet<Integer>();
+        for (int i : arr) {
+			if (!ht.add(i)) {
+				return true;
+			}
+		}
+        return false;
 	}
 	
 	private class keyRetriever extends KeyAdapter{

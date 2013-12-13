@@ -2,7 +2,7 @@ package org.MagicTetris.Models;
 
 import java.awt.Color;
 
-import org.MagicTetris.GameItems.MagicBomb;
+
 import org.MagicTetris.GameItems.MagicItem;
 
 /**
@@ -49,7 +49,7 @@ public class StatusPanelModel {
 	{
 		score = 0;
 		speed = 0;
-		items = new MagicItem[3];
+		items = new MagicItem[5];
 		buff = null;
 		debuff = null;
 		nextPiece = null;
@@ -69,18 +69,31 @@ public class StatusPanelModel {
 				return;
 			}
 		}
-		// if not, then kick out the first item and add the new item as the third one.
+		// if not, then kick out the first item and add the new item as the last one.
 	 	items[0] = items[1];
 	 	items[1] = items[2];
-	 	items[2] = item;		 	
+	 	items[2] = items[3];
+	 	items[3] = items[4];
+	 	items[4] = item;
 	}
 
 	public MagicItem useItem(){
 		MagicItem item = items[0];
 		items[0] = items[1];
-		items[1] = items[2];
-		items[2] = null;
+	 	items[1] = items[2];
+	 	items[2] = items[3];
+	 	items[3] = items[4];
+	 	items[4] = null;
 		return item;
+	}
+	
+	public void changeItem(){
+		MagicItem tempItem = items[0];
+		items[0] = items[1];
+	 	items[1] = items[2];
+	 	items[2] = items[3];
+	 	items[3] = items[4];
+	 	items[4] = tempItem;
 	}
 
 	public void clearItem() {
@@ -102,11 +115,11 @@ public class StatusPanelModel {
 	}
 
 	public MagicItem getBuff() {
-		return new MagicBomb();
+		return buff;
 	}
 
 	public MagicItem getDebuff() {
-		return new MagicBomb();
+		return debuff;
 	}
 
 	public void setScore(int score) {

@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -13,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.MagicTetris.GameItems.MagicItem;
 import org.MagicTetris.Models.BoardPanelModel;
 import org.MagicTetris.Models.StatusPanelModel;
 /**
@@ -45,19 +48,20 @@ public class StatusPanel extends JPanel {
 	private JLabel lblPlayerSpeed;
 	private JLabel lblPlayerBuff;
 	private JLabel lblPlayerDebuff;
-	private JLabel lblPlayerItems;
+	private JLabel[] lblPlayerItems;
 	private JLabel lblPlayerNextPiece;
 	
-	// 
-	private ArrayList<JLabel> listOfLabels;
+	private ArrayList<JLabel> constantLables;
 	
 	public StatusPanel() {
 		this.setBackground(Color.BLACK);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		Dimension d = new Dimension(200, 
+		Dimension d = new Dimension(170, 
 				BoardPanelModel.VISIBLE_ROW_COUNT * BoardPanel.BLOCK_SIZE);
 		this.setPreferredSize(d);
 		this.setLayout(new GridBagLayout());		
+		
+		constantLables = new ArrayList<JLabel>();
 		
 		lblSpeed = new JLabel(SPEED_STRING);
 		lblScore = new JLabel(SCORE_STRING);
@@ -67,46 +71,91 @@ public class StatusPanel extends JPanel {
 		lblNextPiece = new JLabel(NEXTPIECE_STRING);
 		lblPlayerScore = new JLabel("000000");
 		lblPlayerSpeed = new JLabel("000000");
-		lblPlayerBuff = new JLabel();
-		lblPlayerDebuff = new JLabel();
-		lblPlayerItems = new JLabel("Test Mode - You have all items");
+		lblPlayerBuff = new JLabel(new ImageIcon("res/stop.png"));
+		lblPlayerDebuff = new JLabel(new ImageIcon("res/stop.png"));
+		lblPlayerItems = new JLabel[5];
+		for (int i = 0; i < lblPlayerItems.length; i++) {
+			lblPlayerItems[i] = new JLabel(new ImageIcon("res/stop.png"));
+		}
 		lblPlayerNextPiece = new JLabel();
-		
-
 		lblPlayerNextPiece.setPreferredSize(new Dimension(BoardPanel.BLOCK_SIZE * 4 + 10, BoardPanel.BLOCK_SIZE * 4 + 10));
 		
-		listOfLabels = new ArrayList<JLabel>();
-		listOfLabels.add(lblItems);
-		listOfLabels.add(lblPlayerItems);
-		listOfLabels.add(lblNextPiece);
-		listOfLabels.add(lblPlayerNextPiece);
-		listOfLabels.add(lblSpeed);
-		listOfLabels.add(lblPlayerSpeed);
-		listOfLabels.add(lblScore);
-		listOfLabels.add(lblPlayerScore);
-		listOfLabels.add(lblBuff);
-		listOfLabels.add(lblPlayerBuff);
-		listOfLabels.add(lblDebuff);
-		listOfLabels.add(lblPlayerDebuff);
-		
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridheight = 1;
-		c.gridwidth = 1;
-		c.ipadx = 10;
-		c.ipady = 10;
-		for (JLabel label : listOfLabels) {
+		constantLables.add(lblItems);
+		constantLables.add(lblNextPiece);
+		constantLables.add(lblSpeed);
+		constantLables.add(lblScore);
+		constantLables.add(lblBuff);
+		constantLables.add(lblDebuff);
+								
+		GridBagConstraints c = new GridBagConstraints(
+				0, 
+				0, 
+				5, 
+				1, 
+				0, 
+				0, 
+				GridBagConstraints.CENTER, 
+				GridBagConstraints.NONE, 
+				new Insets(2, 2, 2, 2), 
+				2, 
+				2);
+		for (JLabel label : constantLables) {
 			label.setBackground(Color.BLACK);
-			label.setForeground(Color.WHITE);
-			this.add(label,c);
-			c.gridy += 1;
+            label.setForeground(Color.WHITE);
+            add(label,c);
+            c.gridy += 2;
 		}
+
+		c = new GridBagConstraints(
+				0, 
+				1, 
+				5, 
+				1, 
+				0, 
+				0, 
+				GridBagConstraints.CENTER, 
+				GridBagConstraints.NONE, 
+				new Insets(2, 2, 2, 2), 
+				2, 
+				2);
+		c.gridwidth = 1;
+		for (int i = 0; i < lblPlayerItems.length; i++) {
+			add(lblPlayerItems[i],c);
+			c.gridx +=1;
+
+		}
+		
+		c.gridx = 0;
+		c.gridwidth = 5;
+		
+
+		c.gridy = 3;
+		lblPlayerNextPiece.setBackground(Color.BLACK);
+		lblPlayerNextPiece.setForeground(Color.WHITE);
+		add(lblPlayerNextPiece,c);
+
+		c.gridy += 2;
+		lblPlayerSpeed.setBackground(Color.BLACK);
+		lblPlayerSpeed.setForeground(Color.WHITE);
+		add(lblPlayerSpeed,c);
+
+		c.gridy += 2;
+		lblPlayerScore.setBackground(Color.BLACK);
+		lblPlayerScore.setForeground(Color.WHITE);
+		add(lblPlayerScore,c);
+
+		c.gridy += 2;
+		lblPlayerBuff.setBackground(Color.BLACK);
+		lblPlayerBuff.setForeground(Color.WHITE);
+		add(lblPlayerBuff,c);
+
+		c.gridy += 2;
+		lblPlayerDebuff.setBackground(Color.BLACK);
+		lblPlayerDebuff.setForeground(Color.WHITE);
+		add(lblPlayerDebuff,c);
+
 	}
+	
 	
 	public void update() {
 		if (model != null) {
@@ -116,6 +165,17 @@ public class StatusPanel extends JPanel {
 			Color patternColor = model.getNextPieceColor();
 			Graphics g = lblPlayerNextPiece.getGraphics();
 			g.fillRect(0, 0, lblPlayerNextPiece.getWidth(), lblPlayerNextPiece.getHeight());
+			MagicItem items[] = model.getItems();
+			for (int i = 0; i < items.length; i++) {
+				if (items[i] != null) {
+					ImageIcon icon = items[i].itemIcon;
+					
+					lblPlayerItems[i].setIcon(icon);
+				}
+				else {
+					lblPlayerItems[i].setIcon(new ImageIcon("res/stop.png"));
+				}
+			}
 			
 			g.translate(5, 5);
 			for (int patternCol = 0; patternCol < 4; patternCol++) {
@@ -133,10 +193,16 @@ public class StatusPanel extends JPanel {
 				ImageIcon icon = new ImageIcon(img);
 				lblPlayerBuff.setIcon(icon);
 			}
+			else {
+				lblPlayerBuff.setIcon(new ImageIcon("res/stop.png"));
+			}
 			if (model.getDebuff() != null) {
 				Image img = model.getDebuff().itemIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
 				ImageIcon icon = new ImageIcon(img);
 				lblPlayerDebuff.setIcon(icon);
+			}
+			else {
+				lblPlayerDebuff.setIcon(new ImageIcon("res/stop.png"));
 			}
 		}
 	}
