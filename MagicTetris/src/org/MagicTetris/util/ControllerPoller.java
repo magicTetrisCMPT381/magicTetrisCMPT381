@@ -1,6 +1,9 @@
 package org.MagicTetris.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import joystick.JInputJoystick;
 
@@ -8,7 +11,7 @@ public class ControllerPoller implements Runnable {
 
 	private JInputJoystick stick;
 	private Thread thisThread; 
-	private ArrayList<ControllerListener> listener;
+	private Set<ControllerListener> listener;
 	public final int CountofControllerButton;
 	public ControllerPoller(JInputJoystick stick) {
 		this(stick,null);
@@ -19,7 +22,7 @@ public class ControllerPoller implements Runnable {
 		this.stick = stick;
 		CountofControllerButton = stick.getNumberOfButtons();
 		thisThread = Thread.currentThread();
-		this.listener = new ArrayList<ControllerListener>();
+		this.listener = Collections.synchronizedSet(new HashSet<ControllerListener>());
 		if (listener != null) {
 			this.listener.add(listener);
 		}

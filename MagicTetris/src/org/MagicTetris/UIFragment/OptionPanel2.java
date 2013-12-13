@@ -165,9 +165,10 @@ public class OptionPanel2 extends JPanel {
 		keys[1].setKEY_CHANGE_ITEM(keys_float[5]);
 		keys[1].setXboxController(useXboxForPlayerTwo);
 		
-		playerOneControllSettingPanel.gracefullyStop();
-		playerTwoControllSettingPanel.gracefullyStop();
-		
+		if (playerOneControllSettingPanel != null && playerTwoControllSettingPanel != null) {
+			playerOneControllSettingPanel.gracefullyStop();
+			playerTwoControllSettingPanel.gracefullyStop();
+		}
 		return keys;
 	}
 	
