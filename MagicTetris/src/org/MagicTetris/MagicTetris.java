@@ -85,6 +85,10 @@ public class MagicTetris extends JFrame {
 			playerOne.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.ONE);
 			playerTwo.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.TWO);
 		}
+		else {
+			playerOne.getPlayerController().setControlKeys(keys[0]);
+			playerTwo.getPlayerController().setControlKeys(keys[1]);
+		}
 	}
 	
 	protected void addPanels(){
@@ -207,6 +211,15 @@ public class MagicTetris extends JFrame {
 						KeySettings[] playersKeys = option.obtainKeySettings();
 						playerOne.getPlayerController().setControlKeys(playersKeys[0]);
 						playerTwo.getPlayerController().setControlKeys(playersKeys[1]);
+						if (isControllerExist) {
+							
+							if (playersKeys[0].isXboxController()) {
+								poller.addListener(playerOne.getPlayerController());
+							}
+							if (playersKeys[1].isXboxController()) {
+								poller.addListener(playerTwo.getPlayerController());
+							}
+						}
 						Settings.saveSettings(playersKeys);
 					} catch (IllegalArgumentException iae) {
 						JOptionPane.showMessageDialog(frame, iae.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
