@@ -167,9 +167,11 @@ public class PlayerController implements KeyListener, ControllerListener {
 		}
 		if(e.getKeyCode() == useItem){
 			 player.useItem();
+			 player.getStatusPanel().update();
 		}
 		if(e.getKeyCode() == changeItem){
 			player.changeItem();
+			player.getStatusPanel().update();
 		}
 				 	
 		movePiece();
@@ -239,9 +241,11 @@ public class PlayerController implements KeyListener, ControllerListener {
 		}
 		if(ButtonNum == useItem){
 			 player.useItem();
+			 player.getStatusPanel().update();
 		}
 		if(ButtonNum == changeItem){
 			player.changeItem();
+			player.getStatusPanel().update();
 		}
 				 	
 		movePiece();
