@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -165,6 +167,21 @@ public class OptionPanel2 extends JPanel {
 		keys[1].setKEY_CHANGE_ITEM(keys_float[5]);
 		keys[1].setXboxController(useXboxForPlayerTwo);
 		
+		// Cross check.
+		
+		if (useXboxForPlayerOne == useXboxForPlayerTwo) {
+			float[] allkeys = Arrays.copyOf(settingPanels[0].keySettings(), 12);
+			allkeys[6] = settingPanels[1].keySettings()[0];
+			allkeys[7] = settingPanels[1].keySettings()[1];
+			allkeys[8] = settingPanels[1].keySettings()[2];
+			allkeys[9] = settingPanels[1].keySettings()[3];
+			allkeys[10] = settingPanels[1].keySettings()[4];
+			allkeys[11] = settingPanels[1].keySettings()[5];
+			if (hasDuplicateItem(allkeys)) {
+				throw new IllegalArgumentException("Duplicate key detected.");
+			}
+		}
+		
 		if (playerOneControllSettingPanel != null && playerTwoControllSettingPanel != null) {
 			playerOneControllSettingPanel.gracefullyStop();
 			playerTwoControllSettingPanel.gracefullyStop();
@@ -192,6 +209,16 @@ public class OptionPanel2 extends JPanel {
 		}
 		
 		
+	}
+	
+	private boolean hasDuplicateItem(float[] arr){
+		HashSet<Float> ht = new HashSet<Float>();
+        for (float i : arr) {
+			if (!ht.add(i)) {
+				return true;
+			}
+		}
+        return false;
 	}
 	
 	private KeySetting[] findSettingPanel(){
