@@ -161,6 +161,17 @@ public class MagicTetris extends JFrame {
 			frame.controllerThread.start();
 		}
 		
+		else {
+			if (frame.playerOne.getPlayerController().getControlKeys().isXboxController()) {
+				JOptionPane.showMessageDialog(frame, "Invalid key setting detected for player one.\nReset to default setting.");
+				frame.playerOne.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.ONE);
+			}
+			if (frame.playerTwo.getPlayerController().getControlKeys().isXboxController()) {
+				JOptionPane.showMessageDialog(frame, "Invalid key setting detected for player two.\nReset to default setting.");
+				frame.playerTwo.getPlayerController().setDefaultControlKeys(DEFAULT_KEYS.TWO);
+			}
+		}
+		
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);
